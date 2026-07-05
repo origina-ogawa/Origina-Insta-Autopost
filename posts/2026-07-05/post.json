@@ -1,0 +1,189 @@
+{
+  "caption": "「ホームページがあればGoogleビジネスプロフィールは適当でいいや」と思っていませんか？実はそれ、絶好の集客チャンスを捨てているのと同じです。Web集客において両者は役割が明確に異なります。プロが教える使い分けの鉄則をまとめましたので、今の運用を見直すきっかけにしてください。後で見返せるよう、今のうちに保存しておきましょう。",
+  "hashtags": [
+    "#Web制作",
+    "#MEO対策",
+    "#Googleビジネスプロフィール",
+    "#ホームページ制作",
+    "#集客術",
+    "#店舗経営",
+    "#中小企業",
+    "#Web担当者",
+    "#デジタルマーケティング",
+    "#集客アップ",
+    "#Web集客",
+    "#ビジネスのヒント"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "HPとMEO",
+        "どっちを",
+        "優先すべき？"
+      ],
+      "marker_line": 2,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==写真更新==を放置するリスク",
+      "sub": "ユーザーは最新の店舗の雰囲気を知りたいと思っています。",
+      "icon": "ti-photo",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "Googleビジネスプロフィールの写真を放置すると、ユーザーは「営業しているか？」不安になります。ホームページはブランドの世界観、ビジネスプロフィールは信頼性の担保と捉えましょう。",
+          "compare": {
+            "left": {
+              "icon": "ti-template",
+              "label": "HPだけ充実\n(内向き)"
+            },
+            "right": {
+              "icon": "ti-target-arrow",
+              "label": "両方活用\n(外向き)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**機会損失**があります",
+          "items": [
+            {
+              "icon": "ti-user-off",
+              "text": "来店客が**減少**する"
+            },
+            {
+              "icon": "ti-eye",
+              "text": "検索順位が下がる"
+            },
+            {
+              "icon": "ti-x",
+              "text": "競合に客を奪われる"
+            }
+          ]
+        }
+      ],
+      "note": "写真は**週1回**の更新が理想です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==営業時間==の不一致は厳禁",
+      "sub": "検索ユーザーの利便性を最優先しましょう。",
+      "icon": "ti-clock",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-triangle",
+          "title": "情報の**食い違い**はNG!",
+          "text": "検索結果で見た時間と、HPの記載が違うとユーザーは混乱します。最悪の場合、クレームにも繋がりかねません。情報のハブは常に最新に保つのが鉄則です。",
+          "compare": {
+            "left": {
+              "icon": "ti-alert-circle",
+              "label": "バラバラ\n(不親切)"
+            },
+            "right": {
+              "icon": "ti-check",
+              "label": "統一済み\n(信頼感)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "確認すべき**重要項目**",
+          "items": [
+            {
+              "icon": "ti-calendar",
+              "text": "臨時休業の**即時反映**"
+            },
+            {
+              "icon": "ti-phone",
+              "text": "電話番号の整合性"
+            },
+            {
+              "icon": "ti-map-pin",
+              "text": "住所と地図の確認"
+            }
+          ]
+        }
+      ],
+      "note": "情報は**一元管理**が基本です。",
+      "note_icon": "ti-clipboard-list"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "==口コミ==への誠実な対応",
+      "sub": "返信は単なる礼儀ではなく、未来の顧客へのアピールです。",
+      "icon": "ti-message-circle",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-bulb",
+          "title": "放置は**最大の罪**です",
+          "text": "口コミを放置するのは、店舗で話しかけてきたお客様を無視するのと同じです。悪い口コミにも丁寧に対応することで、誠実な姿勢が伝わり信頼へと繋がります。",
+          "compare": {
+            "left": {
+              "icon": "ti-user-off",
+              "label": "完全放置\n(印象悪い)"
+            },
+            "right": {
+              "icon": "ti-heart",
+              "label": "丁寧な返信\n(ファン化)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "返信の**心構え**",
+          "items": [
+            {
+              "icon": "ti-check",
+              "text": "感謝を**必ず伝える**"
+            },
+            {
+              "icon": "ti-brain",
+              "text": "感情的にならない"
+            },
+            {
+              "icon": "ti-users",
+              "text": "第3者の視点を意識"
+            }
+          ]
+        }
+      ],
+      "note": "返信こそ**最高の営業**活動です。",
+      "note_icon": "ti-message-circle"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "HPはブランド価値の追求"
+        },
+        {
+          "icon": "ti-check",
+          "text": "Googleは利便性と信頼の窓口"
+        },
+        {
+          "icon": "ti-check",
+          "text": "情報は常に最新をキープする"
+        }
+      ],
+      "cta": "今すぐGoogleの情報をチェックしてみましょう。"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "theme": "Googleビジネスプロフィールとホームページの使い分け",
+    "generatedAt": "2026-07-05T05:04:16.655Z",
+    "mock": false
+  }
+}
