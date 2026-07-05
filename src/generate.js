@@ -12,12 +12,24 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT_DIR = path.join(ROOT, 'output');
 const BRAND = process.env.BRAND || 'own';
 
+const WEEKDAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
 function pickTopic() {
-  const { topics } = yaml.load(fs.readFileSync(path.join(ROOT, 'topics.yml'), 'utf8'));
-  if (!topics?.length) throw new Error('topics.yml にテーマがありません');
-  // 日数ベースのローテーション(状態管理不要。リストを使い切ると先頭に戻る)
-  const dayNumber = Math.floor(Date.now() / 86_400_000);
-  return topics[dayNumber % topics.length];
+  const data = yaml.load(fs.readFileSync(path.join(ROOT, 'topics.yml'), 'utf8'));
+  if (!data?.weekly) throw new Error('topics.yml に weekly 構造がありません');
+
+  // GitHub ActionsはUTCで動くので+9時間してJSTの曜日・週を求める
+  const jstMs = Date.now() + 9 * 3600 * 1000;
+  let dow = new Date(jstMs).getUTCDay(); // 0=日 .. 6=土
+  if (dow === 0 || dow === 6) dow = 1;   // 土日の手動実行などは月曜カテゴリにフォールバック
+
+  const day = data.weekly[WEEKDAY_KEYS[dow]];
+  if (!day?.topics?.length) throw new Error(`topics.yml の ${WEEKDAY_KEYS[dow]} にテーマがありません`);
+
+  // 週番号でローテーション(同じ曜日でも週が変わればテーマが1つ進む)
+  const weekNumber = Math.floor(jstMs / (7 * 86_400_000));
+  const topic = day.topics[weekNumber % day.topics.length];
+  return { ...topic, category: day.category };
 }
 
 function buildPrompt(topic, brand) {
@@ -126,7 +138,7 @@ async function main() {
   const mock = process.argv.includes('--mock');
   const brand = JSON.parse(fs.readFileSync(path.join(ROOT, `config/brand.${BRAND}.json`), 'utf8'));
   const topic = pickTopic();
-  console.log(`ブランド: ${BRAND} / テーマ: ${topic.theme}${mock ? ' (mockモード)' : ''}`);
+  console.log(`ブランド: ${BRAND} / カテゴリ: ${topic.category || '-'} / テーマ: ${topic.theme}${mock ? ' (mockモード)' : ''}`);
 
   let post;
   if (mock) {
@@ -136,7 +148,7 @@ async function main() {
     post = await callGemini(buildPrompt(topic, brand));
   }
   post = validate(post);
-  post.meta = { brand: BRAND, theme: topic.theme, generatedAt: new Date().toISOString(), mock };
+  post.meta = { brand: BRAND, category: topic.category, theme: topic.theme, generatedAt: new Date().toISOString(), mock };
 
   fs.mkdirSync(OUT_DIR, { recursive: true });
   fs.writeFileSync(path.join(OUT_DIR, 'post.json'), JSON.stringify(post, null, 2));
