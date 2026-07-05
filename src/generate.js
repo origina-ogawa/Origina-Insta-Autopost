@@ -35,7 +35,7 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
 
 {
   "caption": "投稿本文。300〜500文字。冒頭1行で興味を引き、絵文字は控えめに。最後に保存を促す一言",
-  "hashtags": ["#タグ1", "#タグ2"],  // 10〜15個。ビッグタグとスモールタグを混ぜる
+  "hashtags": ["#タグ1", "#タグ2", "#タグ3"],  // 必ず3個以内。関連性の高いものだけを厳選する
   "slides": [
     { "type": "cover", "title_lines": ["1行目", "2行目", "3行目"], "marker_line": 0, "icon": "ti-devices" },
     { "type": "body", "number": "01", "title": "==強調部分==を含む見出し", "sub": "補足1〜2行", "icon": "ti-mail-x",
@@ -59,7 +59,8 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
 - 強調記法: **文字** = 赤字強調 / ==文字== = 黄色マーカー。1要素につき1箇所まで
 - iconは必ず次のリストから選ぶ: ${iconListForPrompt()}
 - 文字数を守る(長すぎるとデザインが崩れます)。タイトルは18文字以内、checklist項目は28文字以内
-- 誇張・断定しすぎる表現、特定企業への言及、医療・法律・金融の断定的アドバイスは避ける`;
+- 誇張・断定しすぎる表現、特定企業への言及、医療・法律・金融の断定的アドバイスは避ける
+- hashtagsは**必ず3個以内**(Instagramは2025年末以降、少数・高関連タグを推奨。汎用タグの大量付与は逆効果)`;
 }
 
 async function callGemini(prompt) {
@@ -113,9 +114,11 @@ function extractFirstJsonObject(text) {
 
 function validate(post) {
   if (!Array.isArray(post.slides) || post.slides.length < 3) throw new Error('slidesが3枚未満です');
-  if (post.slides.length > 10) post.slides = post.slides.slice(0, 10); // カルーセル上限
+  // カルーセル上限は10枚だが、末尾に固定のブランドスライドを1枚追加するため9枚までに制限
+  if (post.slides.length > 9) post.slides = post.slides.slice(0, 9);
   if (typeof post.caption !== 'string') throw new Error('captionがありません');
   if (!Array.isArray(post.hashtags)) post.hashtags = [];
+  if (post.hashtags.length > 3) post.hashtags = post.hashtags.slice(0, 3); // AIが指示を守らなかった場合の保険
   return post;
 }
 

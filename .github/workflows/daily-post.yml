@@ -1,10 +1,11 @@
-# 平日の朝7時(JST)にカルーセル投稿を自動生成してInstagramに投稿する
+# 平日のお昼休み前後(JST 12:30)にカルーセル投稿を自動生成してInstagramに投稿する
+# ランチタイムは「まとめ・保存され やすいコンテンツ」が伸びやすい時間帯とされるため採用
 name: daily-instagram-post
 
 on:
   schedule:
-    # UTC 22:00 日〜木 = JST 翌朝 7:00 月〜金 (GitHubのcronは最大15〜30分ほど遅れることがあります)
-    - cron: '0 22 * * 0-4'
+    # UTC 3:30 = JST 12:30 月〜金 (GitHubのcronは最大15〜30分ほど遅れることがあります)
+    - cron: '30 3 * * 1-5'
   workflow_dispatch:
     inputs:
       dry_run:

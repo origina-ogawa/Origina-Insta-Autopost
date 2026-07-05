@@ -97,6 +97,11 @@ function baseCss(c) {
   .sum-list { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px;
     background: ${c.panel}; border-radius: 14px; padding: 28px 40px; }
   .sum-list .check-item { font-size: 25px; margin-bottom: 10px; }
+
+  .brand-body { flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 48px; padding: 20px 40px; text-align: center; }
+  .brand-tagline { font-size: 58px; font-weight: 900; line-height: 1.4; }
+  .brand-logo { max-width: 620px; max-height: 340px; object-fit: contain; }
   `;
 }
 
@@ -112,9 +117,9 @@ function header(headerTitle) {
     <h1>${richTitle(headerTitle)}</h1></div>`;
 }
 
-function footer(brand) {
+function footer(brand, { hideSwipe = false } = {}) {
   return `<div class="footer"><div class="bulb"><i class="ti ti-bulb"></i></div>
-    <p>${rich(brand.footer.text)}</p><div class="swipe">${esc(brand.footer.swipe)}</div></div>`;
+    <p>${rich(brand.footer.text)}</p>${hideSwipe ? '' : `<div class="swipe">${esc(brand.footer.swipe)}</div>`}</div>`;
 }
 
 function renderBlock(block) {
@@ -201,6 +206,19 @@ export function summarySlide(brand, headerTitle, slide) {
         <p>${rich(slide.cta)}</p><i class="ti ti-sparkles side-ic"></i></div>` : ''}
     </div>
     ${footer(brand)}`;
+  return page(brand, body);
+}
+
+/** 固定のブランディングスライド(カルーセル最後尾に毎回付与)。AI生成ではなく設定ファイルから組み立てる */
+export function brandSlide(brand, headerTitle, logoDataUri) {
+  const tagline = brand.brandSlide?.tagline || '';
+  const body = `
+    ${header(headerTitle)}
+    <div class="card"><div class="brand-body">
+      <div class="brand-tagline">${richTitle(tagline)}</div>
+      <img class="brand-logo" src="${logoDataUri}" alt="ロゴ">
+    </div></div>
+    ${footer(brand, { hideSwipe: true })}`;
   return page(brand, body);
 }
 

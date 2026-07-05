@@ -1,11 +1,11 @@
 # origina-auto-sns
 
-Instagramカルーセル投稿(お役立ち系デザイン)を自動生成し、平日毎朝7時に自動投稿するシステム。
+Instagramカルーセル投稿(お役立ち系デザイン)を自動生成し、平日お昼(JST 12:30ごろ)に自動投稿するシステム。
 
-- 文章: Gemini Flash(無料枠)が topics.yml のテーマからスライド原稿をJSONで生成
-- 画像: HTMLテンプレート + Playwright のスクリーンショットで 1080x1080 PNG を生成(文字崩れなし・無料)
+- 文章: Gemini Flash(無料枠)が topics.yml のテーマからスライド原稿をJSONで生成。ハッシュタグは最大3個(2025年末以降のInstagram公式推奨に準拠)
+- 画像: HTMLテンプレート + Playwright のスクリーンショットで 1080x1080 PNG を生成(文字崩れなし・無料)。末尾に固定のブランディングスライド(ロゴ)を自動付与
 - 投稿: Instagram公式API(Content Publishing)でカルーセル投稿
-- 実行: GitHub Actions の cron(平日のみ)。**PCの電源を入れておく必要はありません**
+- 実行: GitHub Actions の cron(平日のみ、お昼休み前後)。**PCの電源を入れておく必要はありません**
 
 設計の詳細は [docs/システム構想.md](docs/システム構想.md)、開発ルールは [CLAUDE.md](CLAUDE.md) を参照。
 
@@ -19,6 +19,7 @@ src/render.js           post.json → スライドPNG生成
 src/publish.js          Instagram カルーセル投稿 + Chatwork 通知
 src/lib/components.js   スライドHTMLの部品(デザインはここで固定)
 src/lib/icons.js        AIが選べる Tabler アイコンのホワイトリスト
+assets/                 固定ブランドスライド用のロゴ画像
 templates/              デザイン検証用のデモ
 output/                 生成物(git管理外)
 posts/YYYY-MM-DD/       投稿済み画像(公開URL用にコミットされる)
@@ -72,6 +73,12 @@ Instagramのアクセストークンは60日で失効するが、`refresh-instag
 - テーマを増やす: `topics.yml` に追記するだけ(多いほど内容の重複が減る)
 - アクセストークンは上記の自動更新で維持されるが、`refresh-instagram-token`ワークフローの実行結果(Actionsタブ)は時々確認する
 - 投稿を止めたいとき: Actionsタブでワークフローを Disable する
+
+### 5. 固定ブランドスライドの設定
+毎回のカルーセル末尾に「AI & DX支援ならオリジナ」+ロゴの固定スライドを自動で1枚追加する。
+- ロゴ画像は `assets/logo-origina.png` に配置する(白背景 or 透過PNG推奨。横長すぎない比率が収まりやすい)
+- 表示文言は `config/brand.own.json` の `brandSlide.tagline` で変更できる(`==文字==`で黄色マーカー)
+- 代行発信用(`config/brand.agency.json`)はデフォルトで無効(`enabled: false`)。クライアントごとに出したい場合は同様に `enabled: true` + ロゴパスを設定する
 
 ## コスト
 

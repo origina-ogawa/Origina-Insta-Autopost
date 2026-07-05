@@ -4,7 +4,7 @@ import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import { renderSlide } from './lib/components.js';
+import { renderSlide, brandSlide } from './lib/components.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT_DIR = path.join(ROOT, 'output');
@@ -18,8 +18,13 @@ async function main() {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1080 } });
 
-  for (let i = 0; i < post.slides.length; i++) {
-    const html = renderSlide(brand, headerTitle, post.slides[i]);
+  const htmlSlides = post.slides.map((slide) => renderSlide(brand, headerTitle, slide));
+  if (brand.brandSlide?.enabled) {
+    htmlSlides.push(brandSlide(brand, headerTitle, loadLogoDataUri(brand.brandSlide.logo)));
+  }
+
+  for (let i = 0; i < htmlSlides.length; i++) {
+    const html = htmlSlides[i];
     fs.writeFileSync(path.join(OUT_DIR, `slide-${i + 1}.html`), html); // デバッグ用に残す
     await page.setContent(html, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready); // Webフォント読み込み完了を待つ
@@ -28,7 +33,15 @@ async function main() {
     console.log(`生成: output/slide-${i + 1}.png`);
   }
   await browser.close();
-  console.log(`完了: ${post.slides.length}枚のスライドを生成しました`);
+  console.log(`完了: ${htmlSlides.length}枚のスライドを生成しました`);
+}
+
+function loadLogoDataUri(relativePath) {
+  const logoPath = path.join(ROOT, relativePath);
+  const ext = path.extname(logoPath).slice(1).toLowerCase();
+  const mime = ext === 'jpg' ? 'jpeg' : ext || 'png';
+  const base64 = fs.readFileSync(logoPath).toString('base64');
+  return `data:image/${mime};base64,${base64}`;
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
