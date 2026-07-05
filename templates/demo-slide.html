@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px; height: 1080px;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #16294d;
+    color: #16294d;
+    display: flex; flex-direction: column;
+    padding: 22px 36px;
+    overflow: hidden;
+  }
+  .accent { color: #d7263d; font-weight: 700; }
+  .marker { background: linear-gradient(transparent 62%, #ffd93b 62%); font-weight: 900; }
+
+  /* ヘッダー */
+  .header { display: flex; align-items: center; gap: 16px; padding: 8px 4px 20px; }
+  .header .warn {
+    width: 52px; height: 52px; border-radius: 10px; background: #ffd93b;
+    display: flex; align-items: center; justify-content: center; font-size: 34px; color: #16294d;
+  }
+  .header h1 { color: #fff; font-size: 32px; font-weight: 900; letter-spacing: 1px; }
+  .header .num { color: #ffd93b; font-size: 40px; margin: 0 2px; }
+
+  /* 白カード */
+  .card {
+    background: #fff; border-radius: 14px; flex: 1;
+    padding: 30px 38px 24px; display: flex; flex-direction: column; gap: 20px;
+  }
+  .title-row { display: flex; gap: 30px; align-items: flex-start; }
+  .no {
+    position: relative; flex-shrink: 0;
+    width: 84px; height: 84px; background: #16294d; color: #fff;
+    font-size: 46px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .no::after {
+    content: ''; position: absolute; right: -14px; bottom: -14px;
+    width: 84px; height: 84px; background: #ffd93b; z-index: -1;
+  }
+  .title-main h2 { font-size: 50px; font-weight: 900; line-height: 1.35; }
+  .title-sub { font-size: 23px; font-weight: 500; margin-top: 10px; color: #33415c; line-height: 1.6; }
+  .title-visual { margin-left: auto; text-align: center; flex-shrink: 0; }
+  .title-visual .big-ic {
+    width: 150px; height: 150px; border: 5px solid #16294d; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 80px; color: #16294d;
+    position: relative; background: #fff;
+  }
+  .title-visual .big-ic .badge {
+    position: absolute; right: -12px; bottom: -6px;
+    width: 56px; height: 56px; border-radius: 50%; background: #16294d; color: #fff;
+    font-size: 32px; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* 本文2カラム */
+  .body-grid { display: flex; gap: 26px; flex: 1; }
+  .panel { background: #eef1f6; border-radius: 14px; padding: 24px 28px; }
+  .panel.left { flex: 1.05; }
+  .panel.left .lead { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .panel.left .lead .ic {
+    width: 54px; height: 54px; border-radius: 50%; background: #16294d; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0;
+  }
+  .panel.left .lead b { font-size: 32px; font-weight: 900; }
+  .panel.left p { font-size: 22px; line-height: 1.75; font-weight: 500; }
+  .compare {
+    margin-top: 16px; background: #fff; border: 2px dashed #b9c2d4; border-radius: 12px;
+    padding: 18px 20px; display: flex; align-items: center; justify-content: space-around; gap: 8px;
+  }
+  .compare .item { text-align: center; font-size: 20px; font-weight: 700; }
+  .compare .item i { font-size: 44px; display: block; margin-bottom: 6px; }
+  .compare .ne { font-size: 40px; font-weight: 900; }
+
+  .panel.right { flex: 1; background: #f6f8fb; display: flex; flex-direction: column; gap: 16px; }
+  .panel.right .pill {
+    background: #16294d; color: #fff; border-radius: 999px;
+    font-size: 20px; font-weight: 700; text-align: center; padding: 10px 8px;
+  }
+  .panel.right .pill .y { color: #ffd93b; }
+  .check-item { display: flex; align-items: flex-start; gap: 14px; font-size: 20px; font-weight: 700; line-height: 1.5; }
+  .check-item .cbox {
+    width: 40px; height: 40px; border-radius: 8px; background: #16294d; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+  }
+
+  /* まとめ帯 */
+  .summary {
+    background: #fdf4dc; border-radius: 14px; padding: 18px 28px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .summary .ok {
+    width: 64px; height: 64px; border-radius: 50%; border: 5px solid #16294d;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; color: #ffd93b; flex-shrink: 0; background: #fff;
+  }
+  .summary p { font-size: 23px; font-weight: 700; line-height: 1.65; }
+  .summary .side-ic { margin-left: auto; font-size: 64px; color: #16294d; flex-shrink: 0; }
+
+  /* フッター */
+  .footer { display: flex; align-items: center; gap: 22px; padding: 16px 8px 0; }
+  .footer .bulb {
+    width: 64px; height: 64px; border-radius: 50%; border: 3px solid #fff; color: #ffd93b;
+    display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0;
+  }
+  .footer p { color: #fff; font-size: 23px; font-weight: 700; line-height: 1.6; }
+  .footer .y { color: #ffd93b; }
+  .footer .swipe {
+    margin-left: auto; color: #fff; font-family: 'Caveat', cursive; font-size: 44px; flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="warn"><i class="ti ti-alert-triangle"></i></div>
+    <h1>発注してはいけないWeb制作会社 <span class="num">4</span>選</h1>
+  </div>
+
+  <div class="card">
+    <div class="title-row">
+      <div class="no">02</div>
+      <div class="title-main">
+        <h2><span class="marker">相場より極端に安い</span>を<br>売りにしている会社</h2>
+        <div class="title-sub">「制作費0円」「月額980円」…<br>その安さには<span class="marker">理由</span>があります。</div>
+      </div>
+      <div class="title-visual">
+        <div class="big-ic">
+          <i class="ti ti-coin"></i>
+          <div class="badge"><i class="ti ti-question-mark"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="body-grid">
+      <div class="panel left">
+        <div class="lead">
+          <div class="ic"><i class="ti ti-alert-circle"></i></div>
+          <b>それ、<span class="accent">要注意</span>です!</b>
+        </div>
+        <p>格安をうたう会社の多くは、テンプレートに流し込むだけの「量産型」制作。あなたのビジネスの強みは反映されません。</p>
+        <div class="compare">
+          <div class="item"><i class="ti ti-template"></i>テンプレ量産<br>(格安)</div>
+          <div class="ne">≠</div>
+          <div class="item"><i class="ti ti-target-arrow"></i>戦略設計<br>(成果重視)</div>
+        </div>
+      </div>
+      <div class="panel right">
+        <div class="pill">格安制作には、こんな<span class="y">ワナ</span>があります</div>
+        <div class="check-item"><div class="cbox"><i class="ti ti-file-dollar"></i></div><div>更新のたびに<span class="accent">高額な追加費用</span>を請求される</div></div>
+        <div class="check-item"><div class="cbox"><i class="ti ti-lock"></i></div><div>解約したくても<span class="accent">サイトの所有権がない</span></div></div>
+        <div class="check-item"><div class="cbox"><i class="ti ti-users"></i></div><div>担当者が付かず、<span class="accent">サポートは実質ゼロ</span></div></div>
+        <div class="check-item"><div class="cbox"><i class="ti ti-chart-bar-off"></i></div><div>集客の設計がなく、<span class="accent">成果につながらない</span></div></div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="ok"><i class="ti ti-check"></i></div>
+      <p>価格だけで選ばず、<span class="accent">「総額」と「契約条件」</span>を必ず確認するのが、失敗しない発注の<span class="accent">基本</span>です。</p>
+      <i class="ti ti-file-search side-ic"></i>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="bulb"><i class="ti ti-bulb"></i></div>
+    <p>「安さ」ではなく<span class="y">「費用対効果」</span>で、<br><span class="y">信頼できるパートナー</span>を選びましょう!</p>
+    <div class="swipe">Swipe &gt;&gt;&gt;</div>
+  </div>
+</body>
+</html>

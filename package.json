@@ -1,0 +1,18 @@
+{
+  "name": "origina-auto-sns",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Instagramカルーセル投稿の自動生成・自動投稿",
+  "scripts": {
+    "generate": "node src/generate.js",
+    "render": "node src/render.js",
+    "publish:ig": "node src/publish.js",
+    "post": "npm run generate && npm run render"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "js-yaml": "^4.1.0",
+    "playwright": "^1.49.0"
+  }
+}

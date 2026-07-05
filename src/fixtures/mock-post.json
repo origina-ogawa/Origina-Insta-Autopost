@@ -1,0 +1,86 @@
+{
+  "header_title": "発注してはいけないWeb制作会社 4選",
+  "caption": "ホームページ制作、どこに頼めばいいか分からない…そんな方へ。\n\n今回は「発注してはいけないWeb制作会社」の特徴を4つにまとめました。\n\n高いお金を払ってから後悔しないために、発注前のチェックリストとして使ってください。\n\nあとで見返せるように保存がおすすめです!",
+  "hashtags": ["#ホームページ制作", "#web制作", "#中小企業", "#経営者", "#ホームページ", "#集客", "#webデザイン", "#起業", "#個人事業主", "#マーケティング"],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": ["発注しては", "いけない", "Web制作会社", "4選"],
+      "marker_line": 0,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==独自ドメインのメール==を使っていない会社",
+      "sub": "ホームページは独自ドメインなのに、\nメールはフリーメール…?",
+      "icon": "ti-mail-x",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "制作会社のホームページはしっかりしていても、日々のやり取りがフリーメールだと、会社の信頼性や技術力が疑われてしまいます。",
+          "compare": {
+            "left": { "icon": "ti-world", "label": "example.co.jp\n(独自ドメイン)" },
+            "right": { "icon": "ti-mail", "label": "Gmail\n(フリーメール)" }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "フリーメールの会社は、こんな**リスク**があります",
+          "items": [
+            { "icon": "ti-settings", "text": "メールの**基本設定すらできない**可能性" },
+            { "icon": "ti-shield-x", "text": "セキュリティへの**意識が低い**" },
+            { "icon": "ti-world", "text": "ドメインの価値を**理解していない**" },
+            { "icon": "ti-alert-triangle", "text": "トラブル時の**対応力が不安**" }
+          ]
+        }
+      ],
+      "note": "メールまで含めて**「自社の信頼」**をつくるのが、信頼できる制作会社の**基本**です。",
+      "note_icon": "ti-mail"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==相場より極端に安い==を売りにしている会社",
+      "sub": "「制作費0円」「月額980円」…\nその安さには==理由==があります。",
+      "icon": "ti-coin",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "格安をうたう会社の多くは、テンプレートに流し込むだけの「量産型」制作。あなたのビジネスの強みは反映されません。",
+          "compare": {
+            "left": { "icon": "ti-template", "label": "テンプレ量産\n(格安)" },
+            "right": { "icon": "ti-target-arrow", "label": "戦略設計\n(成果重視)" }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "格安制作には、こんな**ワナ**があります",
+          "items": [
+            { "icon": "ti-file-dollar", "text": "更新のたびに**高額な追加費用**" },
+            { "icon": "ti-lock", "text": "解約したくても**所有権がない**" },
+            { "icon": "ti-users", "text": "担当者不在で**サポート実質ゼロ**" },
+            { "icon": "ti-chart-bar-off", "text": "集客設計がなく**成果が出ない**" }
+          ]
+        }
+      ],
+      "note": "価格だけで選ばず、**「総額」と「契約条件」**を必ず確認するのが失敗しない**基本**です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ:発注前に==ここだけ==確認!",
+      "items": [
+        { "icon": "ti-mail", "text": "独自ドメインのメールを使っているか" },
+        { "icon": "ti-calculator", "text": "料金の**総額と契約条件**が明確か" },
+        { "icon": "ti-chart-line", "text": "実績を**成果や数値**で語れるか" },
+        { "icon": "ti-robot", "text": "**AI時代の集客**を説明できるか" }
+      ],
+      "cta": "この4つを聞くだけで、**失敗のリスクは大きく減らせます**。保存して発注前に見返してください!"
+    }
+  ]
+}
