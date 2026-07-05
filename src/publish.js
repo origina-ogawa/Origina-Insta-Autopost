@@ -8,7 +8,9 @@ import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT_DIR = path.join(ROOT, 'output');
-const API = `https://graph.facebook.com/${process.env.GRAPH_API_VERSION || 'v23.0'}`;
+// 「Instagramログインによる API設定」(IGAAで始まるトークン)は graph.facebook.com ではなく
+// graph.instagram.com を使う。Facebookページ経由の旧方式とはAPIのホストが異なる点に注意。
+const API = `https://graph.instagram.com/${process.env.GRAPH_API_VERSION || 'v23.0'}`;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
