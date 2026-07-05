@@ -26,10 +26,10 @@ export const ICON_WHITELIST = new Set([
   'ti-notes', 'ti-book',
   // アイデア・その他
   'ti-bulb', 'ti-star', 'ti-sparkles', 'ti-rocket', 'ti-tool', 'ti-settings',
-  'ti-heart', 'ti-eye', 'ti-link', 'ti-photo', 'ti-robot', 'ti-brain',
+  'ti-heart', 'ti-eye', 'ti-link', 'ti-photo', 'ti-camera', 'ti-robot', 'ti-brain',
 ]);
 
-export const FALLBACK_ICON = 'ti-point';
+export const FALLBACK_ICON = 'ti-circle';
 
 /** AIが出したアイコン名を検証し、不正ならフォールバックに置き換える */
 export function safeIcon(name) {

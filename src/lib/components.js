@@ -41,7 +41,7 @@ function baseCss(c) {
     display: flex; align-items: center; justify-content: center; }
 
   .body-grid { display: flex; gap: 26px; flex: 1; min-height: 0; }
-  .col { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .col { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 20px; min-width: 0; }
   .panel { background: ${c.panel}; border-radius: 14px; padding: 24px 28px; }
   .panel.light { background: ${c.panelLight}; }
 

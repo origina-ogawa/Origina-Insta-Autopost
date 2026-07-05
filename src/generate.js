@@ -54,7 +54,7 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
 # ルール
 - slidesは「cover 1枚 → body 3〜4枚 → summary 1枚」の合計5〜6枚
 - coverのtitle_linesは1行8文字以内で2〜4行。marker_lineは黄色マーカーを引く行番号(0始まり)
-- bodyのblocksは各スライド2個(lead+checklist、paragraph+checklist、lead+compare など毎回変化をつける)
+- bodyのblocksは**必ず各スライド2個(1個や3個は不可)**。組み合わせ例: lead+checklist、paragraph+checklist、lead+compare など毎回変化をつける
 - checklistのitemsは3〜4個。iconは項目の内容に合ったものを選ぶ
 - 強調記法: **文字** = 赤字強調 / ==文字== = 黄色マーカー。1要素につき1箇所まで
 - iconは必ず次のリストから選ぶ: ${iconListForPrompt()}
@@ -77,7 +77,38 @@ async function callGemini(prompt) {
   const data = await res.json();
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error(`Geminiの応答が空です: ${JSON.stringify(data).slice(0, 500)}`);
-  return JSON.parse(text);
+  try {
+    return JSON.parse(extractFirstJsonObject(text));
+  } catch (e) {
+    fs.writeFileSync(path.join(OUT_DIR, 'debug-raw-response.txt'), text);
+    throw new Error(`JSON解析に失敗しました(output/debug-raw-response.txt に生データを保存): ${e.message}`);
+  }
+}
+
+// Geminiが末尾に余分な文字(例: 閉じ括弧の重複)を付けることがあるため、
+// 最初の "{" から対応する "}" までだけを取り出して末尾のゴミを無視する。
+function extractFirstJsonObject(text) {
+  const start = text.indexOf('{');
+  if (start === -1) return text;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (ch === '\\') escaped = true;
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') inString = true;
+    else if (ch === '{') depth++;
+    else if (ch === '}') {
+      depth--;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  return text.slice(start);
 }
 
 function validate(post) {
