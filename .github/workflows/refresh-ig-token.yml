@@ -1,0 +1,46 @@
+# Instagramアクセストークン(60日で失効)を、失効前に自動で再発行してSecretsを更新する。
+# 月2回(1日・15日)実行。トークンは発行後24時間以上経っていないと更新できない仕様のため、
+# 余裕を持って複数回チャンスを作っている。
+name: refresh-instagram-token
+
+on:
+  schedule:
+    - cron: '0 3 1,15 * *' # UTC 3:00 = JST 12:00
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: トークンを更新してSecretsに保存
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+          REPO_SLUG: ${{ github.repository }}
+        run: |
+          RESPONSE=$(curl -s "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${IG_ACCESS_TOKEN}")
+          if echo "$RESPONSE" | jq -e '.error' >/dev/null 2>&1; then
+            echo "トークン更新に失敗しました:"
+            echo "$RESPONSE" | jq -c '.error'
+            exit 1
+          fi
+          NEW_TOKEN=$(echo "$RESPONSE" | jq -r '.access_token')
+          EXPIRES_DAYS=$(( $(echo "$RESPONSE" | jq -r '.expires_in') / 86400 ))
+          echo "::add-mask::$NEW_TOKEN"
+          gh secret set IG_ACCESS_TOKEN --repo "$REPO_SLUG" --body "$NEW_TOKEN"
+          echo "新しいトークンを保存しました(有効期限: 約${EXPIRES_DAYS}日後)"
+
+      - name: Chatworkに通知(失敗時)
+        if: failure()
+        env:
+          CHATWORK_API_TOKEN: ${{ secrets.CHATWORK_API_TOKEN }}
+          CHATWORK_ROOM_ID: ${{ secrets.CHATWORK_ROOM_ID }}
+        run: |
+          if [ -z "$CHATWORK_API_TOKEN" ] || [ -z "$CHATWORK_ROOM_ID" ]; then exit 0; fi
+          curl -s -X POST "https://api.chatwork.com/v2/rooms/${CHATWORK_ROOM_ID}/messages" \
+            -H "X-ChatWorkToken: ${CHATWORK_API_TOKEN}" \
+            --data-urlencode "body=[info][title]Instagramトークン更新 失敗[/title]refresh-instagram-token ワークフローが失敗しました。GitHub Actionsのログを確認してください。手動でのトークン再取得が必要な可能性があります。[/info]"
