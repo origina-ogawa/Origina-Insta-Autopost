@@ -53,7 +53,7 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
 
 # ルール
 - slidesは「cover 1枚 → body 3〜4枚 → summary 1枚」の合計5〜6枚
-- coverのtitle_linesは1行8文字以内で2〜4行。marker_lineは黄色マーカーを引く行番号(0始まり)
+- coverのtitle_linesは1行8文字以内で2〜4行。**装飾記法(**/==)は使わない**、プレーンな文字列のみ。黄色マーカーは marker_line(行番号・0始まり)で指定する
 - bodyのblocksは**必ず各スライド2個(1個や3個は不可)**。組み合わせ例: lead+checklist、paragraph+checklist、lead+compare など毎回変化をつける
 - checklistのitemsは3〜4個。iconは項目の内容に合ったものを選ぶ
 - 強調記法: **文字** = 赤字強調 / ==文字== = 黄色マーカー。1要素につき1箇所まで

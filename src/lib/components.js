@@ -140,12 +140,16 @@ function compareHtml(cmp) {
   return `<div class="compare">${side(cmp.left)}<div class="ne">&ne;</div>${side(cmp.right)}</div>`;
 }
 
+// 表紙のtitle_linesは行単位のmarker_lineだけで装飾する仕様だが、
+// AIが本文と同じ **強調** / ==マーカー== 記法を混ぜてくることがあるため無害化する。
+const stripInlineMarkup = (s) => String(s ?? '').replace(/\*\*(.+?)\*\*/g, '$1').replace(/==(.+?)==/g, '$1');
+
 /** 表紙スライド */
 export function coverSlide(brand, headerTitle, slide) {
   const lines = (slide.title_lines || []).map((line, i) =>
     i === (slide.marker_line ?? 0)
-      ? `<span class="marker-line">${esc(line)}</span>`
-      : esc(line)
+      ? `<span class="marker-line">${esc(stripInlineMarkup(line))}</span>`
+      : esc(stripInlineMarkup(line))
   ).join('<br>');
   const body = `
     ${header(headerTitle)}
