@@ -1,0 +1,180 @@
+{
+  "caption": "検索エンジンの主役がGoogleからAIへと移りつつある今、御社のWebサイトは「AIに選ばれる」準備ができていますか？\n\n従来のSEOだけでは、いずれ成果が出にくくなる時代が来ています。これからのWeb集客を左右するのは「AEO（AI Optimization）」です。\n\nユーザーはもはや羅列された情報ではなく、AIが要約した「直接的な答え」を求めています。AIが御社のサイトから情報を抽出できるよう、コンテンツの作り方を根本的に見直す必要があります。\n\n本日は、このAEO対策の基本中の基本を、少し辛口ですが誠実にお伝えします。乗り遅れないために、ぜひ最後までご覧いただき、今後の戦略に役立ててください。\n\n後から見返せるよう、ぜひ「保存」しておきましょう。",
+  "hashtags": [
+    "#AEO対策",
+    "#AI検索",
+    "#Web集客"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "検索の主役",
+        "AIへ移行",
+        "AEO対策の",
+        "基礎知識"
+      ],
+      "marker_line": 2,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "AEOとは？==SEO==との違い",
+      "sub": "検索行動の変化を理解する",
+      "icon": "ti-robot",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-triangle",
+          "title": "検索の**質**が変わる",
+          "text": "ユーザーは単なる情報ではなく、「直接的な答え」を求めるようになりました。Google検索の未来は、AIによる**要約と回答**が中心になります。",
+          "compare": {
+            "left": {
+              "icon": "ti-layout",
+              "label": "従来のSEO\n(網羅重視)"
+            },
+            "right": {
+              "icon": "ti-brain",
+              "label": "これからのAEO\n(回答重視)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AEOを無視する**リスク**",
+          "items": [
+            {
+              "icon": "ti-trending-down",
+              "text": "検索からの**流入減**"
+            },
+            {
+              "icon": "ti-eye",
+              "text": "AI回答に**選ばれない**"
+            },
+            {
+              "icon": "ti-lock",
+              "text": "競合に**差をつけられる**"
+            }
+          ]
+        }
+      ],
+      "note": "AI時代の検索では、**ユーザーへの直接的な回答**が最重要です。",
+      "note_icon": "ti-file-text"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==質問==に答えるコンテンツ",
+      "sub": "ユーザーの「知りたい」を直球で捉える",
+      "icon": "ti-question-mark",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "icon": "ti-bulb",
+          "title": "質問コンテンツの**肝**",
+          "text": "ユーザーが検索窓に「質問文」を直接入力する時代です。彼らが**どんな疑問**を抱き、何を解決したいのかを具体的に想定し、それにピンポイントで答えるコンテンツを作成しましょう。"
+        },
+        {
+          "type": "checklist",
+          "header": "具体的な**対策ポイント**",
+          "items": [
+            {
+              "icon": "ti-list-check",
+              "text": "顧客からの**FAQを分析**"
+            },
+            {
+              "icon": "ti-search",
+              "text": "関連キーワードの**「質問」を調査**"
+            },
+            {
+              "icon": "ti-file-text",
+              "text": "1記事1テーマで**簡潔に回答**"
+            },
+            {
+              "icon": "ti-clipboard-list",
+              "text": "導入部分で**結論を提示**"
+            }
+          ]
+        }
+      ],
+      "note": "ユーザーの**疑問に直接答える**構成が求められます。",
+      "note_icon": "ti-target-arrow"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "回答は==明快に==、冗長さを避ける",
+      "sub": "AIに「選ばれる」ための文章術",
+      "icon": "ti-check",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "AIは**冗長な説明**を嫌う",
+          "text": "AIは、要点を素早く抽出し、ユーザーに最も適切な回答を提供します。回りくどい表現や、結論が分かりにくい文章は、AIが**採用しない**可能性が高いです。",
+          "compare": {
+            "left": {
+              "icon": "ti-x",
+              "label": "曖昧な回答\n(長文・結論後回し)"
+            },
+            "right": {
+              "icon": "ti-circle-check",
+              "label": "明快な回答\n(結論ファースト)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AIに**選ばれる**文章術",
+          "items": [
+            {
+              "icon": "ti-key",
+              "text": "結論から**先に提示**"
+            },
+            {
+              "icon": "ti-file-check",
+              "text": "専門用語は**最小限に**"
+            },
+            {
+              "icon": "ti-zoom-check",
+              "text": "短く**要点をまとめる**"
+            },
+            {
+              "icon": "ti-chart-bar",
+              "text": "箇条書きを**積極的に活用**"
+            }
+          ]
+        }
+      ],
+      "note": "ユーザーとAIの双方にとって、**「分かりやすさ」**が重要です。",
+      "note_icon": "ti-bulb"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "AEOは**AI時代のSEO**対策"
+        },
+        {
+          "icon": "ti-check",
+          "text": "ユーザーの**質問に直球で答える**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "回答は**簡潔・明瞭**が基本"
+        }
+      ],
+      "cta": "AI時代に対応したWeb集客で、**競合に差をつけませんか？**"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIに選ばれるHP",
+    "theme": "検索の主役がGoogleからAIに移る「AEO」対策の基本",
+    "generatedAt": "2026-07-06T07:11:21.537Z",
+    "mock": false
+  }
+}
