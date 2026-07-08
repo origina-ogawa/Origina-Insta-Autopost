@@ -1,0 +1,197 @@
+{
+  "caption": "「AI画像、便利そうだから」と安易に手を出していませんか？特に中小企業の皆さん、商用利用のリスクを軽視していると、思わぬトラブルに巻き込まれる可能性があります。今回は、プロのWeb制作会社として、画像生成AIの賢い選び方から、誰も教えてくれない著作権の落とし穴、そして日本語テキスト生成の致命的な問題点まで、辛口で真実をお伝えします。単なる時短ツールとしてではなく、ビジネスのリスクマネジメントとして、この情報を活用してください。後悔しないために、この投稿を「保存」して、何度も見返せるようにしておきましょう！",
+  "hashtags": [
+    "#AI画像",
+    "#Web制作の裏側",
+    "#中小企業向け"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "AI画像",
+        "「まさか」",
+        "に要注意"
+      ],
+      "marker_line": 1,
+      "icon": "ti-robot"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==著作権==は誰のもの？",
+      "sub": "AI画像の学習データ、実は問題だらけです。",
+      "icon": "ti-ban",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "AIが生成した画像に、法的に「著作権」は認められません。そのため、第三者が模倣しても法的に保護されず、自社コンテンツとしての価値が低くなるリスクを抱えます。",
+          "compare": {
+            "left": {
+              "icon": "ti-robot",
+              "label": "著作権は\nAIのもの？"
+            },
+            "right": {
+              "icon": "ti-user-off",
+              "label": "著作権は\n誰も所有しない"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**リスク**があります",
+          "items": [
+            {
+              "icon": "ti-file-dollar",
+              "text": "学習データの著作権**侵害**"
+            },
+            {
+              "icon": "ti-alert-triangle",
+              "text": "酷似画像の意図せぬ生成"
+            },
+            {
+              "icon": "ti-shield-x",
+              "text": "将来的な法改正への対応"
+            },
+            {
+              "icon": "ti-trending-down",
+              "text": "ブランド価値**毀損**の可能性"
+            }
+          ]
+        }
+      ],
+      "note": "安易なAI画像利用は**法的トラブル**の元になります。",
+      "note_icon": "ti-alert-triangle"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "用途で選ぶ==AIツール==",
+      "sub": "「何となく」で選んでませんか？\n目的と費用対効果を考えましょう。",
+      "icon": "ti-devices",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-x",
+          "title": "期待はずれの**日本語**",
+          "text": "多くの画像生成AIは、日本語テキストの生成が非常に苦手です。プロンプトで指示しても、意味不明な文字や崩れた表記になることがほとんど。修正コストを考慮しましょう。",
+          "compare": {
+            "left": {
+              "icon": "ti-template",
+              "label": "AI生成\n(ひらがな)"
+            },
+            "right": {
+              "icon": "ti-layout",
+              "label": "別途修正\n(デザイン)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AI画像の**使い分け**が重要",
+          "items": [
+            {
+              "icon": "ti-photo",
+              "text": "ブログ挿絵: Midjourney, SD"
+            },
+            {
+              "icon": "ti-file-text",
+              "text": "資料の挿絵: DALL-E 3, Firefly"
+            },
+            {
+              "icon": "ti-code",
+              "text": "デザイン案の叩き台: Firefly"
+            },
+            {
+              "icon": "ti-mail-x",
+              "text": "**日本語**文字の画像は不向き"
+            }
+          ]
+        }
+      ],
+      "note": "目的とコストを考え、**適切なツール**を選びましょう。",
+      "note_icon": "ti-search"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "利用規約は==必読==です",
+      "sub": "商用利用の可否、見落としていませんか？\n規約は常に変化します。",
+      "icon": "ti-file-text",
+      "blocks": [
+        {
+          "type": "checklist",
+          "header": "確認すべき**重要項目**",
+          "items": [
+            {
+              "icon": "ti-briefcase",
+              "text": "商用利用の**範囲**と条件"
+            },
+            {
+              "icon": "ti-lock",
+              "text": "生成画像の著作権帰属"
+            },
+            {
+              "icon": "ti-alert-circle",
+              "text": "免責事項と保証内容"
+            },
+            {
+              "icon": "ti-eye",
+              "text": "学習データの**透明性**"
+            }
+          ]
+        },
+        {
+          "type": "lead",
+          "icon": "ti-alert-triangle",
+          "title": "知らなかったでは**済まされない**",
+          "text": "各AIツールの利用規約は、常にアップデートされます。商用利用前に必ず最新版を確認し、自社の事業内容と照らし合わせましょう。規約違反は最悪、法的措置につながることも。",
+          "compare": {
+            "left": {
+              "icon": "ti-question-mark",
+              "label": "規約\n読んでない"
+            },
+            "right": {
+              "icon": "ti-check",
+              "label": "規約\n確認済み"
+            }
+          }
+        }
+      ],
+      "note": "利用規約は**自己責任**で読み込みましょう。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "AI画像の著作権は**誰にもない**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "用途に合った**ツール選び**が重要"
+        },
+        {
+          "icon": "ti-check",
+          "text": "日本語テキストは**生成NG**前提"
+        },
+        {
+          "icon": "ti-check",
+          "text": "利用規約は**必ず確認**すること"
+        }
+      ],
+      "cta": "AI画像を賢く活用し、**リスクを回避**しましょう！"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIサービスの選び方",
+    "theme": "画像生成AIの選び方と商用利用の注意点",
+    "generatedAt": "2026-07-08T06:45:38.709Z",
+    "mock": false
+  }
+}
