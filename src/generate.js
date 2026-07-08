@@ -75,7 +75,11 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
 - hashtagsは**必ず3個以内**(Instagramは2025年末以降、少数・高関連タグを推奨。汎用タグの大量付与は逆効果)`;
 }
 
-async function callGemini(prompt) {
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Gemini APIは一時的な過負荷(429/5xx)やネットワーク瞬断で失敗することがあるため、
+// スケジュール実行(誰も見ていない)でも自己復旧できるようリトライする。
+async function callGeminiOnce(prompt) {
   const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`;
   const res = await fetch(url, {
@@ -86,16 +90,49 @@ async function callGemini(prompt) {
       generationConfig: { responseMimeType: 'application/json', temperature: 0.9 },
     }),
   });
-  if (!res.ok) throw new Error(`Gemini APIエラー: ${res.status} ${await res.text()}`);
+  if (!res.ok) {
+    const err = new Error(`Gemini APIエラー: ${res.status} ${await res.text()}`);
+    err.status = res.status;
+    throw err;
+  }
   const data = await res.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error(`Geminiの応答が空です: ${JSON.stringify(data).slice(0, 500)}`);
+  const candidate = data.candidates?.[0];
+  const text = candidate?.content?.parts?.[0]?.text;
+  if (!text) {
+    throw new Error(
+      `Geminiの応答が空です(finishReason: ${candidate?.finishReason ?? '不明'}): ${JSON.stringify(data).slice(0, 500)}`
+    );
+  }
   try {
     return JSON.parse(extractFirstJsonObject(text));
   } catch (e) {
+    fs.mkdirSync(OUT_DIR, { recursive: true });
     fs.writeFileSync(path.join(OUT_DIR, 'debug-raw-response.txt'), text);
     throw new Error(`JSON解析に失敗しました(output/debug-raw-response.txt に生データを保存): ${e.message}`);
   }
+}
+
+function isRetryable(err) {
+  // 429(レート制限)・5xx(サーバ側の一時的な問題)・fetch自体の失敗(ネットワーク瞬断)はリトライする
+  if (err.status === 429 || err.status >= 500) return true;
+  if (!err.status) return true;
+  return false;
+}
+
+async function callGemini(prompt, attempts = 3) {
+  let lastErr;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await callGeminiOnce(prompt);
+    } catch (e) {
+      lastErr = e;
+      if (i === attempts || !isRetryable(e)) throw e;
+      const waitMs = 2000 * 2 ** (i - 1); // 2s, 4s, 8s ...
+      console.warn(`Gemini呼び出し失敗(${i}/${attempts}回目、${waitMs}ms後に再試行): ${e.message}`);
+      await sleep(waitMs);
+    }
+  }
+  throw lastErr;
 }
 
 // Geminiが末尾に余分な文字(例: 閉じ括弧の重複)を付けることがあるため、
@@ -155,4 +192,12 @@ async function main() {
   console.log(`output/post.json を生成しました(スライド${post.slides.length}枚)`);
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  // GitHub Actionsの実行サマリーにも失敗理由を残す(ログをたどらなくてもUIで原因が分かるように)
+  const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+  if (summaryPath) {
+    fs.appendFileSync(summaryPath, `## 文章生成 (Gemini) 失敗\n\n\`\`\`\n${e.stack || e.message}\n\`\`\`\n`);
+  }
+  process.exit(1);
+});

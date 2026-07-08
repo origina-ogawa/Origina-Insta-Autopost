@@ -49,14 +49,17 @@ jobs:
           BRAND: ${{ vars.BRAND || 'own' }}
         run: npm run render
 
-      - name: 生成結果をArtifactに保存(確認用)
+      - name: 生成結果をArtifactに保存(確認用・失敗時はデバッグ情報のみ)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: slides-${{ github.run_id }}
           path: |
             output/*.png
             output/post.json
+            output/debug-raw-response.txt
           retention-days: 14
+          if-no-files-found: ignore
 
       - name: 画像をリポジトリにコミット(公開URL化)
         if: ${{ github.event_name == 'schedule' || inputs.dry_run == false }}
