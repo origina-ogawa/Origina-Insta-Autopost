@@ -4,8 +4,8 @@ name: daily-instagram-post
 
 on:
   schedule:
-    # UTC 3:30 = JST 12:30 月〜金 (GitHubのcronは最大15〜30分ほど遅れることがあります)
-    - cron: '30 3 * * 1-5'
+    # UTC 4:30 = JST 13:30 月〜金 (テストのため一時的に12:30から変更。GitHubのcronは最大15〜30分ほど遅れることがあります)
+    - cron: '30 4 * * 1-5'
   workflow_dispatch:
     inputs:
       dry_run:
