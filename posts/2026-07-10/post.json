@@ -1,0 +1,188 @@
+{
+  "caption": "SNS運用、いつも三日坊主で終わっていませんか？実は、ほとんどの企業が『根性論』でSNS運用を乗り切ろうとして挫折します。発信する内容に悩んだり、投稿作成に時間がかかったり、効果が見えずにモチベーションが続かないのは当然です。\n\nしかし、諦める必要はありません。今やAIを賢く使えば、ネタ出しから原稿作成、効果分析まで、驚くほど効率化できます。AIは万能ではありませんが、適切な指示とレビューであなたの右腕となり得ます。\n\n本投稿では、AIを活用してSNS運用を継続できる仕組みの作り方をご紹介します。これを知れば、もうSNS運用で悩むことはありません。ぜひこの投稿を保存して、あなたのSNS運用をアップデートしてくださいね。",
+  "hashtags": [
+    "#SNS運用代行",
+    "#SNSマーケティング",
+    "#AI活用"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "SNS運用",
+        "もう挫折",
+        "させません",
+        "AIで仕組み化"
+      ],
+      "marker_line": 1,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "SNS運用が==続かない==理由",
+      "sub": "ネタ探しと制作に時間がかかっていませんか？",
+      "icon": "ti-mail-x",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**典型例**です!",
+          "text": "多くの企業がSNS運用を『気合と根性』で乗り切ろうとし、結果的にネタ切れや時間不足で挫折します。計画性のない運用は成果にも繋がりません。",
+          "compare": {
+            "left": {
+              "icon": "ti-notes",
+              "label": "手作業でネタ出し\n(数時間浪費)"
+            },
+            "right": {
+              "icon": "ti-robot",
+              "label": "AIでアイデア生成\n(数分で完了)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AI活用で**得られる**こと",
+          "items": [
+            {
+              "icon": "ti-bulb",
+              "text": "**無限**のネタ出し"
+            },
+            {
+              "icon": "ti-list-check",
+              "text": "効率的な**投稿構成**"
+            },
+            {
+              "icon": "ti-clock",
+              "text": "大幅な**時間短縮**"
+            },
+            {
+              "icon": "ti-trending-up",
+              "text": "高品質な**コンテンツ**"
+            }
+          ]
+        }
+      ],
+      "note": "AIは**アイデア出し**の強力な相棒です。",
+      "note_icon": "ti-sparkles"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "投稿作成は==効率化==が鍵",
+      "sub": "テンプレートとAIで質を落とさずに量産！",
+      "icon": "ti-template",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "icon": "ti-layout",
+          "title": "**テンプレート**を活用する",
+          "text": "デザインと文章のテンプレート化は、質の均一化と制作スピードアップに不可欠です。毎回ゼロから作る手間を省き、ブランドイメージも統一できます。"
+        },
+        {
+          "type": "checklist",
+          "header": "AIで**自動生成**できること",
+          "items": [
+            {
+              "icon": "ti-notes",
+              "text": "キャプションの**文章**"
+            },
+            {
+              "icon": "ti-search",
+              "text": "関連性の高い**ハッシュタグ**"
+            },
+            {
+              "icon": "ti-brain",
+              "text": "ターゲットに響く**アイデア**"
+            },
+            {
+              "icon": "ti-list-check",
+              "text": "複数の**投稿パターン**"
+            }
+          ]
+        }
+      ],
+      "note": "AIは**あなたの秘書**として活躍します。",
+      "note_icon": "ti-robot"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "運用負担は==徹底的に==削減",
+      "sub": "AIとツールで「やりっぱなし」を卒業しましょう。",
+      "icon": "ti-chart-bar-off",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-triangle",
+          "title": "運用は**計画的**に！",
+          "text": "投稿予約機能を使えば、事前に複数投稿をセットでき、『投稿忘れ』を防ぎます。SNSに張り付く必要もなくなり、コア業務に集中できるでしょう。",
+          "compare": {
+            "left": {
+              "icon": "ti-user-off",
+              "label": "手動投稿で\n常に拘束"
+            },
+            "right": {
+              "icon": "ti-calendar",
+              "label": "予約投稿で\n時間を確保"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AIで**さらに**効率化",
+          "items": [
+            {
+              "icon": "ti-chart-line",
+              "text": "投稿データの**自動分析**"
+            },
+            {
+              "icon": "ti-bulb",
+              "text": "改善点の**提案**"
+            },
+            {
+              "icon": "ti-refresh",
+              "text": "PDCAサイクルの**加速**"
+            },
+            {
+              "icon": "ti-target-arrow",
+              "text": "成果への**最短ルート**"
+            }
+          ]
+        }
+      ],
+      "note": "AIは**運用の羅針盤**にもなります。",
+      "note_icon": "ti-trending-up"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "AIでネタ出し〜構成作成を**効率化**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "テンプレートとAIで投稿作成を**加速**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "投稿予約とAI分析で運用負担を**軽減**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "AIはあなたのSNS運用を**劇的に変える**"
+        }
+      ],
+      "cta": "SNS運用でのお悩み、プロにご相談ください！"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "SNS集客術",
+    "theme": "SNS運用を続けられる仕組みの作り方(AI活用)",
+    "generatedAt": "2026-07-10T07:58:41.599Z",
+    "mock": false
+  }
+}
