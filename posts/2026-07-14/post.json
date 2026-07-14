@@ -1,0 +1,197 @@
+{
+  "caption": "「問い合わせ対応、AIチャットで24時間化すれば完璧！」そう考えていませんか？実はその思考、落とし穴だらけです。単に導入するだけでは、顧客満足度を下げ、むしろ機会損失を招くことも。Web制作のプロとして、今回はAIチャット導入で失敗しないための「辛口」な注意点をお伝えします。24時間対応は素晴らしいですが、その裏側には緻密な設計が必要です。本当に「使える」AIチャットを構築し、ビジネスチャンスを最大化するためのヒントを凝縮しました。ぜひ最後まで読んで、貴社の問い合わせ対応を見直すきっかけにしてください。後で見返すために「保存」もお忘れなく！",
+  "hashtags": [
+    "#AIチャット",
+    "#問い合わせ対応",
+    "#中小企業Web担当"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "AIチャット",
+        "24時間対応",
+        "その落とし穴"
+      ],
+      "marker_line": 2,
+      "icon": "ti-robot"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "AIチャット導入の==甘い罠==",
+      "sub": "「とりあえず」で始める前に、本当に顧客のためになるか考えましたか？",
+      "icon": "ti-alert-triangle",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "多くの企業が24時間対応やコスト削減の魅力に飛びつき、AIチャットを安易に導入しがちです。しかし、準備不足のままでは逆効果になりかねません。",
+          "compare": {
+            "left": {
+              "icon": "ti-template",
+              "label": "悪い例\n(質問に答えられない)"
+            },
+            "right": {
+              "icon": "ti-mail-x",
+              "label": "良い例\n(スムーズに解決)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**リスク**があります",
+          "items": [
+            {
+              "icon": "ti-x",
+              "text": "質問が解決せず**不満**増大"
+            },
+            {
+              "icon": "ti-user-off",
+              "text": "顧客が**離脱**し機会損失"
+            },
+            {
+              "icon": "ti-refresh",
+              "text": "同じ質問を**繰り返す**手間"
+            },
+            {
+              "icon": "ti-device-desktop",
+              "text": "担当者の**二度手間**発生"
+            }
+          ]
+        }
+      ],
+      "note": "AIチャットは**魔法の杖**ではありません。運用設計が命です。",
+      "note_icon": "ti-bulb"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "失敗しない**AIチャット**の型",
+      "sub": "まずはできることから。最小限で最大の効果を出すためのステップ。",
+      "icon": "ti-clipboard-list",
+      "blocks": [
+        {
+          "type": "checklist",
+          "header": "まずはここから**始める**",
+          "items": [
+            {
+              "icon": "ti-file-text",
+              "text": "よくある質問を**徹底分析**"
+            },
+            {
+              "icon": "ti-list-check",
+              "text": "回答シナリオを**明確化**"
+            },
+            {
+              "icon": "ti-user",
+              "text": "どんな時**有人**に繋ぐか設定"
+            },
+            {
+              "icon": "ti-phone",
+              "text": "電話対応など**代替策**も提示"
+            }
+          ]
+        },
+        {
+          "type": "lead",
+          "icon": "ti-key",
+          "title": "大事なのは**範囲**と**連携**",
+          "text": "AIに任せる範囲を明確にし、解決できない場合はスムーズに有人対応へ切り替える導線を確保することが、顧客満足度を保つ鍵です。",
+          "compare": {
+            "left": {
+              "icon": "ti-x",
+              "label": "AIが全て\n解決するべき"
+            },
+            "right": {
+              "icon": "ti-check",
+              "label": "AIは一次対応\n有人へ連携"
+            }
+          }
+        }
+      ],
+      "note": "AIはあくまで**補助役**。人との連携が成功の秘訣です。",
+      "note_icon": "ti-link"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "AIで得られる**真の価値**",
+      "sub": "導入で得られるのは24時間対応だけではありません。本質的なメリットとは？",
+      "icon": "ti-trending-up",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-chart-bar",
+          "title": "**機会損失**を激減させる",
+          "text": "営業時間外の疑問にも即座に回答することで、顧客の「今すぐ知りたい」に応え、購買意欲が高まっている層の離脱を防ぎます。これは大きな売上増に繋がります。",
+          "compare": {
+            "left": {
+              "icon": "ti-clock",
+              "label": "時間外は\n待つしかない"
+            },
+            "right": {
+              "icon": "ti-rocket",
+              "label": "24時間\n即時解決"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "担当者が**解放**される業務",
+          "items": [
+            {
+              "icon": "ti-mail",
+              "text": "定型的な**質問対応**"
+            },
+            {
+              "icon": "ti-history",
+              "text": "過去ログからの**情報検索**"
+            },
+            {
+              "icon": "ti-clipboard-list",
+              "text": "FAQの**更新作業**の一部"
+            },
+            {
+              "icon": "ti-chart-line",
+              "text": "顧客対応の**データ分析**"
+            }
+          ]
+        }
+      ],
+      "note": "AIは顧客満足度向上と**従業員満足度**向上を両立させます。",
+      "note_icon": "ti-heart"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-robot",
+          "text": "AIチャットは**万能ではない**と知る"
+        },
+        {
+          "icon": "ti-file-check",
+          "text": "FAQと**有人連携**の設計が鍵"
+        },
+        {
+          "icon": "ti-trending-up",
+          "text": "**機会損失防止**と業務効率化"
+        },
+        {
+          "icon": "ti-brain",
+          "text": "導入前の**戦略**が成功を左右"
+        }
+      ],
+      "cta": "AIチャット導入、貴社に最適な戦略を共に考えませんか？"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "脱エクセル・業務効率化",
+    "theme": "問い合わせ対応をAIチャットで24時間化する",
+    "generatedAt": "2026-07-14T06:33:56.181Z",
+    "mock": false
+  }
+}
