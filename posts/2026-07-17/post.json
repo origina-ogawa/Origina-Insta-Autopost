@@ -1,0 +1,183 @@
+{
+  "caption": "「投稿ネタが尽きて困る…」そうお悩みの経営者様、担当者様は少なくないでしょう。しかし、その悩み、実はちょっとした思考の転換で解決できます。\n本日は、Web制作のプロとして、投稿ネタを枯渇させないための実践的な「テーマ発掘術」を伝授します。感覚的な投稿はもう終わり。顧客の心に響くコンテンツを生み出すための、具体的なアプローチを知れば、投稿はもっと楽になります。この機会に、貴社のSNS運用を見つめ直し、戦略的な情報発信へとシフトしませんか？\n「ネタがない」は言い訳になりません。常にアンテナを張り、質の高い情報を届け続けましょう。後で見返せるよう、ぜひ「保存」を。",
+  "hashtags": [
+    "#Web制作会社",
+    "#SNS運用ノウハウ",
+    "#ネタ切れ対策"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "投稿ネタ",
+        "尽きてない？",
+        "テーマ発掘術"
+      ],
+      "marker_line": 1,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "投稿ネタが==無限==に湧く思考法",
+      "sub": "無計画な投稿は今すぐやめてください",
+      "icon": "ti-mail-x",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "「何となく」は**命取り**",
+          "text": "投稿の目的やターゲットが曖昧なままでは、すぐにネタ切れします。顧客に響く内容は作れません。",
+          "compare": {
+            "left": {
+              "icon": "ti-template",
+              "label": "悪い例\n(反響薄)"
+            },
+            "right": {
+              "icon": "ti-target-arrow",
+              "label": "良い例\n(共感呼ぶ)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "顧客の**本音**を探るヒント",
+          "items": [
+            {
+              "icon": "ti-question-mark",
+              "text": "「よくある質問」をまとめる"
+            },
+            {
+              "icon": "ti-search",
+              "text": "競合の「投稿コメント」を分析"
+            },
+            {
+              "icon": "ti-user",
+              "text": "営業担当者の**生の声**を聞く"
+            },
+            {
+              "icon": "ti-clipboard-list",
+              "text": "顧客アンケートで**不満点**を収集"
+            }
+          ]
+        }
+      ],
+      "note": "顧客視点こそが**最高のネタ帳**です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==具体的==な事例が共感を呼ぶ",
+      "sub": "成功談も失敗談も、ネタの宝庫です",
+      "icon": "ti-sparkles",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "icon": "ti-bulb",
+          "title": "その「成功事例」**活用してますか**？",
+          "text": "顧客の課題解決プロセスや導入後の変化は、説得力のあるコンテンツになります。成功の裏側にある努力も伝えましょう。"
+        },
+        {
+          "type": "checklist",
+          "header": "ストーリーで**魅せる**投稿",
+          "items": [
+            {
+              "icon": "ti-chart-line",
+              "text": "顧客の「導入前後の変化」"
+            },
+            {
+              "icon": "ti-tool",
+              "text": "制作過程での「苦労話」"
+            },
+            {
+              "icon": "ti-alert-triangle",
+              "text": "プロの「失敗談」から学ぶ**教訓**"
+            },
+            {
+              "icon": "ti-rocket",
+              "text": "サービスの「意外な活用法」"
+            }
+          ]
+        }
+      ],
+      "note": "リアルなストーリーが**信頼**を築きます。",
+      "note_icon": "ti-file-check"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "季節と==トレンド==を味方につける",
+      "sub": "タイムリーな情報は注目度アップ",
+      "icon": "ti-history",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-eye",
+          "title": "常にアンテナを**張り巡らせる**",
+          "text": "季節のイベント、業界ニュース、社会情勢など、自社サービスと関連付けられるものはないか常に考えましょう。",
+          "compare": {
+            "left": {
+              "icon": "ti-ban",
+              "label": "悪い例\n(マンネリ化)"
+            },
+            "right": {
+              "icon": "ti-star",
+              "label": "良い例\n(関連性)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "旬なネタで**話題**を作る",
+          "items": [
+            {
+              "icon": "ti-world",
+              "text": "業界の「最新ニュース」を解説"
+            },
+            {
+              "icon": "ti-calendar",
+              "text": "季節の「イベント」と絡める"
+            },
+            {
+              "icon": "ti-chart-bar",
+              "text": "今話題の「トレンド」を自社流に**解釈**"
+            },
+            {
+              "icon": "ti-users",
+              "text": "競合の「SNS投稿」をチェック"
+            }
+          ]
+        }
+      ],
+      "note": "タイムリーな情報は**エンゲージメント**を高めます。",
+      "note_icon": "ti-trending-up"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "顧客の質問・悩みから発掘"
+        },
+        {
+          "icon": "ti-check",
+          "text": "成功・失敗事例を深掘り"
+        },
+        {
+          "icon": "ti-check",
+          "text": "季節やトレンドを意識"
+        }
+      ],
+      "cta": "「ネタ切れ」から**卒業**しませんか？"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "SNS集客術",
+    "theme": "投稿ネタが尽きない、テーマの見つけ方",
+    "generatedAt": "2026-07-17T06:35:42.363Z",
+    "mock": false
+  }
+}
