@@ -1,0 +1,163 @@
+{
+  "caption": "「とりあえずChatGPT」で満足していませんか？その使い方、実は==機会損失==を生んでいるかもしれません。\nChatGPTは確かに強力なツールですが、万能ではありません。タスクの内容によっては、より専門性の高いAIツールを使うことで、はるかに高品質なアウトプットを得られたり、作業時間を大幅に短縮できたりするケースが多々あります。\n逆に、情報漏洩のリスクや誤情報の生成といったデメリットを理解せず「とりあえず」で使い続けるのは非常に危険です。\nWeb制作の現場では、企画書作成、デザインアイデア出し、コード生成、SEO分析など、多岐にわたるタスクが存在します。それぞれのタスクに最適なAIツールを選定し、さらにそれらを連携させることで、初めてAIの真価を発揮できます。\n今日の投稿では、ChatGPTから一歩進んだAIツールの「使い分け術」を解説します。ただ流行に乗るだけでなく、自社の業務に本当に役立つAI活用術を一緒に考えていきましょう。\nこの情報が、あなたのAI活用を次のステージへ進めるヒントになれば幸いです。ぜひ【保存】して見返してくださいね。",
+  "hashtags": [
+    "#ChatGPT活用",
+    "#業務効率化",
+    "#AIツール"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "脱！",
+        "とりあえず",
+        "ChatGPT",
+        "使い分け術"
+      ],
+      "marker_line": 3,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==安易なChatGPT依存==の罠",
+      "sub": "万能ではないAIの弱点を知る",
+      "icon": "ti-alert-triangle",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "ChatGPTは汎用性が高い一方、専門性や最新情報に弱点があります。安易な利用は情報漏洩や誤情報の拡散、画一的なアウトプットに繋がり、結果的に時間とコストの無駄になりかねません。"
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**リスク**があります",
+          "items": [
+            {
+              "icon": "ti-lock",
+              "text": "企業情報の**漏洩リスク**"
+            },
+            {
+              "icon": "ti-x",
+              "text": "事実と異なる**誤情報**"
+            },
+            {
+              "icon": "ti-ban",
+              "text": "他社と**同じ**陳腐な回答"
+            },
+            {
+              "icon": "ti-clock",
+              "text": "修正に**手間**がかかる"
+            }
+          ]
+        }
+      ],
+      "note": "ChatGPTの**特性**を理解し、適切な場面で使うのが重要です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==タスク別==最適AIの選び方",
+      "sub": "適材適所でパフォーマンス最大化",
+      "icon": "ti-brain",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "header": "**目的**に合わせた選択を",
+          "text": "文章生成にはChatGPT、画像生成にはMidjourneyやStable Diffusion、データ分析には専用AIツールなど、タスクによって最適なAIは異なります。それぞれの得意分野を理解し、使い分けることで生産性は飛躍的に向上します。"
+        },
+        {
+          "type": "checklist",
+          "header": "主な**AIツール**の適性",
+          "items": [
+            {
+              "icon": "ti-file-text",
+              "text": "文章生成: ChatGPT/**Gemini**"
+            },
+            {
+              "icon": "ti-photo",
+              "text": "画像生成: Midjourney/**StableDiffusion**"
+            },
+            {
+              "icon": "ti-chart-bar",
+              "text": "データ分析: Google Bard/**専用AI**"
+            },
+            {
+              "icon": "ti-code",
+              "text": "プログラミング: GitHub Copilot/**ChatGPT**"
+            }
+          ]
+        }
+      ],
+      "note": "汎用AIと**専門特化型AI**の区別が肝心です。",
+      "note_icon": "ti-bulb"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "AIツール==連携==で最適化",
+      "sub": "単体利用の限界を超えろ",
+      "icon": "ti-link",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-rocket",
+          "title": "連携で**新たな価値**を!",
+          "text": "各AIツールの得意分野を組み合わせることで、単体では成し得ない複雑なタスクも自動化・効率化できます。例えば、ChatGPTで企画骨子を作成し、画像生成AIでイメージを作成、さらにRPAと連携して資料作成まで自動化することも可能です。"
+        },
+        {
+          "type": "checklist",
+          "header": "連携による**メリット**",
+          "items": [
+            {
+              "icon": "ti-rocket",
+              "text": "作業工程の**大幅短縮**"
+            },
+            {
+              "icon": "ti-thumb-up",
+              "text": "より高品質な**アウトプット**"
+            },
+            {
+              "icon": "ti-coin",
+              "text": "コストの**最適化**と削減"
+            },
+            {
+              "icon": "ti-shield-check",
+              "text": "ヒューマンエラーの**減少**"
+            }
+          ]
+        }
+      ],
+      "note": "複数のAIを組み合わせることで、**業務全体の効率化**が図れます。",
+      "note_icon": "ti-settings"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "「とりあえずChatGPT」は**危険**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "タスクに合わせたAIを**選ぶ**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "複数のAIを**連携**活用"
+        }
+      ],
+      "cta": "AI活用で迷ったら、ぜひ一度ご相談ください！"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIサービスの選び方",
+    "theme": "「とりあえずChatGPT」から一歩進む使い分け術",
+    "generatedAt": "2026-07-22T07:07:20.007Z",
+    "mock": false
+  }
+}
