@@ -1,0 +1,172 @@
+{
+  "caption": "「AIが進化する今、SEO対策はもう不要？」そう考えているなら、それは大きな間違いです。むしろ、検索エンジンの進化は「従来の小手先のSEOテクニック」の終わりを告げ、本質的な価値提供を求める時代に入ったと言えるでしょう。キーワードの羅列や被リンク稼ぎに終始していた過去の手法は、LLM（大規模言語モデル）の登場で通用しなくなっています。ユーザーの真の意図を理解し、信頼できる情報を、常に最新の状態で提供する。この当たり前のことが、これまで以上に重要視される時代になったのです。あなたのサイトは、AI時代の検索エンジンから正当に評価される準備ができていますか？今のうちに、Webサイトの未来を見据えた戦略を見直しましょう。この投稿を参考に、自社のWeb戦略を見直すきっかけにしてください。",
+  "hashtags": [
+    "#AI時代のSEO",
+    "#Web戦略",
+    "#中小企業経営"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "AI時代の",
+        "SEO対策",
+        "何が変わる？"
+      ],
+      "marker_line": 1,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==キーワード==だけ追うのはもう古い",
+      "sub": "AIは「文脈」を理解します",
+      "icon": "ti-brain",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-triangle",
+          "title": "それ、**逆効果**です!",
+          "text": "AIはキーワードの羅列や不自然な記述を即座に見抜きます。ユーザー体験を損なうだけでなく、コンテンツの質が低いと判断され、評価を下げるリスクがあります。",
+          "compare": {
+            "left": {
+              "icon": "ti-template",
+              "label": "キーワード\n詰め込み"
+            },
+            "right": {
+              "icon": "ti-target-arrow",
+              "label": "文脈で\n意図を掴む"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**問題**が起こります",
+          "items": [
+            {
+              "icon": "ti-trending-down",
+              "text": "検索順位の**低下**を招く"
+            },
+            {
+              "icon": "ti-trending-down",
+              "text": "ユーザー満足度が**下がる**"
+            },
+            {
+              "icon": "ti-trending-down",
+              "text": "ブランドイメージが**悪化**"
+            }
+          ]
+        }
+      ],
+      "note": "ユーザーの「知りたいこと」を**深掘り**するコンテンツ作りが重要です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "「誰が言ったか」の==信頼性==が命",
+      "sub": "E-E-A-Tがこれまで以上に重要に",
+      "icon": "ti-shield-check",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "icon": "ti-user",
+          "title": "情報源の**信頼性**が重要に",
+          "text": "AIは情報の「質」だけでなく、「誰が」その情報を提供しているかを重視します。専門性、権威性、信頼性、経験（E-E-A-T）が欠如したコンテンツは、検索結果で上位表示されにくくなります。"
+        },
+        {
+          "type": "checklist",
+          "header": "こんなサイトは**評価**されにくい",
+          "items": [
+            {
+              "icon": "ti-ban",
+              "text": "専門家による**監修がない**"
+            },
+            {
+              "icon": "ti-ban",
+              "text": "運営元の**情報が不明瞭**"
+            },
+            {
+              "icon": "ti-ban",
+              "text": "根拠のない**断定的な意見**"
+            }
+          ]
+        }
+      ],
+      "note": "自社の**専門性**を明確にし、信頼性を高める発信を心がけましょう。",
+      "note_icon": "ti-user"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "==情報の鮮度==が検索結果を左右する",
+      "sub": "AIは最新情報を常に参照します",
+      "icon": "ti-refresh",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-clock",
+          "title": "古い情報で**機会損失**していませんか？",
+          "text": "AIはリアルタイムで膨大な情報を処理し、最も関連性の高い最新情報を提供します。数年前の記事を放置していませんか？情報が古ければ、ユーザーのニーズに応えられず、検索から遠ざかります。",
+          "compare": {
+            "left": {
+              "icon": "ti-history",
+              "label": "放置された\n古い記事"
+            },
+            "right": {
+              "icon": "ti-calendar",
+              "label": "定期的に\n更新される記事"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "鮮度を保つ**メリット**",
+          "items": [
+            {
+              "icon": "ti-sparkles",
+              "text": "AI検索で**優位に立つ**"
+            },
+            {
+              "icon": "ti-sparkles",
+              "text": "ユーザーの**信頼を得る**"
+            },
+            {
+              "icon": "ti-sparkles",
+              "text": "サイト全体の**評価が向上**"
+            }
+          ]
+        }
+      ],
+      "note": "一度公開したら終わり、ではありません。常に**情報を更新**し続けましょう。",
+      "note_icon": "ti-calendar"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "キーワードから**文脈理解**へ"
+        },
+        {
+          "icon": "ti-check",
+          "text": "**信頼性**とブランド力が鍵"
+        },
+        {
+          "icon": "ti-check",
+          "text": "情報の**鮮度**を保つ重要性"
+        }
+      ],
+      "cta": "AI時代のSEO戦略、**再構築**しませんか？",
+      "icon": "ti-robot"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIに選ばれるHP",
+    "theme": "従来のSEOとAI時代のLLMOは何が変わったか",
+    "generatedAt": "2026-07-27T08:00:42.622Z",
+    "mock": false
+  }
+}
