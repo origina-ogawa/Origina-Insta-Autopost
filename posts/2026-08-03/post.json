@@ -1,0 +1,188 @@
+{
+  "caption": "「AIがあなたのホームページを引用する」─これからのWebサイトの価値は、AIにいかに「信頼できる情報源」として認識されるかにかかっています。単なるキーワード詰め込みや被リンクだけでは通用しません。AIの進化は、Webサイトのあり方を根本から変えています。中小企業の経営者・担当者の皆さん、貴社のWebサイトはAIに”選ばれる”準備ができていますか？ この投稿では、生成AIに「これは使える！」と評価され、引用・推薦されるWebサイトの作り方を、プロの視点から辛口で解説します。==見落としがちなポイント==も多いので、ぜひ最後まで読んで保存し、貴社のWeb戦略にお役立てください。",
+  "hashtags": [
+    "#AIとWeb制作",
+    "#ホームページ戦略",
+    "#SEO対策"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "AIに",
+        "選ばれる",
+        "Webサイト",
+        "の作り方"
+      ],
+      "marker_line": 1,
+      "icon": "ti-robot"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==AI検索==に最適化せよ",
+      "sub": "LLM時代の新たなSEO戦略",
+      "icon": "ti-robot",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-triangle",
+          "title": "AIは==信頼性==を重視",
+          "text": "生成AIは、膨大な情報を学習し信頼できる情報源を引用・要約します。AIに選ばれるには、「一次情報だ」「専門性が高い」と判断できる構造とコンテンツが不可欠です。",
+          "compare": {
+            "left": {
+              "icon": "ti-x",
+              "label": "根拠不明な情報"
+            },
+            "right": {
+              "icon": "ti-check",
+              "label": "専門家の意見"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AIに**評価されない**サイトの特徴",
+          "items": [
+            {
+              "icon": "ti-ban",
+              "text": "根拠のない**推測ばかり**"
+            },
+            {
+              "icon": "ti-alert-triangle",
+              "text": "情報源が**不明確**"
+            },
+            {
+              "icon": "ti-refresh",
+              "text": "既存情報の**焼き直し**"
+            },
+            {
+              "icon": "ti-user-off",
+              "text": "著者の**専門性が見えない**"
+            }
+          ]
+        }
+      ],
+      "note": "AIは**「信頼できる情報源」**を常に探しています。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==構造化データ==で道標を",
+      "sub": "AIが理解しやすい情報設計",
+      "icon": "ti-code",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "icon": "ti-seo",
+          "title": "AIへの**「道標」**を設定",
+          "text": "構造化データとは、検索エンジンやAIがWebページの内容を正確に理解できるよう、特定の形式で情報をマークアップすること。AIは貴社サイトの情報を抽出し、生成AIの回答に引用しやすくなります。"
+        },
+        {
+          "type": "checklist",
+          "header": "FAQが**AI引用**の鍵",
+          "items": [
+            {
+              "icon": "ti-question-mark",
+              "text": "ユーザーの**疑問を網羅**"
+            },
+            {
+              "icon": "ti-check",
+              "text": "簡潔で**的確な回答**"
+            },
+            {
+              "icon": "ti-code",
+              "text": "構造化データと**連携**"
+            },
+            {
+              "icon": "ti-sparkles",
+              "text": "回答に**独自性**を加える"
+            }
+          ]
+        }
+      ],
+      "note": "正しく記述された構造化データは、AIにとって**高品質な情報源**となります。",
+      "note_icon": "ti-bulb"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "==一次情報==で差をつけろ",
+      "sub": "独自性と信頼性の構築",
+      "icon": "ti-file-text",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-sparkles",
+          "title": "**「一次情報」**の価値",
+          "text": "AIは既存情報の組み合わせは得意ですが、新しい価値は一次情報から生まれます。独自の調査データ、お客様の声、専門家の見解など、貴社だけが提供できる情報こそ、AIが引用したくなるコンテンツです。",
+          "compare": {
+            "left": {
+              "icon": "ti-refresh",
+              "label": "他社事例の要約"
+            },
+            "right": {
+              "icon": "ti-chart-bar",
+              "label": "自社調査データ"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "AIに**選ばれる**文章術",
+          "items": [
+            {
+              "icon": "ti-target-arrow",
+              "text": "結論から**明確に**書く"
+            },
+            {
+              "icon": "ti-list-check",
+              "text": "具体的な**事例やデータ**"
+            },
+            {
+              "icon": "ti-link",
+              "text": "信頼できる**参照元を明記**"
+            },
+            {
+              "icon": "ti-user",
+              "text": "誰が書いたか**明確にする**"
+            }
+          ]
+        }
+      ],
+      "note": "貴社独自の「生きた情報」が、AIによる**引用の決め手**となります。",
+      "note_icon": "ti-star"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-robot",
+          "text": "AIに**「信頼できる」**と認識されるサイト設計"
+        },
+        {
+          "icon": "ti-code",
+          "text": "構造化データと**FAQ**で情報伝達を最適化"
+        },
+        {
+          "icon": "ti-sparkles",
+          "text": "貴社独自の**一次情報**で価値を生む"
+        },
+        {
+          "icon": "ti-briefcase",
+          "text": "**プロのWeb制作会社**にご相談を"
+        }
+      ],
+      "cta": "AI時代を勝ち抜くWebサイトについて、ぜひ一度ご相談ください！"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIに選ばれるHP",
+    "theme": "AIに引用・推薦されるホームページの作り方",
+    "generatedAt": "2026-08-03T07:55:47.168Z",
+    "mock": false
+  }
+}
