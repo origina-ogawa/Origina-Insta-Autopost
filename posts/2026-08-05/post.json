@@ -1,0 +1,227 @@
+{
+  "caption": "AIツールの導入、検討していますか？「どれも同じ」と思っていませんか？\n実は、主要なAIツールであるChatGPT、Claude、Geminiは、それぞれ得意分野が全く違います。用途に合わないツールを選んでしまうと、期待通りの効果が得られないだけでなく、無駄なコストになってしまうことも。\n\n今回の投稿では、Web制作のプロ目線で、これら3つのAIツールの特徴と、あなたのビジネスに最適な賢い使い分けについて解説します。それぞれの強みを理解し、自社の課題解決に役立つAIを見つけるヒントになれば幸いです。\n\nこの投稿を参考に、AI導入で失敗しないための知識を身につけましょう。後から見返せるよう、ぜひ保存しておいてくださいね。",
+  "hashtags": [
+    "#AIツール活用",
+    "#ChatGPT",
+    "#Web制作のコツ"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "AIツールの",
+        "選び方、",
+        "間違って",
+        "いませんか？"
+      ],
+      "marker_line": 2,
+      "icon": "ti-robot"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "==ChatGPT==の強みと注意点",
+      "sub": "汎用性が高く、多様なタスクに対応",
+      "icon": "ti-robot",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "==情報の正確性==には要注意",
+          "text": "Web上の膨大なデータで学習しているため、一般的な質問やクリエイティブな文章生成に強いです。しかし、最新情報や専門性の高い分野では、誤った情報を生成する「ハルシネーション」のリスクがあります。最終確認は必須です。",
+          "compare": {
+            "left": {
+              "icon": "ti-mail-x",
+              "label": "丸投げ\n(情報確認なし)"
+            },
+            "right": {
+              "icon": "ti-zoom-check",
+              "label": "壁打ち\n(最終チェック)"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**用途**におすすめ",
+          "items": [
+            {
+              "icon": "ti-bulb",
+              "text": "アイデア**発想**の壁打ち"
+            },
+            {
+              "icon": "ti-file-text",
+              "text": "SNS投稿やブログ記事の**下書き**"
+            },
+            {
+              "icon": "ti-code",
+              "text": "簡単なプログラムコードの**生成**"
+            },
+            {
+              "icon": "ti-search",
+              "text": "一般的な情報の**要約**"
+            }
+          ]
+        }
+      ],
+      "note": "汎用性が高い反面、**専門性や正確性を求める場面**では注意が必要です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "==Claude==の特徴と活用法",
+      "sub": "大量のテキスト処理に強く、自然で丁寧な応答",
+      "icon": "ti-book",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-file-text",
+          "title": "**長い文書**の処理に強み",
+          "text": "Claudeは、特に長文の読解・要約・生成に優れています。契約書やレポートといった専門文書の分析、社内資料の作成補助など、丁寧で一貫性のある回答が求められるビジネスシーンで真価を発揮します。安定した応答が期待できます。",
+          "compare": {
+            "left": {
+              "icon": "ti-file-text",
+              "label": "長い文章の\n手動要約"
+            },
+            "right": {
+              "icon": "ti-clipboard-list",
+              "label": "AIによる\n高速分析"
+            }
+          }
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**場面**で活躍",
+          "items": [
+            {
+              "icon": "ti-file-check",
+              "text": "契約書やレポートの**要約**"
+            },
+            {
+              "icon": "ti-notes",
+              "text": "顧客対応メールの**作成支援**"
+            },
+            {
+              "icon": "ti-book",
+              "text": "社内マニュアルの**生成**"
+            },
+            {
+              "icon": "ti-mail",
+              "text": "丁寧な文章表現が**求められる**時"
+            }
+          ]
+        }
+      ],
+      "note": "**長文の読解や生成、丁寧なコミュニケーション**を重視するならClaudeが最適です。",
+      "note_icon": "ti-file-check"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "==Gemini==の可能性と利便性",
+      "sub": "テキストだけでなく、画像や音声も理解するマルチモーダルAI",
+      "icon": "ti-camera",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-device-desktop",
+          "title": "**Googleエコシステム**との連携",
+          "text": "Googleが提供するGeminiは、Google検索やGoogle Workspaceといった既存サービスとの連携が強み。テキストだけでなく画像や動画、音声などの情報を統合的に処理できるマルチモーダル能力は、今後の活用の幅を大きく広げるでしょう。"
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**ユニークな**活用法",
+          "items": [
+            {
+              "icon": "ti-photo",
+              "text": "画像から内容を**分析**"
+            },
+            {
+              "icon": "ti-chart-bar",
+              "text": "スプレッドシートの**データ分析**"
+            },
+            {
+              "icon": "ti-calendar",
+              "text": "会議議事録の**作成支援**"
+            },
+            {
+              "icon": "ti-browser",
+              "text": "Webコンテンツの**生成**"
+            }
+          ]
+        }
+      ],
+      "note": "**Googleサービスを多用**し、複合的な情報処理を求める企業には特に強力な選択肢です。",
+      "note_icon": "ti-link"
+    },
+    {
+      "type": "body",
+      "number": "04",
+      "title": "==状況別==AIツールの選び方",
+      "sub": "あなたのビジネスに最適なAIを見つけるヒント",
+      "icon": "ti-question-mark",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-target-arrow",
+          "title": "==目的==を明確にすることが重要",
+          "text": "AIツール選びで最も大切なのは、何を解決したいのか、どんな作業を効率化したいのかを明確にすることです。安易な導入は、効果の薄い投資になりがち。各ツールの特性を理解し、自社の課題にマッチするかを見極めましょう。"
+        },
+        {
+          "type": "checklist",
+          "header": "あなたの**課題**に合うのは？",
+          "items": [
+            {
+              "icon": "ti-robot",
+              "text": "幅広いタスクを**効率化**したい → ChatGPT"
+            },
+            {
+              "icon": "ti-file-text",
+              "text": "長文処理や丁寧な**表現** → Claude"
+            },
+            {
+              "icon": "ti-device-desktop",
+              "text": "Google連携や画像**分析** → Gemini"
+            },
+            {
+              "icon": "ti-sparkles",
+              "text": "まずは無料で**試して**みたい"
+            }
+          ]
+        }
+      ],
+      "note": "AIは万能ではありません。**自社の具体的な業務課題**と照らし合わせて選定しましょう。",
+      "note_icon": "ti-tool"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "ChatGPT: 汎用性が**高く**アイデア出しに"
+        },
+        {
+          "icon": "ti-check",
+          "text": "Claude: 長文処理と**丁寧さ**が強み"
+        },
+        {
+          "icon": "ti-check",
+          "text": "Gemini: マルチモーダル、Google連携が**魅力**"
+        },
+        {
+          "icon": "ti-check",
+          "text": "目的を明確にし、**最適な**ツールを選定"
+        }
+      ],
+      "cta": "貴社のWeb戦略にAIをどう組み込むか、プロにご相談ください。"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIサービスの選び方",
+    "theme": "ChatGPT・Claude・Geminiの違いと使い分け",
+    "generatedAt": "2026-08-05T07:10:40.262Z",
+    "mock": false
+  }
+}
