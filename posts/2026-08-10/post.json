@@ -1,0 +1,152 @@
+{
+  "caption": "「うちの会社、ChatGPTに載ってる？」そんな疑問、抱いていませんか？ 実は、AIが情報を拾いやすい会社とそうでない会社には、明確な差があります。その差を知らずに放置していると、未来の顧客獲得機会を大きく損失しているかもしれません。\nAIは、信頼性の高い**公式情報**、**深い専門性**、そして**情報の鮮度**を重視します。Webサイトが古い、情報が分散している、他社と似たような内容ばかり…もし心当たりがあるなら、それはAI検索に「載らない会社」の典型です。今すぐ改善に着手しなければ、競合との差は開く一方でしょう。\n本投稿で解説したポイントを参考に、自社のWeb戦略を見直してみてください。AIに「選ばれる会社」になるために、今すぐできることはたくさんあります。未来のビジネスチャンスを逃さないためにも、この投稿を**「保存」**して、いつでも見返せるようにしておきましょう！",
+  "hashtags": [
+    "#Web戦略",
+    "#AI活用",
+    "#中小企業支援"
+  ],
+  "slides": [
+    {
+      "type": "cover",
+      "title_lines": [
+        "AI検索で",
+        "差がつく",
+        "Web戦略"
+      ],
+      "marker_line": 2,
+      "icon": "ti-devices"
+    },
+    {
+      "type": "body",
+      "number": "01",
+      "title": "AIが==拾わない==情報源",
+      "sub": "分散した情報に価値なし",
+      "icon": "ti-mail-x",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-alert-circle",
+          "title": "それ、**要注意**です!",
+          "text": "ChatGPTやPerplexityは、信頼できる**公式情報**を重視します。会社概要やサービス内容がWebサイトにきちんとまとまっていないと、AIに正確に認識されません。"
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**リスク**があります",
+          "items": [
+            {
+              "icon": "ti-ban",
+              "text": "会社情報が**不明瞭**になる"
+            },
+            {
+              "icon": "ti-user-off",
+              "text": "AI検索で**認知**されない"
+            },
+            {
+              "icon": "ti-x",
+              "text": "誤った情報が**拡散**される恐れ"
+            },
+            {
+              "icon": "ti-shield-x",
+              "text": "信頼性を**損なう**可能性"
+            }
+          ]
+        }
+      ],
+      "note": "公式WebサイトはAIにとっての**名刺**です。",
+      "note_icon": "ti-file-search"
+    },
+    {
+      "type": "body",
+      "number": "02",
+      "title": "薄い情報は==埋もれる==",
+      "sub": "誰でも言える情報に価値なし",
+      "icon": "ti-brain",
+      "blocks": [
+        {
+          "type": "lead",
+          "icon": "ti-question-mark",
+          "title": "誰もが**書ける**内容で満足？",
+          "text": "AIは大量のデータを学習し、その中から**独自の視点や深い専門性**を持つ情報を優先します。表面的な内容では、競合との差別化は不可能です。"
+        },
+        {
+          "type": "compare",
+          "left": {
+            "icon": "ti-template",
+            "label": "悪い例\n(競合と同一)"
+          },
+          "right": {
+            "icon": "ti-target-arrow",
+            "label": "良い例\n(独自の見解)"
+          }
+        }
+      ],
+      "note": "AIに評価されるのは**深い洞察**です。",
+      "note_icon": "ti-book"
+    },
+    {
+      "type": "body",
+      "number": "03",
+      "title": "情報の==鮮度が命==",
+      "sub": "AIは常に最新を求めます",
+      "icon": "ti-clock",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "icon": "ti-refresh",
+          "title": "更新のないWebサイトは**死んだ**も同然",
+          "text": "AIは、情報がいつ更新されたかを重要な評価指標とします。数年前のブログ記事や古いお知らせでは、**現在のビジネス状況**を正しく反映できません。"
+        },
+        {
+          "type": "checklist",
+          "header": "こんな**デメリット**があります",
+          "items": [
+            {
+              "icon": "ti-history",
+              "text": "AIの**評価**が下がる"
+            },
+            {
+              "icon": "ti-trending-down",
+              "text": "検索順位が**低下**する"
+            },
+            {
+              "icon": "ti-alert-triangle",
+              "text": "古い情報で**誤解**を招く"
+            },
+            {
+              "icon": "ti-mail-x",
+              "text": "顧客からの**信頼**を失う"
+            }
+          ]
+        }
+      ],
+      "note": "Webサイトは**生きた情報源**であるべきです。",
+      "note_icon": "ti-calendar"
+    },
+    {
+      "type": "summary",
+      "title": "まとめ",
+      "items": [
+        {
+          "icon": "ti-check",
+          "text": "公式情報は**網羅的**に整備"
+        },
+        {
+          "icon": "ti-check",
+          "text": "**専門性**の高いコンテンツを"
+        },
+        {
+          "icon": "ti-check",
+          "text": "定期的な**情報更新**は必須"
+        }
+      ],
+      "cta": "AI検索で選ばれる企業へ、今すぐWebサイトを**見直しましょう**。"
+    }
+  ],
+  "meta": {
+    "brand": "own",
+    "category": "AIに選ばれるHP",
+    "theme": "ChatGPTやPerplexityに載る会社・載らない会社の違い",
+    "generatedAt": "2026-08-10T05:53:13.110Z",
+    "mock": false
+  }
+}
