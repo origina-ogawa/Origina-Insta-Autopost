@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const DIR_PATTERN = /^\d{4}-\d{2}-\d{2}-.+$/;
+export const DIR_PATTERN = /^\d{4}-\d{2}-\d{2}-.+$/;
 
 export function isPending(postsDir, name) {
   const dir = path.join(postsDir, name);
@@ -43,7 +43,7 @@ function main() {
   const postsDir = path.join(ROOT, 'posts');
 
   if (override) {
-    if (!isPending(postsDir, override)) {
+    if (!DIR_PATTERN.test(override) || !isPending(postsDir, override)) {
       console.error(
         `--dir で指定された "${override}" は未投稿の条件を満たしていません` +
           `(published.json が存在する、または inspection.md が合格になっていない可能性があります)`

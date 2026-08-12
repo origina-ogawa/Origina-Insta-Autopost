@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { scanPendingPosts, isPending } from './detect-pending.mjs';
+import { scanPendingPosts, isPending, DIR_PATTERN } from './detect-pending.mjs';
 
 function makeTempPostsDir() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'posts-test-'));
@@ -64,4 +64,12 @@ test('isPendingはinspection.mdが無ければfalse', () => {
   const postsDir = makeTempPostsDir();
   fs.mkdirSync(path.join(postsDir, '2026-08-13-no-inspection'), { recursive: true });
   assert.equal(isPending(postsDir, '2026-08-13-no-inspection'), false);
+});
+
+test('DIR_PATTERNは日付のみ(スラグ無し)を拒否し、日付-スラグ形式は受け入れる', () => {
+  // 旧形式（日付のみ）は常に除外される
+  assert.equal(DIR_PATTERN.test('2026-08-13'), false, '日付のみはマッチしない');
+  // 新形式（日付-スラグ）は受け入れられる
+  assert.equal(DIR_PATTERN.test('2026-08-13-test-slug'), true, '日付-スラグはマッチする');
+  assert.equal(DIR_PATTERN.test('2026-08-13-a'), true, '日付-スラグ(短いスラグ)はマッチする');
 });
