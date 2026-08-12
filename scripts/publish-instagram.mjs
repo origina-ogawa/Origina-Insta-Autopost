@@ -10,6 +10,7 @@ import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const POSTS_DIR = path.join(ROOT, 'posts');
+const DIR_PATTERN = /^\d{4}-\d{2}-\d{2}-[A-Za-z0-9-]+$/;
 // 「Instagramログインによる API設定」(IGAAで始まるトークン)は graph.facebook.com ではなく
 // graph.instagram.com を使う。Facebookページ経由の旧方式とはAPIのホストが異なる点に注意。
 const API = `https://graph.instagram.com/${process.env.GRAPH_API_VERSION || 'v23.0'}`;
@@ -73,6 +74,7 @@ async function notifyChatwork(message) {
 async function main() {
   const targetDir = parseDirArg(process.argv.slice(2));
   if (!targetDir) throw new Error('--dir <posts配下のフォルダ名> を指定してください');
+  if (!DIR_PATTERN.test(targetDir)) throw new Error(`--dir の形式が不正です(YYYY-MM-DD-slug形式のみ許可): ${targetDir}`);
 
   const { IG_USER_ID, IG_ACCESS_TOKEN, IMAGE_BASE_URL } = process.env;
   if (!IG_USER_ID || !IG_ACCESS_TOKEN) throw new Error('IG_USER_ID / IG_ACCESS_TOKEN が設定されていません');
@@ -80,6 +82,9 @@ async function main() {
 
   const dir = path.join(POSTS_DIR, targetDir);
   const post = JSON.parse(fs.readFileSync(path.join(dir, 'slides.json'), 'utf8'));
+  if (typeof post.caption !== 'string' || !post.caption.trim()) {
+    throw new Error(`posts/${targetDir}/slides.json に有効な caption がありません`);
+  }
   const images = listSlideImages(dir);
   if (images.length < 2) throw new Error('カルーセルには画像が2枚以上必要です');
 

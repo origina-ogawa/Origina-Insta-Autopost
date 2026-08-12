@@ -73,3 +73,16 @@ test('DIR_PATTERNは日付のみ(スラグ無し)を拒否し、日付-スラグ
   assert.equal(DIR_PATTERN.test('2026-08-13-test-slug'), true, '日付-スラグはマッチする');
   assert.equal(DIR_PATTERN.test('2026-08-13-a'), true, '日付-スラグ(短いスラグ)はマッチする');
 });
+
+test('DIR_PATTERNはパストラバーサルを含む値を拒否する', () => {
+  assert.equal(DIR_PATTERN.test('2026-08-13-a/../../tmp/x'), false, 'スラッシュを含む値は拒否する');
+  assert.equal(DIR_PATTERN.test('2026-08-13-../etc'), false, '..を含む値は拒否する');
+});
+
+test('inspector.mdのテンプレート行がそのまま残っている場合は合格扱いにしない', () => {
+  const postsDir = makeTempPostsDir();
+  const dir = path.join(postsDir, '2026-08-13-template-leftover');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'inspection.md'), '# 検収結果: 合格 / 不合格（第1回）\n');
+  assert.equal(isPending(postsDir, '2026-08-13-template-leftover'), false);
+});
