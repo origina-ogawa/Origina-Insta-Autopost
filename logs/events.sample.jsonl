@@ -1,0 +1,26 @@
+{"ts":"2026-08-12T16:36:46.730Z","actor":"pm","event":"start","phase":null,"ticket":"#101","target":null,"message":"新規Issueを受付、researcherへ委譲"}
+{"ts":"2026-08-12T16:36:46.775Z","actor":"researcher","event":"start","phase":"research","ticket":"#101","target":null,"message":"テーマ「Gemini API入門」のソース収集を開始"}
+{"ts":"2026-08-12T16:36:47.830Z","actor":"researcher","event":"progress","phase":"research","ticket":"#101","target":null,"message":"一次ソースを2件確保、続行中"}
+{"ts":"2026-08-12T16:36:48.888Z","actor":"researcher","event":"output","phase":"research","ticket":"#101","target":"sources/2026-08-13-gemini-api-tips.md","message":"一次ソース3件を確保"}
+{"ts":"2026-08-12T16:36:48.935Z","actor":"researcher","event":"handoff","phase":"research","ticket":"#101","target":null,"message":"directorへ引き継ぎ"}
+{"ts":"2026-08-12T16:36:48.984Z","actor":"director","event":"start","phase":"structure","ticket":"#101","target":null,"message":"スライド構成の検討を開始"}
+{"ts":"2026-08-12T16:36:50.035Z","actor":"director","event":"progress","phase":"structure","ticket":"#101","target":null,"message":"8枚構成のたたき台を作成中"}
+{"ts":"2026-08-12T16:36:50.083Z","actor":"director","event":"output","phase":"structure","ticket":"#101","target":"work/gemini-api-tips/structure.md","message":"スライド構成案(8枚)を提出"}
+{"ts":"2026-08-12T16:36:50.125Z","actor":"director","event":"blocked","phase":"structure","ticket":"#101","target":null,"message":"社長のテーマ承認待ち"}
+{"ts":"2026-08-12T16:36:51.184Z","actor":"director","event":"handoff","phase":"structure","ticket":"#101","target":null,"message":"承認が下りたためproducerへ引き継ぎ"}
+{"ts":"2026-08-12T16:36:51.227Z","actor":"producer","event":"start","phase":"produce","ticket":"#101","target":null,"message":"スライド文言の清書を開始"}
+{"ts":"2026-08-12T16:36:52.286Z","actor":"producer","event":"progress","phase":"produce","ticket":"#101","target":null,"message":"本文とチェックリストを生成中"}
+{"ts":"2026-08-12T16:36:52.329Z","actor":"producer","event":"output","phase":"produce","ticket":"#101","target":"work/gemini-api-tips/slides.json","message":"slides.jsonと画像を生成"}
+{"ts":"2026-08-12T16:36:52.374Z","actor":"producer","event":"handoff","phase":"produce","ticket":"#101","target":null,"message":"inspectorへ引き継ぎ"}
+{"ts":"2026-08-12T16:36:52.416Z","actor":"inspector","event":"start","phase":"inspect","ticket":"#101","target":null,"message":"ルーブリックでの検収を開始"}
+{"ts":"2026-08-12T16:36:53.488Z","actor":"inspector","event":"reject","phase":"inspect","ticket":"#101","target":"work/gemini-api-tips/slides.json","message":"4枚目が本文72字で上限(60字)超過。差し戻し"}
+{"ts":"2026-08-12T16:36:53.540Z","actor":"producer","event":"start","phase":"produce","ticket":"#101","target":null,"message":"指摘を受けて4枚目を修正"}
+{"ts":"2026-08-12T16:36:54.622Z","actor":"producer","event":"output","phase":"produce","ticket":"#101","target":"work/gemini-api-tips/slides.json","message":"4枚目を60字以内に修正して再提出"}
+{"ts":"2026-08-12T16:36:54.667Z","actor":"producer","event":"handoff","phase":"produce","ticket":"#101","target":null,"message":"inspectorへ再提出"}
+{"ts":"2026-08-12T16:36:54.717Z","actor":"inspector","event":"start","phase":"inspect","ticket":"#101","target":null,"message":"再検収を開始"}
+{"ts":"2026-08-12T16:36:55.771Z","actor":"inspector","event":"output","phase":"inspect","ticket":"#101","target":"posts/2026-08-13-gemini-api-tips/","message":"全項目合格、postsへ移動"}
+{"ts":"2026-08-12T16:36:55.819Z","actor":"inspector","event":"handoff","phase":"inspect","ticket":"#101","target":null,"message":"publisherへ引き継ぎ"}
+{"ts":"2026-08-12T16:36:55.866Z","actor":"publisher","event":"start","phase":"publish","ticket":"#101","target":null,"message":"Pull Requestの作成を開始"}
+{"ts":"2026-08-12T16:36:56.931Z","actor":"publisher","event":"output","phase":"publish","ticket":"#101","target":null,"message":"Pull Request(#55)を作成"}
+{"ts":"2026-08-12T16:36:56.980Z","actor":"publisher","event":"done","phase":"publish","ticket":"#101","target":null,"message":"配信作業完了、社長のマージ待ち"}
+{"ts":"2026-08-12T16:36:57.024Z","actor":"pm","event":"done","phase":null,"ticket":"#101","target":null,"message":"第5幕まで完了、社長のマージ承認待ちとして報告"}
