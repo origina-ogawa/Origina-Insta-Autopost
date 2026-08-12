@@ -4,3 +4,9 @@ output/
 .playwright-mcp/
 *.log
 .DS_Store
+work/
+node_modules/
+.env
+.DS_Store
+.superpowers/
+viewer/dist/

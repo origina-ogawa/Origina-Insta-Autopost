@@ -8,7 +8,10 @@
     "generate": "node src/generate.js",
     "render": "node src/render.js",
     "publish:ig": "node src/publish.js",
-    "post": "npm run generate && npm run render"
+    "post": "npm run generate && npm run render",
+    "detect-pending": "node scripts/detect-pending.mjs",
+    "publish:instagram": "node scripts/publish-instagram.mjs",
+    "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
