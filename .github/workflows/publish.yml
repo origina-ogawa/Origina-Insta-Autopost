@@ -1,0 +1,92 @@
+# posts/ への変更(検収合格→PR→mainマージ)をトリガーにInstagramへカルーセル投稿する。
+# 生成・画像化はここでは行わない。posts/<dir> に既に揃っているファイルを使って投稿するだけ。
+name: publish-instagram
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'posts/**'
+  workflow_dispatch:
+    inputs:
+      dir:
+        description: '投稿対象フォルダ名(例: 2026-08-13-ai-agent-basics)。未指定なら自動検出'
+        type: string
+        default: ''
+      dry_run:
+        description: '検出のみ行い、実際には投稿しない'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-instagram
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: 依存関係のインストール
+        run: npm ci
+
+      - name: 未投稿の検出
+        id: detect
+        run: |
+          if [ -n "${{ inputs.dir }}" ]; then
+            node scripts/detect-pending.mjs --dir "${{ inputs.dir }}"
+          else
+            node scripts/detect-pending.mjs
+          fi
+
+      - name: Instagramへ投稿
+        if: ${{ steps.detect.outputs.has_pending == 'true' && (github.event_name == 'push' || inputs.dry_run == false) }}
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IMAGE_BASE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/posts/${{ steps.detect.outputs.dir }}
+          CHATWORK_API_TOKEN: ${{ secrets.CHATWORK_API_TOKEN }}
+          CHATWORK_ROOM_ID: ${{ secrets.CHATWORK_ROOM_ID }}
+        run: node scripts/publish-instagram.mjs --dir "${{ steps.detect.outputs.dir }}"
+
+      # AGENTS.mdの「mainへの直接コミット禁止」の例外として扱う(投稿完了の機械的な記録のみ。
+      # 詳細は docs/superpowers/specs/2026-08-12-act5-publish-trigger-design.md 参照)
+      - name: 投稿完了を記録
+        id: commit
+        if: ${{ steps.detect.outputs.has_pending == 'true' && (github.event_name == 'push' || inputs.dry_run == false) }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "posts/${{ steps.detect.outputs.dir }}/published.json"
+          git commit -m "投稿完了記録: ${{ steps.detect.outputs.dir }}"
+          success=false
+          for i in 1 2 3; do
+            if git push; then
+              success=true
+              break
+            fi
+            echo "push失敗、リトライします ($i/3)"
+            git pull --rebase
+            sleep 5
+          done
+          if [ "$success" != "true" ]; then
+            echo "::error::published.jsonのpushに失敗しました。手動で posts/${{ steps.detect.outputs.dir }}/published.json を作成してください"
+            exit 1
+          fi
+
+      - name: 記録失敗をChatworkに通知
+        if: ${{ steps.commit.outcome == 'failure' }}
+        run: |
+          curl -s -X POST "https://api.chatwork.com/v2/rooms/${{ secrets.CHATWORK_ROOM_ID }}/messages" \
+            -H "X-ChatWorkToken: ${{ secrets.CHATWORK_API_TOKEN }}" \
+            --data-urlencode "body=[info][title]Instagram自動投稿 記録失敗[/title]投稿は成功した可能性がありますが published.json の記録に失敗しました。手動で posts/${{ steps.detect.outputs.dir }}/published.json を作成してください。[/info]"
