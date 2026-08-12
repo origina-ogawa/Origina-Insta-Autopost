@@ -41,6 +41,11 @@ tools: Read, Write, Bash, Glob, Grep
 `work/<slug>/` の必要ファイルを `posts/YYYY-MM-DD-<slug>/` へ移動する。
 移動するのは、実際に投稿に使うファイルだけ。途中の試作は `work/` に残す。
 
+`posts/YYYY-MM-DD-<slug>/` には以下を必ず揃えること(投稿トリガーのスクリプトがこの形を前提にしている)。
+- `slides.json`(`work/<slug>/slides.json` をそのまま)
+- `slide-1.png` `slide-2.png` ... のように、`images/` サブディレクトリに入れず直下へ番号順に並べたPNG
+- `inspection.md`(この検収結果ファイル)
+
 ## 3回目の不合格
 
 同じ Issue で3回不合格になったら、**そこで止めて PM に報告する**。
