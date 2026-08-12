@@ -2,6 +2,7 @@ import { Billboard, Text } from "@react-three/drei";
 import { ACTORS, ACTOR_COLORS, ACTOR_LABELS, DESK_POSITIONS, PALETTE, type ActorId } from "../theme";
 import { Desk } from "./Desk";
 import { Avatar } from "./Avatar";
+import { OutputStack } from "./OutputStack";
 import type { ActorState } from "../state/officeState";
 
 // 顔にかぶらないよう、頭上ではなく机の手前側(客側の縁)に立てる名札。
@@ -30,8 +31,9 @@ export function Office({ actors }: { actors: Record<ActorId, ActorState> }) {
           <group key={actor} position={[pos.x, 0, pos.z]} rotation={[0, pos.rotY, 0]}>
             <Desk />
             <NameSign actor={actor} />
+            <OutputStack count={actors[actor].outputCount} />
             <group position={[0, 0, 0.55]}>
-              <Avatar color={ACTOR_COLORS[actor]} state={actors[actor]} />
+              <Avatar actor={actor} color={ACTOR_COLORS[actor]} state={actors[actor]} />
             </group>
           </group>
         );

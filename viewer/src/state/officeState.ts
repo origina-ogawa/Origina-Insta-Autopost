@@ -1,6 +1,8 @@
 import { useReducer } from "react";
 import { ACTORS, type ActorId } from "../theme";
-import { useEventPolling, type LogEvent } from "../lib/eventLog";
+import { useEventLog, type LogEvent } from "../lib/eventLog";
+
+const KNOWN_EVENTS = new Set(["start", "progress", "output", "handoff", "blocked", "reject", "done"]);
 
 export type ActorState = {
   phase: string | null;
@@ -9,6 +11,8 @@ export type ActorState = {
   ticket: string | null;
   target: string | null;
   active: boolean;
+  /** outputイベントを受け取った回数。机の上に積む紙の枚数に使う */
+  outputCount: number;
   /** イベントを受け取るたびに増える値。同じevent種別が連続してもアニメーションを再トリガーするために使う */
   seq: number;
 };
@@ -25,6 +29,7 @@ const INITIAL_ACTOR_STATE: ActorState = {
   ticket: null,
   target: null,
   active: false,
+  outputCount: 0,
   seq: 0,
 };
 
@@ -40,12 +45,13 @@ function isKnownActor(actor: string): actor is ActorId {
 
 const RECENT_EVENTS_LIMIT = 8;
 
+// logs/SCHEMA.mdにない未知のactor/eventは無視して続行する(表示層を落とさない)。
 function reduce(state: OfficeState, events: LogEvent[]): OfficeState {
   let actors = state.actors;
   let recentEvents = state.recentEvents;
 
   for (const ev of events) {
-    if (!isKnownActor(ev.actor)) continue; // "system"等のフックログは表示対象外
+    if (!isKnownActor(ev.actor) || !KNOWN_EVENTS.has(ev.event)) continue;
 
     const prevActor = actors[ev.actor];
     actors = {
@@ -57,6 +63,7 @@ function reduce(state: OfficeState, events: LogEvent[]): OfficeState {
         ticket: ev.ticket,
         target: ev.target,
         active: ev.event !== "done",
+        outputCount: prevActor.outputCount + (ev.event === "output" ? 1 : 0),
         seq: prevActor.seq + 1,
       },
     };
@@ -67,9 +74,9 @@ function reduce(state: OfficeState, events: LogEvent[]): OfficeState {
   return { actors, recentEvents };
 }
 
-// logs/events.jsonl をポーリングし、actorごとの最新状態と直近イベント一覧を保持する。
+// logs/events.jsonl を購読し、actorごとの最新状態と直近イベント一覧を保持する。
 export function useOfficeState(): OfficeState {
   const [state, dispatch] = useReducer(reduce, undefined, initialState);
-  useEventPolling(dispatch);
+  useEventLog(dispatch);
   return state;
 }

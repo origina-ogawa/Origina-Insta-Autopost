@@ -1,42 +1,92 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Billboard, Text } from "@react-three/drei";
+import * as THREE from "three";
 import type { Group, Mesh, MeshStandardMaterial } from "three";
-import { PALETTE } from "../theme";
+import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, type ActorId } from "../theme";
 import type { ActorState } from "../state/officeState";
 
 const SHOE_COLOR = "#6B5638";
 const IDLE_GRAY = "#B9B0A4";
+const BLOCKED_DIM = 0.35; // blocked(待機姿勢)のとき、色を少し白側へ寄せて落ち着かせる
 const REJECT_RED = "#E14B3A";
+const DONE_OPACITY = 0.4; // done(退勤)でのフェードアウト先の不透明度
 const BUBBLE_MS = 4000;
-const START_ANIM_MS = 450;
-const REJECT_ANIM_MS = 700;
+const TWEEN_MS = 700; // 動きは控えめに。ease-in-out、0.5〜1秒の範囲
+const LEAN_DISTANCE = 0.4; // handoff/rejectで身を乗り出す距離(控えめ)
 
-function easeOutBack(t: number) {
-  const c1 = 1.70158;
-  const c3 = c1 + 1;
-  return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+// 0→1→0の山型(出て戻る動き・フラッシュ用)。ease-in-outで滑らかにする
+function pulse(t: number) {
+  const folded = t < 0.5 ? t * 2 : (1 - t) * 2;
+  return easeInOutCubic(folded);
+}
+
+type ScaleAnim = { start: number; from: number; to: number };
+type LeanAnim = { start: number; dir: { x: number; z: number } };
+type OpacityAnim = { start: number; from: number; to: number };
+
 // ローポリのチビキャラをプリミティブだけで組み立てる(外部モデル不使用)。
-// logs/SCHEMA.md の7イベントに応じて、着席の弾み(start)・吹き出し(progress/output/handoff/reject/blocked)・
-// 赤フラッシュ(reject)・状態バッジ(blocked/done)を演出する。
-export function Avatar({ color, state }: { color: string; state: ActorState }) {
-  const bodyProps = { roughness: 0.8, metalness: 0 } as const;
-  const skinProps = { color: PALETTE.skin, roughness: 0.75, metalness: 0 } as const;
-  const bodyColor = state.active ? color : IDLE_GRAY;
+// logs/SCHEMA.md の7イベントに応じて、控えめな動き(ease-in-out, 0.5〜1秒)で反応する。
+export function Avatar({ actor, color, state }: { actor: ActorId; color: string; state: ActorState }) {
+  const bodyColor = useMemo(() => {
+    const base = state.active ? color : IDLE_GRAY;
+    if (state.event === "blocked") {
+      return new THREE.Color(base).lerp(new THREE.Color("#ffffff"), BLOCKED_DIM).getStyle();
+    }
+    return base;
+  }, [state.active, state.event, color]);
+
+  // 胴体・腕・脚・頭・手で素材を共有し、doneのフェードアウトを少ない参照で制御できるようにする
+  const bodyMaterial = useMemo(
+    () => new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0, transparent: true }),
+    [],
+  );
+  const skinMaterial = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: PALETTE.skin, roughness: 0.75, metalness: 0, transparent: true }),
+    [],
+  );
+  useEffect(() => {
+    bodyMaterial.color.set(bodyColor);
+  }, [bodyMaterial, bodyColor]);
 
   const groupRef = useRef<Group>(null);
   const flashRef = useRef<Mesh>(null);
   const flashMatRef = useRef<MeshStandardMaterial>(null);
-  const startAnimStart = useRef<number | null>(null);
-  const rejectAnimStart = useRef<number | null>(null);
+
+  const scaleAnim = useRef<ScaleAnim | null>(null);
+  const leanAnim = useRef<LeanAnim | null>(null);
+  const rejectFlashAnim = useRef<number | null>(null);
+  const opacityAnim = useRef<OpacityAnim | null>(null);
+  const opacityTarget = useRef(1);
+
   const [bubble, setBubble] = useState<string | null>(null);
 
   useEffect(() => {
     if (state.seq === 0) return;
-    if (state.event === "start") startAnimStart.current = performance.now();
-    if (state.event === "reject") rejectAnimStart.current = performance.now();
+
+    if (state.event === "start") {
+      scaleAnim.current = { start: performance.now(), from: 0.85, to: 1 };
+    }
+    if (state.event === "handoff") {
+      const dir = LEAN_TO_NEXT[actor];
+      if (dir) leanAnim.current = { start: performance.now(), dir };
+    }
+    if (state.event === "reject") {
+      rejectFlashAnim.current = performance.now();
+      const dir = LEAN_TO_PREV[actor];
+      if (dir) leanAnim.current = { start: performance.now(), dir };
+    }
+
+    const nextOpacityTarget = state.event === "done" ? DONE_OPACITY : 1;
+    if (nextOpacityTarget !== opacityTarget.current) {
+      opacityAnim.current = { start: performance.now(), from: bodyMaterial.opacity, to: nextOpacityTarget };
+      opacityTarget.current = nextOpacityTarget;
+    }
+
     if (state.message) {
       setBubble(state.message);
       const id = setTimeout(() => setBubble(null), BUBBLE_MS);
@@ -48,18 +98,38 @@ export function Avatar({ color, state }: { color: string; state: ActorState }) {
   useFrame(() => {
     const now = performance.now();
 
-    if (groupRef.current && startAnimStart.current !== null) {
-      const t = Math.min(1, (now - startAnimStart.current) / START_ANIM_MS);
-      groupRef.current.scale.setScalar(0.7 + 0.3 * easeOutBack(t));
-      if (t >= 1) startAnimStart.current = null;
+    if (groupRef.current) {
+      if (scaleAnim.current) {
+        const { start, from, to } = scaleAnim.current;
+        const t = Math.min(1, (now - start) / TWEEN_MS);
+        groupRef.current.scale.setScalar(from + (to - from) * easeInOutCubic(t));
+        if (t >= 1) scaleAnim.current = null;
+      }
+      if (leanAnim.current) {
+        const { start, dir } = leanAnim.current;
+        const t = Math.min(1, (now - start) / TWEEN_MS);
+        const amount = pulse(t) * LEAN_DISTANCE;
+        groupRef.current.position.x = dir.x * amount;
+        groupRef.current.position.z = dir.z * amount;
+        if (t >= 1) leanAnim.current = null;
+      }
+    }
+
+    if (opacityAnim.current) {
+      const { start, from, to } = opacityAnim.current;
+      const t = Math.min(1, (now - start) / TWEEN_MS);
+      const val = from + (to - from) * easeInOutCubic(t);
+      bodyMaterial.opacity = val;
+      skinMaterial.opacity = val;
+      if (t >= 1) opacityAnim.current = null;
     }
 
     if (flashRef.current && flashMatRef.current) {
-      if (rejectAnimStart.current !== null) {
-        const t = Math.min(1, (now - rejectAnimStart.current) / REJECT_ANIM_MS);
-        flashMatRef.current.opacity = Math.sin(t * Math.PI) * 0.6;
+      if (rejectFlashAnim.current !== null) {
+        const t = Math.min(1, (now - rejectFlashAnim.current) / TWEEN_MS);
+        flashMatRef.current.opacity = pulse(t) * 0.6;
         flashRef.current.visible = true;
-        if (t >= 1) rejectAnimStart.current = null;
+        if (t >= 1) rejectFlashAnim.current = null;
       } else {
         flashRef.current.visible = false;
       }
@@ -69,9 +139,8 @@ export function Avatar({ color, state }: { color: string; state: ActorState }) {
   return (
     <group ref={groupRef} position={[0, 0.32, 0]}>
       {/* 胴体 */}
-      <mesh position={[0, 0.55, 0]} castShadow>
+      <mesh position={[0, 0.55, 0]} material={bodyMaterial} castShadow>
         <boxGeometry args={[0.62, 0.62, 0.4]} />
-        <meshStandardMaterial color={bodyColor} {...bodyProps} />
       </mesh>
 
       {/* reject時に一瞬だけ赤く光らせるオーバーレイ */}
@@ -81,9 +150,8 @@ export function Avatar({ color, state }: { color: string; state: ActorState }) {
       </mesh>
 
       {/* 頭 */}
-      <mesh position={[0, 1.15, 0]} castShadow>
+      <mesh position={[0, 1.15, 0]} material={skinMaterial} castShadow>
         <sphereGeometry args={[0.4, 16, 16]} />
-        <meshStandardMaterial {...skinProps} />
       </mesh>
 
       {/* 目(白目+黒目のハイライト)。手・机と同じ-z側(顔の正面)に置く */}
@@ -121,18 +189,15 @@ export function Avatar({ color, state }: { color: string; state: ActorState }) {
       {/* 腕: 肩→肘→机の上の手、という2関節で「机」側(-z方向)へ伸ばす */}
       {[-1, 1].map((sign) => (
         <group key={sign}>
-          <mesh position={[sign * 0.36, 0.65, -0.08]} rotation={[0.8, 0, sign * 0.1]} castShadow>
+          <mesh position={[sign * 0.36, 0.65, -0.08]} rotation={[0.8, 0, sign * 0.1]} material={bodyMaterial} castShadow>
             <boxGeometry args={[0.15, 0.3, 0.15]} />
-            <meshStandardMaterial color={bodyColor} {...bodyProps} />
           </mesh>
-          <mesh position={[sign * 0.32, 0.53, -0.23]} rotation={[1.15, 0, sign * 0.05]} castShadow>
+          <mesh position={[sign * 0.32, 0.53, -0.23]} rotation={[1.15, 0, sign * 0.05]} material={bodyMaterial} castShadow>
             <boxGeometry args={[0.14, 0.26, 0.14]} />
-            <meshStandardMaterial color={bodyColor} {...bodyProps} />
           </mesh>
           {/* 手(机の上に置く) */}
-          <mesh position={[sign * 0.28, 0.48, -0.32]} castShadow>
+          <mesh position={[sign * 0.28, 0.48, -0.32]} material={skinMaterial} castShadow>
             <sphereGeometry args={[0.1, 10, 10]} />
-            <meshStandardMaterial {...skinProps} />
           </mesh>
         </group>
       ))}
@@ -140,9 +205,8 @@ export function Avatar({ color, state }: { color: string; state: ActorState }) {
       {/* 脚(靴先まで。机の陰に隠れる想定だが、形としては持たせる) */}
       {[-1, 1].map((sign) => (
         <group key={sign}>
-          <mesh position={[sign * 0.16, 0.2, 0.05]} castShadow>
+          <mesh position={[sign * 0.16, 0.2, 0.05]} material={bodyMaterial} castShadow>
             <boxGeometry args={[0.2, 0.4, 0.2]} />
-            <meshStandardMaterial color={bodyColor} {...bodyProps} />
           </mesh>
           <mesh position={[sign * 0.16, 0.02, 0.16]} castShadow>
             <boxGeometry args={[0.2, 0.12, 0.32]} />

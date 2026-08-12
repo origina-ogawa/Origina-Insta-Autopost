@@ -43,17 +43,26 @@ npm --prefix viewer run build   # 型チェック + 本番ビルド
 
 ## `logs/events.jsonl` の反映内容(`logs/SCHEMA.md` の7イベント)
 
+動きはすべて控えめ(ease-in-out、0.5〜0.7秒)。過剰な演出は入れていない。
+
 | event | 演出 |
 |---|---|
-| `start` | 着席の弾みアニメーション、色がアクティブ(担当色)になる |
-| `progress` / `output` / `handoff` | 頭上に吹き出しで `message` を表示(4秒で自動的に消える) |
-| `blocked` | 吹き出しが消えた後、頭の脇に「!」バッジが残る |
-| `reject` | 一瞬だけ体が赤くフラッシュする + 吹き出しで理由を表示 |
-| `done` | 色がアイドル(グレー)に戻り、頭の脇に「✓」バッジが残る |
+| `start` | 着席の弾み(スケールがふわっと1になる)、色がアクティブ(担当色)になる |
+| `progress` | 頭上に吹き出しで `message` を表示(4秒で自動的に消える) |
+| `output` | 吹き出し表示 + 机の上に紙が1枚増える + アクティビティログ(成果物モニター)に`target`のファイル名付きで1行追加 |
+| `handoff` | 吹き出し表示 + 次の社員(researcher→director→producer→inspector→publisher)の方向へ控えめに身を乗り出して戻る |
+| `blocked` | 色が少し白っぽくくすむ(待機姿勢)+ 吹き出しが消えた後、頭の脇に「!」バッジが残る |
+| `reject` | 体が赤くフラッシュする + 差し戻し先(1つ前の社員)の方向へ身を乗り出して戻る + 吹き出しで理由を表示 |
+| `done` | 不透明度が下がってフェードアウト(退勤)+ 色がアイドル(グレー)に戻り、頭の脇に「✓」バッジが残る |
+
+`handoff`/`reject` の「次の社員」「差し戻し先」は `logs/SCHEMA.md` に明示的な宛先フィールドが無いため、
+`researcher→director→producer→inspector→publisher` という固定の幕の流れから推測している(`src/theme.ts` の
+`PIPELINE_NEXT`/`PIPELINE_PREV`)。
 
 ページを開いた瞬間に過去の全イベントを一気に反映するため、同一社員の中間状態(例:
 `start`→`progress`→`output` のうち `output` 以外)は表示されず、**各社員の最終状態のみ**が
-一度に反映される(吹き出しは最終イベントの `message` のみ表示される)。イベントが1件ずつ
+一度に反映される(吹き出しは最終イベントの `message` のみ表示される。ただし机の上の紙の枚数は
+`output` イベントの累計回数を保持しているため、中間分も反映される)。イベントが1件ずつ
 リアルタイムで届く実運用では、これらの演出がそれぞれ個別に発火する。
 
 ## 構成
@@ -68,14 +77,18 @@ viewer/
     App.tsx           3D Canvas + オーバーレイの土台、useOfficeStateを起動
     theme.ts            配色・actor一覧・机の配置(単一の情報源)
     lib/
-      eventLog.ts          logs/events.jsonl のポーリング取得(useEventPolling)
+      eventLog.ts          logs/events.jsonl の取得。パース(parseNewEvents)と取得方式
+                             (fetchPollingSource)を分離し、将来fs.watch+WebSocketに
+                             差し替えられる構造にしている
     state/
-      officeState.ts        actorごとの最新状態・直近イベント一覧を保持するreducer
+      officeState.ts        actorごとの最新状態(outputCount含む)・直近イベント一覧を保持するreducer。
+                             未知のactor/eventは無視する
     scene/
       Scene.tsx            Canvas・カメラ・ライティング
       Room.tsx              床(畳グリッド)・壁
       Desk.tsx               木製デスク
       Avatar.tsx              ローポリのチビキャラ(顔・腕・手・脚、イベント演出)
+      OutputStack.tsx          outputイベントで積み上がる紙
       Office.tsx               机のレイアウトと名札
     ui/
       Overlay.tsx              4パネルの配置
@@ -97,6 +110,6 @@ node ../scripts/emit-event.mjs --actor researcher --event start --phase research
 ## 今できていないこと(既知の制限)
 
 - ネット上へのデプロイは未対応(ローカル専用)
-- `handoff` イベントで実際に隣の机へ何かが飛ぶような演出はまだ無い(吹き出しのメッセージのみ)
+- `handoff`/`reject` は「身を乗り出す」動きのみで、机の間を実際に紙が飛んでいくような演出は無い
 - 実際の `researcher`/`director` 等の本番イベントはまだ本番の `logs/events.jsonl` に記録されていない
   (各エージェントが `scripts/emit-event.mjs` を呼ぶ運用に乗ってから確認できる)

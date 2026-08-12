@@ -43,3 +43,50 @@ export const DESK_POSITIONS: Record<ActorId, { x: number; z: number; rotY: numbe
   inspector: { x: 3.4, z: 1.8, rotY: -Math.PI * 0.85 },
   publisher: { x: 6.2, z: -1, rotY: -Math.PI * 0.7 },
 };
+
+// logs/SCHEMA.md に明示的な宛先フィールドが無いため、固定の幕の流れから推測する。
+// handoff(次の社員へ)と reject(差し戻し先へ)の両方向で使う。
+export const PIPELINE_NEXT: Record<ActorId, ActorId | null> = {
+  pm: null,
+  researcher: "director",
+  director: "producer",
+  producer: "inspector",
+  inspector: "publisher",
+  publisher: null,
+};
+
+export const PIPELINE_PREV: Record<ActorId, ActorId | null> = {
+  pm: null,
+  researcher: null,
+  director: "researcher",
+  producer: "director",
+  inspector: "producer",
+  publisher: "inspector",
+};
+
+/** actorから見たtargetの方向を、actor自身のローカル座標系(机の正面=-z)に変換した単位ベクトル */
+function localDirectionTo(actor: ActorId, target: ActorId | null): { x: number; z: number } | null {
+  if (!target) return null;
+  const from = DESK_POSITIONS[actor];
+  const to = DESK_POSITIONS[target];
+  const dx = to.x - from.x;
+  const dz = to.z - from.z;
+  const len = Math.hypot(dx, dz) || 1;
+  const ndx = dx / len;
+  const ndz = dz / len;
+  const theta = from.rotY;
+  return {
+    x: ndx * Math.cos(theta) - ndz * Math.sin(theta),
+    z: ndx * Math.sin(theta) + ndz * Math.cos(theta),
+  };
+}
+
+// handoffで少し身を乗り出す方向(次の社員側)/rejectで少し向き直る方向(差し戻し先側)。
+// 起動時に一度だけ計算する(机の配置は固定のため)。
+export const LEAN_TO_NEXT: Record<ActorId, { x: number; z: number } | null> = Object.fromEntries(
+  ACTORS.map((actor) => [actor, localDirectionTo(actor, PIPELINE_NEXT[actor])]),
+) as Record<ActorId, { x: number; z: number } | null>;
+
+export const LEAN_TO_PREV: Record<ActorId, { x: number; z: number } | null> = Object.fromEntries(
+  ACTORS.map((actor) => [actor, localDirectionTo(actor, PIPELINE_PREV[actor])]),
+) as Record<ActorId, { x: number; z: number } | null>;
