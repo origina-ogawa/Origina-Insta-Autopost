@@ -1,13 +1,14 @@
 import { Canvas } from "@react-three/fiber";
 import { Room } from "./Room";
 import { Office } from "./Office";
+import type { OfficeState } from "../state/officeState";
 
 // アイソメトリック調のローポリ表現。俯瞰45度前後の固定カメラで、パースは弱め(FOVを絞って擬似アイソに寄せる)。
 // カメラは固定で、ユーザーが回転させる操作は付けない。
 const CAMERA_POSITION: [number, number, number] = [0, 15, 17.5];
 const CAMERA_FOV = 24;
 
-export function Scene() {
+export function Scene({ office }: { office: OfficeState }) {
   return (
     <Canvas
       shadows
@@ -25,7 +26,7 @@ export function Scene() {
       />
       <ambientLight intensity={0.35} />
       <Room />
-      <Office />
+      <Office actors={office.actors} />
     </Canvas>
   );
 }

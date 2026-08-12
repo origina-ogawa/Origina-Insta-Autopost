@@ -1,7 +1,8 @@
 import { Billboard, Text } from "@react-three/drei";
-import { ACTORS, ACTOR_COLORS, ACTOR_LABELS, DESK_POSITIONS, PALETTE } from "../theme";
+import { ACTORS, ACTOR_COLORS, ACTOR_LABELS, DESK_POSITIONS, PALETTE, type ActorId } from "../theme";
 import { Desk } from "./Desk";
 import { Avatar } from "./Avatar";
+import type { ActorState } from "../state/officeState";
 
 // 顔にかぶらないよう、頭上ではなく机の手前側(客側の縁)に立てる名札。
 // 机ごとに向きが異なるため、常にカメラの方を向くBillboardにして文字が裏返らないようにする
@@ -19,8 +20,8 @@ function NameSign({ actor }: { actor: (typeof ACTORS)[number] }) {
   );
 }
 
-// 半円状に並んだ6卓のオフィス。社員は全員着席の静止ポーズ(このステップではアニメーションなし)。
-export function Office() {
+// 半円状に並んだ6卓のオフィス。logs/events.jsonl の状態に応じて各社員が反応する。
+export function Office({ actors }: { actors: Record<ActorId, ActorState> }) {
   return (
     <group>
       {ACTORS.map((actor) => {
@@ -30,7 +31,7 @@ export function Office() {
             <Desk />
             <NameSign actor={actor} />
             <group position={[0, 0, 0.55]}>
-              <Avatar color={ACTOR_COLORS[actor]} />
+              <Avatar color={ACTOR_COLORS[actor]} state={actors[actor]} />
             </group>
           </group>
         );

@@ -80,6 +80,7 @@ body,
 .panel--activity {
   align-self: end;
   justify-self: start;
+  max-width: 340px;
 }
 
 .panel--legend {
@@ -123,6 +124,43 @@ body,
 .legend-swatches li {
   display: flex;
   align-items: center;
+}
+
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.activity-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.activity-icon {
+  flex: none;
+  width: 16px;
+  text-align: center;
+}
+
+.activity-actor {
+  flex: none;
+  font-weight: bold;
+  color: var(--ink);
+}
+
+.activity-message {
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .placeholder-note {

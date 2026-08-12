@@ -9,8 +9,9 @@ description: 3Dオフィス表示層(viewer/)を起動して、AI社員の作業
 
 ## 実装状況
 
-表示層(3Dオフィス、`viewer/`)は**見た目のみ実装済み**(2026-08-13、和室ジオラマ調に刷新)。
-`logs/events.jsonl` の読み込み・イベントに応じたアニメーションは未実装で、社員は全員着席の静止状態。
+表示層(3Dオフィス、`viewer/`)は**実装済み**(2026-08-13、和室ジオラマ調)。
+`logs/events.jsonl` を2秒間隔でポーリングし、`start/progress/output/handoff/blocked/reject/done` の
+7イベントに応じてキャラクターが反応する(吹き出し・状態バッジ・赤フラッシュ等)。
 設計は `docs/superpowers/specs/2026-08-13-office-viewer-design.md` を参照。
 
 ## いま行うこと
