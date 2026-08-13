@@ -23,7 +23,7 @@ function baseCss(c) {
 
   .card { background: #fff; border-radius: 14px; flex: 1;
     padding: 26px 34px 22px; display: flex; flex-direction: column; gap: 16px; min-height: 0;
-    position: relative; }
+    position: relative; overflow: hidden; }
   .card.has-character .panel { padding-right: 320px; }
   /* キャラクター表示時はパネル横幅が狭くなる分、行数が増えても収まるよう文字を一回り小さくする */
   .card.has-character .para { font-size: 40px; line-height: 1.4; }
@@ -53,7 +53,8 @@ function baseCss(c) {
 
   .body-character { position: absolute; right: 16px; bottom: 0;
     max-width: 280px; max-height: 460px; width: auto; height: auto;
-    object-fit: contain; object-position: bottom; z-index: 2; }
+    object-fit: contain; object-position: bottom; z-index: 2;
+    mix-blend-mode: multiply; }
   .cover-character { position: absolute; right: 10px; bottom: 0;
     max-width: 360px; max-height: 620px; width: auto; height: auto;
     object-fit: contain; object-position: bottom; }
@@ -106,7 +107,8 @@ function baseCss(c) {
 
   .cover-body { flex: 1; display: flex; flex-direction: column; justify-content: center;
     padding: 20px 30px; position: relative; }
-  .cover-title { font-size: 96px; font-weight: 900; line-height: 1.3; max-width: 520px; }
+  .cover-title { font-size: 96px; font-weight: 900; line-height: 1.3; }
+  .cover-body.has-character .cover-title { max-width: 520px; }
   .cover-title .marker-line { background: linear-gradient(transparent 68%, ${c.yellow} 68%); }
   .cover-visual { position: absolute; right: 40px; bottom: 30px; font-size: 200px;
     color: ${c.primary}; opacity: 0.92; display: flex; align-items: flex-end; gap: 4px; }
@@ -181,7 +183,7 @@ export function coverSlide(brand, headerTitle, slide, characterUri) {
         <div class="x-badge"><i class="ti ti-x"></i></div></div>`;
   const body = `
     ${header(headerTitle)}
-    <div class="card"><div class="cover-body">
+    <div class="card"><div class="cover-body${characterUri ? ' has-character' : ''}">
       <div class="cover-title">${lines}</div>
       ${visual}
     </div></div>

@@ -115,8 +115,10 @@ async function main() {
   if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY が設定されていません');
   const poseArgIndex = process.argv.indexOf('--pose');
   const targetId = poseArgIndex !== -1 ? Number(process.argv[poseArgIndex + 1]) : null;
-  const targets = targetId ? POSES.filter((p) => p.id === targetId) : POSES;
-  if (targetId && targets.length === 0) throw new Error(`--pose ${targetId} は存在しません(1〜${POSES.length}を指定してください)`);
+  if (poseArgIndex !== -1 && !POSES.some((p) => p.id === targetId)) {
+    throw new Error(`--pose ${process.argv[poseArgIndex + 1]} は存在しません(1〜${POSES.length}を指定してください)`);
+  }
+  const targets = targetId !== null ? POSES.filter((p) => p.id === targetId) : POSES;
 
   for (const pose of targets) {
     await generatePose(pose);

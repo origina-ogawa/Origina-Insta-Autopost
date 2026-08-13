@@ -43,6 +43,9 @@ async function main() {
 // character.enabled が true なのに列挙されたファイルが無ければ、壊れたスライドを作る前に止める。
 function loadCharacterPoseUris(character) {
   if (!character?.enabled) return [];
+  if (!character.dir || !Array.isArray(character.poses)) {
+    throw new Error(`character.enabled が true ですが character.dir / character.poses が未設定です(config/brand.${BRAND}.jsonを確認してください)`);
+  }
   return character.poses.map((file) => {
     const relativePath = path.join(character.dir, file);
     if (!fs.existsSync(path.join(ROOT, relativePath))) {
