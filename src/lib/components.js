@@ -24,7 +24,17 @@ function baseCss(c) {
   .card { background: #fff; border-radius: 14px; flex: 1;
     padding: 26px 34px 22px; display: flex; flex-direction: column; gap: 16px; min-height: 0;
     position: relative; }
-  .card.has-character .panel { padding-right: 300px; }
+  .card.has-character .panel { padding-right: 320px; }
+  /* キャラクター表示時はパネル横幅が狭くなる分、行数が増えても収まるよう文字を一回り小さくする */
+  .card.has-character .para { font-size: 40px; line-height: 1.4; }
+  .card.has-character .lead { margin-bottom: 28px; }
+  .card.has-character .lead b { font-size: 36px; }
+  .card.has-character .compare { margin-top: 32px; padding: 30px 20px; }
+  .card.has-character .compare .item { font-size: 24px; }
+  .card.has-character .compare .item i { font-size: 58px; margin-bottom: 8px; }
+  .card.has-character .pill { font-size: 22px; margin-bottom: 24px; }
+  .card.has-character .check-item { font-size: 32px; padding: 18px 22px; }
+  .card.has-character .check-item .cbox { width: 48px; height: 48px; font-size: 26px; }
 
   .title-row { display: flex; gap: 24px; align-items: center; }
   .no { position: relative; flex-shrink: 0; width: 76px; height: 76px; background: ${c.primary};
@@ -41,9 +51,11 @@ function baseCss(c) {
     border-radius: 50%; background: ${c.primary}; color: #fff; font-size: 26px;
     display: flex; align-items: center; justify-content: center; }
 
-  .body-character { position: absolute; right: 16px; bottom: 0; height: 460px; width: auto;
+  .body-character { position: absolute; right: 16px; bottom: 0;
+    max-width: 280px; max-height: 460px; width: auto; height: auto;
     object-fit: contain; object-position: bottom; z-index: 2; }
-  .cover-character { position: absolute; right: 10px; bottom: 0; height: 620px; width: auto;
+  .cover-character { position: absolute; right: 10px; bottom: 0;
+    max-width: 360px; max-height: 620px; width: auto; height: auto;
     object-fit: contain; object-position: bottom; }
 
   .body-grid { display: flex; flex-direction: column; flex: 1; min-height: 0; }
@@ -94,7 +106,7 @@ function baseCss(c) {
 
   .cover-body { flex: 1; display: flex; flex-direction: column; justify-content: center;
     padding: 20px 30px; position: relative; }
-  .cover-title { font-size: 96px; font-weight: 900; line-height: 1.3; }
+  .cover-title { font-size: 96px; font-weight: 900; line-height: 1.3; max-width: 520px; }
   .cover-title .marker-line { background: linear-gradient(transparent 68%, ${c.yellow} 68%); }
   .cover-visual { position: absolute; right: 40px; bottom: 30px; font-size: 200px;
     color: ${c.primary}; opacity: 0.92; display: flex; align-items: flex-end; gap: 4px; }
