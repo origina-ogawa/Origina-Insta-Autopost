@@ -4,7 +4,7 @@
 
 **Goal:** カルーセルの表紙・本文スライド右下に、使い回し可能な解説キャラクター(ポーズ違い6種)を配置する。
 
-**Architecture:** 参考画像(`assets/mirai01.png`/`assets/mirai-ad.png`)をもとに、新規スクリプトでGemini画像生成モデル(`gemini-2.5-flash-image`)からポーズ違い画像を6枚事前生成し `assets/character/` にコミットする。自動投稿フロー(`npm run render`)は画像生成を行わず、この6枚をスライド順に割り当てて埋め込むだけ。`config/brand.own.json` の `character` 設定で有効・無効を切り替えられ、無効時は従来のアイコン表示にフォールバックする。
+**Architecture:** 参考画像(`assets/mirai01.png`/`assets/mirai-ad.png`)をもとに、新規スクリプトでGemini画像生成モデル(`gemini-3.1-flash-image`)からポーズ違い画像を6枚事前生成し `assets/character/` にコミットする。自動投稿フロー(`npm run render`)は画像生成を行わず、この6枚をスライド順に割り当てて埋め込むだけ。`config/brand.own.json` の `character` 設定で有効・無効を切り替えられ、無効時は従来のアイコン表示にフォールバックする。
 
 **Tech Stack:** Node.js 20以上 / ESM。新規npmパッケージの追加なし(既存の`fetch`・`GEMINI_API_KEY`を流用)。テストは既存と同じNode組み込み `node --test`。
 
@@ -177,7 +177,7 @@ function isRetryable(err) {
 }
 
 async function callGeminiImageOnce(promptText) {
-  const model = 'gemini-2.5-flash-image';
+  const model = 'gemini-3.1-flash-image';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`;
   const parts = [
     { text: promptText },

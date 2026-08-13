@@ -47,7 +47,7 @@ function isRetryable(err) {
 }
 
 async function callGeminiImageOnce(promptText) {
-  const model = 'gemini-2.5-flash-image';
+  const model = 'gemini-3.1-flash-image';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`;
   const parts = [
     { text: promptText },
