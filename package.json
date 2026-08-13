@@ -11,6 +11,7 @@
     "post": "npm run generate && npm run render",
     "detect-pending": "node scripts/detect-pending.mjs",
     "publish:instagram": "node scripts/publish-instagram.mjs",
+    "slides-to-post": "node scripts/slides-to-post.mjs",
     "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
