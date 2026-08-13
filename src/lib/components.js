@@ -16,73 +16,74 @@ function baseCss(c) {
   .accent { color: ${c.red}; font-weight: 700; }
   .marker { background: linear-gradient(transparent 62%, ${c.yellow} 62%); font-weight: 900; }
 
-  .header { display: flex; align-items: center; gap: 16px; padding: 8px 4px 20px; }
-  .header .warn { width: 52px; height: 52px; border-radius: 10px; background: ${c.yellow};
-    display: flex; align-items: center; justify-content: center; font-size: 34px; color: ${c.primary}; }
-  .header h1 { color: #fff; font-size: 32px; font-weight: 900; letter-spacing: 1px; }
+  .header { display: flex; align-items: center; gap: 14px; padding: 6px 4px 16px; }
+  .header .warn { width: 44px; height: 44px; border-radius: 10px; background: ${c.yellow};
+    display: flex; align-items: center; justify-content: center; font-size: 28px; color: ${c.primary}; }
+  .header h1 { color: #fff; font-size: 26px; font-weight: 900; letter-spacing: 1px; }
 
   .card { background: #fff; border-radius: 14px; flex: 1;
-    padding: 30px 38px 24px; display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+    padding: 26px 34px 22px; display: flex; flex-direction: column; gap: 16px; min-height: 0; }
 
-  .title-row { display: flex; gap: 30px; align-items: flex-start; }
-  .no { position: relative; flex-shrink: 0; width: 84px; height: 84px; background: ${c.primary};
-    color: #fff; font-size: 46px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
-  .no::after { content: ''; position: absolute; right: -14px; bottom: -14px;
-    width: 84px; height: 84px; background: ${c.yellow}; z-index: -1; }
+  .title-row { display: flex; gap: 24px; align-items: center; }
+  .no { position: relative; flex-shrink: 0; width: 76px; height: 76px; background: ${c.primary};
+    color: #fff; font-size: 40px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+  .no::after { content: ''; position: absolute; right: -12px; bottom: -12px;
+    width: 76px; height: 76px; background: ${c.yellow}; z-index: -1; }
   .title-main { min-width: 0; }
-  .title-main h2 { font-size: 48px; font-weight: 900; line-height: 1.35; }
-  .title-sub { font-size: 23px; font-weight: 500; margin-top: 10px; color: #33415c; line-height: 1.6; }
+  .title-main h2 { font-size: 44px; font-weight: 900; line-height: 1.3; }
   .title-visual { margin-left: auto; flex-shrink: 0; }
-  .big-ic { width: 150px; height: 150px; border: 5px solid ${c.primary}; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 80px; color: ${c.primary};
+  .big-ic { width: 120px; height: 120px; border: 5px solid ${c.primary}; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 64px; color: ${c.primary};
     position: relative; background: #fff; }
-  .big-ic .badge { position: absolute; right: -12px; bottom: -6px; width: 56px; height: 56px;
-    border-radius: 50%; background: ${c.primary}; color: #fff; font-size: 32px;
+  .big-ic .badge { position: absolute; right: -10px; bottom: -4px; width: 46px; height: 46px;
+    border-radius: 50%; background: ${c.primary}; color: #fff; font-size: 26px;
     display: flex; align-items: center; justify-content: center; }
 
-  .body-grid { display: flex; gap: 26px; flex: 1; min-height: 0; }
-  .col { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 20px; min-width: 0; }
-  .panel { background: ${c.panel}; border-radius: 14px; padding: 24px 28px; }
+  .body-grid { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .panel { background: ${c.panel}; border-radius: 18px; padding: 40px 44px;
+    flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .panel.light { background: ${c.panelLight}; }
 
-  .lead { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-  .lead .ic { width: 54px; height: 54px; border-radius: 50%; background: ${c.primary}; color: #fff;
-    display: flex; align-items: center; justify-content: center; font-size: 32px; flex-shrink: 0; }
-  .lead b { font-size: 30px; font-weight: 900; }
-  .para { font-size: 22px; line-height: 1.75; font-weight: 500; }
+  .lead { display: flex; align-items: center; gap: 22px; margin-bottom: 44px; }
+  .lead .ic { width: 92px; height: 92px; border-radius: 50%; background: ${c.primary}; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 50px; flex-shrink: 0; }
+  .lead b { font-size: 46px; font-weight: 900; }
+  .para { font-size: 54px; line-height: 1.45; font-weight: 700; }
 
-  .compare { margin-top: 16px; background: #fff; border: 2px dashed #b9c2d4; border-radius: 12px;
-    padding: 16px 18px; display: flex; align-items: center; justify-content: space-around; gap: 8px; }
-  .compare .item { text-align: center; font-size: 20px; font-weight: 700; line-height: 1.4; }
-  .compare .item i { font-size: 44px; display: block; margin-bottom: 6px; }
-  .compare .ne { font-size: 40px; font-weight: 900; }
+  .compare { margin-top: 56px; background: #fff; border: 2px dashed #b9c2d4; border-radius: 18px;
+    padding: 48px 24px; display: flex; align-items: center; justify-content: space-around; gap: 8px; }
+  .compare .item { text-align: center; font-size: 32px; font-weight: 700; line-height: 1.35; }
+  .compare .item i { font-size: 84px; display: block; margin-bottom: 14px; }
+  .compare .ne { font-size: 52px; font-weight: 900; }
 
-  .pill { background: ${c.primary}; color: #fff; border-radius: 999px; font-size: 20px;
-    font-weight: 700; text-align: center; padding: 10px 14px; margin-bottom: 16px; }
+  .pill { background: ${c.primary}; color: #fff; border-radius: 999px; font-size: 28px;
+    font-weight: 700; text-align: center; padding: 14px 20px; margin-bottom: 36px; }
   .pill .marker { background: none; color: ${c.yellow}; font-weight: 900; }
   .pill .accent { color: ${c.yellow}; }
-  .check-item { display: flex; align-items: flex-start; gap: 14px; font-size: 20px;
-    font-weight: 700; line-height: 1.5; margin-bottom: 14px; }
-  .check-item:last-child { margin-bottom: 0; }
-  .check-item .cbox { width: 40px; height: 40px; border-radius: 8px; background: ${c.primary};
-    color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .checklist-items { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
+  .check-item { display: flex; align-items: center; gap: 22px; font-size: 42px;
+    font-weight: 700; line-height: 1.35; background: #fff; border-radius: 14px;
+    padding: 24px 28px; box-shadow: 0 2px 8px rgba(22, 41, 77, 0.08); }
+  .check-item .cbox { width: 64px; height: 64px; border-radius: 12px; background: ${c.primary};
+    color: #fff; display: flex; align-items: center; justify-content: center; font-size: 34px; flex-shrink: 0; }
 
-  .summary { background: ${c.cream}; border-radius: 14px; padding: 18px 28px;
-    display: flex; align-items: center; gap: 22px; }
-  .summary .ok { width: 60px; height: 60px; border-radius: 50%; border: 5px solid ${c.primary};
-    display: flex; align-items: center; justify-content: center; font-size: 36px; color: ${c.yellow};
+  .summary { background: ${c.cream}; border-radius: 14px; padding: 22px 28px;
+    display: flex; align-items: center; gap: 18px; }
+  .summary .ok { width: 54px; height: 54px; border-radius: 50%; border: 5px solid ${c.primary};
+    display: flex; align-items: center; justify-content: center; font-size: 30px; color: ${c.yellow};
     flex-shrink: 0; background: #fff; }
-  .summary p { font-size: 23px; font-weight: 700; line-height: 1.6; }
-  .summary .side-ic { margin-left: auto; font-size: 60px; color: ${c.primary}; flex-shrink: 0; }
+  .summary p { font-size: 27px; font-weight: 700; line-height: 1.5; }
+  .summary .side-ic { margin-left: auto; font-size: 52px; color: ${c.primary}; flex-shrink: 0; }
 
-  .footer { display: flex; align-items: center; gap: 22px; padding: 16px 8px 0; }
-  .footer .bulb { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #fff;
+  .footer { display: flex; align-items: center; gap: 18px; padding: 12px 8px 0; }
+  .footer .bulb { width: 52px; height: 52px; border-radius: 50%; border: 3px solid #fff;
     color: ${c.yellow}; display: flex; align-items: center; justify-content: center;
-    font-size: 36px; flex-shrink: 0; }
-  .footer p { color: #fff; font-size: 23px; font-weight: 700; line-height: 1.6; }
+    font-size: 30px; flex-shrink: 0; }
+  .footer p { color: #fff; font-size: 20px; font-weight: 700; line-height: 1.5; }
   .footer .marker { background: none; color: ${c.yellow}; }
   .footer .accent { color: ${c.yellow}; }
-  .footer .swipe { margin-left: auto; color: #fff; font-family: 'Caveat', cursive; font-size: 44px; }
+  .footer .swipe { margin-left: auto; color: #fff; font-family: 'Caveat', cursive; font-size: 38px; }
 
   .cover-body { flex: 1; display: flex; flex-direction: column; justify-content: center;
     padding: 20px 30px; position: relative; }
@@ -93,15 +94,14 @@ function baseCss(c) {
   .cover-visual .x-badge { width: 90px; height: 90px; border-radius: 50%; background: ${c.primary};
     color: #fff; font-size: 52px; display: flex; align-items: center; justify-content: center; }
 
-  .sum-title { font-size: 56px; font-weight: 900; text-align: center; padding: 10px 0 4px; }
-  .sum-list { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px;
-    background: ${c.panel}; border-radius: 14px; padding: 28px 40px; }
-  .sum-list .check-item { font-size: 25px; margin-bottom: 10px; }
+  .sum-title { font-size: 60px; font-weight: 900; text-align: center; padding: 10px 0 4px; }
+  .sum-list { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px;
+    background: ${c.panel}; border-radius: 18px; padding: 44px 48px; }
 
   .brand-body { flex: 1; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 48px; padding: 20px 40px; text-align: center; }
-  .brand-tagline { font-size: 58px; font-weight: 900; line-height: 1.4; }
-  .brand-logo { max-width: 620px; max-height: 340px; object-fit: contain; }
+    justify-content: center; gap: 56px; padding: 20px 40px; text-align: center; }
+  .brand-tagline { font-size: 68px; font-weight: 900; line-height: 1.4; }
+  .brand-logo { max-width: 720px; max-height: 400px; object-fit: contain; }
   `;
 }
 
@@ -134,7 +134,7 @@ function renderBlock(block) {
       return `<div class="panel">${compareHtml(block)}</div>`;
     case 'checklist':
       return `<div class="panel light">${block.header ? `<div class="pill">${rich(block.header)}</div>` : ''}
-        ${(block.items || []).map((it) => `<div class="check-item"><div class="cbox"><i class="ti ${safeIcon(it.icon)}"></i></div><div>${rich(it.text)}</div></div>`).join('')}</div>`;
+        <div class="checklist-items">${(block.items || []).map((it) => `<div class="check-item"><div class="cbox"><i class="ti ${safeIcon(it.icon)}"></i></div><div>${rich(it.text)}</div></div>`).join('')}</div></div>`;
     default:
       return `<div class="panel"><p class="para">${rich(block.text || '')}</p></div>`;
   }
@@ -170,24 +170,17 @@ export function coverSlide(brand, headerTitle, slide) {
 /** 本文スライド(番号 + タイトル + 部品を左右2カラムに自動配置 + まとめ帯) */
 export function bodySlide(brand, headerTitle, slide) {
   const blocks = (slide.blocks || []).map(renderBlock);
-  const left = blocks.filter((_, i) => i % 2 === 0).join('');
-  const right = blocks.filter((_, i) => i % 2 === 1).join('');
-  const grid = blocks.length >= 2
-    ? `<div class="body-grid"><div class="col">${left}</div><div class="col">${right}</div></div>`
-    : `<div class="body-grid"><div class="col">${blocks.join('')}</div></div>`;
+  const grid = `<div class="body-grid"><div class="col">${blocks.join('')}</div></div>`;
   const body = `
     ${header(headerTitle)}
     <div class="card">
       <div class="title-row">
         <div class="no">${esc(slide.number || '')}</div>
-        <div class="title-main"><h2>${richTitle(slide.title)}</h2>
-          ${slide.sub ? `<div class="title-sub">${rich(slide.sub)}</div>` : ''}</div>
+        <div class="title-main"><h2>${richTitle(slide.title)}</h2></div>
         <div class="title-visual"><div class="big-ic"><i class="ti ${safeIcon(slide.icon)}"></i>
           <div class="badge"><i class="ti ti-question-mark"></i></div></div></div>
       </div>
       ${grid}
-      ${slide.note ? `<div class="summary"><div class="ok"><i class="ti ti-check"></i></div>
-        <p>${rich(slide.note)}</p><i class="ti ${safeIcon(slide.note_icon)} side-ic"></i></div>` : ''}
     </div>
     ${footer(brand)}`;
   return page(brand, body);
