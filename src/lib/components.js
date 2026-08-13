@@ -22,7 +22,9 @@ function baseCss(c) {
   .header h1 { color: #fff; font-size: 26px; font-weight: 900; letter-spacing: 1px; }
 
   .card { background: #fff; border-radius: 14px; flex: 1;
-    padding: 26px 34px 22px; display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+    padding: 26px 34px 22px; display: flex; flex-direction: column; gap: 16px; min-height: 0;
+    position: relative; }
+  .card.has-character .panel { padding-right: 300px; }
 
   .title-row { display: flex; gap: 24px; align-items: center; }
   .no { position: relative; flex-shrink: 0; width: 76px; height: 76px; background: ${c.primary};
@@ -38,6 +40,11 @@ function baseCss(c) {
   .big-ic .badge { position: absolute; right: -10px; bottom: -4px; width: 46px; height: 46px;
     border-radius: 50%; background: ${c.primary}; color: #fff; font-size: 26px;
     display: flex; align-items: center; justify-content: center; }
+
+  .body-character { position: absolute; right: 16px; bottom: 0; height: 460px; width: auto;
+    object-fit: contain; object-position: bottom; z-index: 2; }
+  .cover-character { position: absolute; right: 10px; bottom: 0; height: 620px; width: auto;
+    object-fit: contain; object-position: bottom; }
 
   .body-grid { display: flex; flex-direction: column; flex: 1; min-height: 0; }
   .col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
@@ -150,37 +157,43 @@ function compareHtml(cmp) {
 const stripInlineMarkup = (s) => String(s ?? '').replace(/\*\*(.+?)\*\*/g, '$1').replace(/==(.+?)==/g, '$1');
 
 /** 表紙スライド */
-export function coverSlide(brand, headerTitle, slide) {
+export function coverSlide(brand, headerTitle, slide, characterUri) {
   const lines = (slide.title_lines || []).map((line, i) =>
     i === (slide.marker_line ?? 0)
       ? `<span class="marker-line">${esc(stripInlineMarkup(line))}</span>`
       : esc(stripInlineMarkup(line))
   ).join('<br>');
+  const visual = characterUri
+    ? `<img class="cover-character" src="${characterUri}" alt="">`
+    : `<div class="cover-visual"><i class="ti ${safeIcon(slide.icon)}"></i>
+        <div class="x-badge"><i class="ti ti-x"></i></div></div>`;
   const body = `
     ${header(headerTitle)}
     <div class="card"><div class="cover-body">
       <div class="cover-title">${lines}</div>
-      <div class="cover-visual"><i class="ti ${safeIcon(slide.icon)}"></i>
-        <div class="x-badge"><i class="ti ti-x"></i></div></div>
+      ${visual}
     </div></div>
     ${footer(brand)}`;
   return page(brand, body);
 }
 
-/** 本文スライド(番号 + タイトル + 部品を左右2カラムに自動配置 + まとめ帯) */
-export function bodySlide(brand, headerTitle, slide) {
+/** 本文スライド(番号 + タイトル + 1要素のブロック + キャラクター) */
+export function bodySlide(brand, headerTitle, slide, characterUri) {
   const blocks = (slide.blocks || []).map(renderBlock);
   const grid = `<div class="body-grid"><div class="col">${blocks.join('')}</div></div>`;
+  const topicIcon = `<div class="title-visual"><div class="big-ic"><i class="ti ${safeIcon(slide.icon)}"></i>
+    <div class="badge"><i class="ti ti-question-mark"></i></div></div></div>`;
+  const character = characterUri ? `<img class="body-character" src="${characterUri}" alt="">` : '';
   const body = `
     ${header(headerTitle)}
-    <div class="card">
+    <div class="card${characterUri ? ' has-character' : ''}">
       <div class="title-row">
         <div class="no">${esc(slide.number || '')}</div>
         <div class="title-main"><h2>${richTitle(slide.title)}</h2></div>
-        <div class="title-visual"><div class="big-ic"><i class="ti ${safeIcon(slide.icon)}"></i>
-          <div class="badge"><i class="ti ti-question-mark"></i></div></div></div>
+        ${characterUri ? '' : topicIcon}
       </div>
       ${grid}
+      ${character}
     </div>
     ${footer(brand)}`;
   return page(brand, body);
@@ -216,8 +229,8 @@ export function brandSlide(brand, headerTitle, logoDataUri) {
 }
 
 /** post.json のスライド1枚をHTML文字列に変換する */
-export function renderSlide(brand, headerTitle, slide) {
-  if (slide.type === 'cover') return coverSlide(brand, headerTitle, slide);
+export function renderSlide(brand, headerTitle, slide, characterUri) {
+  if (slide.type === 'cover') return coverSlide(brand, headerTitle, slide, characterUri);
   if (slide.type === 'summary') return summarySlide(brand, headerTitle, slide);
-  return bodySlide(brand, headerTitle, slide);
+  return bodySlide(brand, headerTitle, slide, characterUri);
 }
