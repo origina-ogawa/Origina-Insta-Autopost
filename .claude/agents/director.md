@@ -53,3 +53,12 @@ tools: Read, Write, Bash, Glob
 
 これは waiting の幕です。**PM に構成案を渡して停止する。**
 社長の承認なしに第3幕へ進んではならない。
+
+## 記録
+
+`structure.md` を書き出したら output、社長の承認待ちで停止するときは blocked を記録する。
+
+```
+node scripts/emit-event.mjs --actor director --event output --phase structure --target work/<slug>/structure.md --message "構成案8枚"
+node scripts/emit-event.mjs --actor director --event blocked --phase structure --ticket <Issue番号> --message "社長のテーマ承認待ち"
+```
