@@ -50,3 +50,13 @@ tools: Read, Write, Bash, Glob, Grep
 
 同じ Issue で3回不合格になったら、**そこで止めて PM に報告する**。
 4回目を試みてはならない。ルーブリックか構成案に構造的な問題がある可能性が高い。
+
+## 記録
+
+不合格なら reject(差し戻し理由を message に、対象ファイルを target に)、
+合格して `posts/` へ移動したら done を記録する。
+
+```
+node scripts/emit-event.mjs --actor inspector --event reject --phase inspect --target work/<slug>/slides.json --message "4枚目が72字。上限超過(第N回)"
+node scripts/emit-event.mjs --actor inspector --event done --phase inspect --target posts/YYYY-MM-DD-<slug>/ --message "検収合格(第N回)"
+```

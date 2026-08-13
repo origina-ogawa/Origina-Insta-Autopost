@@ -49,3 +49,12 @@ tools: Read, Write, Bash, Glob
 
 Issue のラベルを `waiting` にして停止する。
 **マージは社長のみが行う。**
+
+## 記録
+
+PR を作成したら output(target に PR の URL)、Issue を `waiting` にして停止したら done を記録する。
+
+```
+node scripts/emit-event.mjs --actor publisher --event output --phase publish --target https://github.com/<org>/<repo>/pull/<番号> --message "PR作成"
+node scripts/emit-event.mjs --actor publisher --event done --phase publish --ticket <Issue番号> --message "社長の承認待ち"
+```
