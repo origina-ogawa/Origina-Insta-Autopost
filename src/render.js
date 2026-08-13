@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { renderSlide, brandSlide } from './lib/components.js';
+import { assignCharacterPoses } from './lib/characterPoses.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT_DIR = path.join(ROOT, 'output');
@@ -15,12 +16,15 @@ async function main() {
   const brand = JSON.parse(fs.readFileSync(path.join(ROOT, `config/brand.${BRAND}.json`), 'utf8'));
   const headerTitle = post.header_title || post.slides.find((s) => s.type === 'cover')?.title_lines?.join('') || 'お役立ち情報';
 
+  const poseUris = loadCharacterPoseUris(brand.character);
+  const characterUris = assignCharacterPoses(post.slides, poseUris);
+
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1080 } });
 
-  const htmlSlides = post.slides.map((slide) => renderSlide(brand, headerTitle, slide));
+  const htmlSlides = post.slides.map((slide, i) => renderSlide(brand, headerTitle, slide, characterUris[i]));
   if (brand.brandSlide?.enabled) {
-    htmlSlides.push(brandSlide(brand, headerTitle, loadLogoDataUri(brand.brandSlide.logo)));
+    htmlSlides.push(brandSlide(brand, headerTitle, loadImageDataUri(brand.brandSlide.logo)));
   }
 
   for (let i = 0; i < htmlSlides.length; i++) {
@@ -36,11 +40,23 @@ async function main() {
   console.log(`完了: ${htmlSlides.length}枚のスライドを生成しました`);
 }
 
-function loadLogoDataUri(relativePath) {
-  const logoPath = path.join(ROOT, relativePath);
-  const ext = path.extname(logoPath).slice(1).toLowerCase();
+// character.enabled が true なのに列挙されたファイルが無ければ、壊れたスライドを作る前に止める。
+function loadCharacterPoseUris(character) {
+  if (!character?.enabled) return [];
+  return character.poses.map((file) => {
+    const relativePath = path.join(character.dir, file);
+    if (!fs.existsSync(path.join(ROOT, relativePath))) {
+      throw new Error(`キャラクター画像が見つかりません: ${relativePath}(config/brand.${BRAND}.jsonのcharacter.posesを確認してください)`);
+    }
+    return loadImageDataUri(relativePath);
+  });
+}
+
+function loadImageDataUri(relativePath) {
+  const imgPath = path.join(ROOT, relativePath);
+  const ext = path.extname(imgPath).slice(1).toLowerCase();
   const mime = ext === 'jpg' ? 'jpeg' : ext || 'png';
-  const base64 = fs.readFileSync(logoPath).toString('base64');
+  const base64 = fs.readFileSync(imgPath).toString('base64');
   return `data:image/${mime};base64,${base64}`;
 }
 
