@@ -50,14 +50,16 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
   "hashtags": ["#タグ1", "#タグ2", "#タグ3"],  // 必ず3個以内。関連性の高いものだけを厳選する
   "slides": [
     { "type": "cover", "title_lines": ["1行目", "2行目", "3行目"], "marker_line": 0, "icon": "ti-devices" },
-    { "type": "body", "number": "01", "title": "==強調部分==を含む見出し", "sub": "補足1〜2行", "icon": "ti-mail-x",
+    { "type": "body", "number": "01", "title": "==強調部分==を含む見出し", "icon": "ti-mail-x",
       "blocks": [
-        { "type": "lead", "icon": "ti-alert-circle", "title": "それ、**要注意**です!", "text": "本文80〜120文字",
-          "compare": { "left": {"icon": "ti-template", "label": "悪い例\\n(補足)"}, "right": {"icon": "ti-target-arrow", "label": "良い例\\n(補足)"} } },
+        { "type": "lead", "icon": "ti-alert-circle", "title": "それ、**要注意**です!", "text": "本文20〜35文字",
+          "compare": { "left": {"icon": "ti-template", "label": "悪い例"}, "right": {"icon": "ti-target-arrow", "label": "良い例"} } }
+      ] },
+    { "type": "body", "number": "02", "title": "==強調部分==を含む見出し", "icon": "ti-list-check",
+      "blocks": [
         { "type": "checklist", "header": "こんな**リスク**があります",
-          "items": [ {"icon": "ti-lock", "text": "項目。**強調**を1箇所"}, {"icon": "ti-users", "text": "..."} ] }
-      ],
-      "note": "このスライドのまとめ1文。**強調**を1箇所", "note_icon": "ti-file-search" },
+          "items": [ {"icon": "ti-lock", "text": "項目。**強調**を1箇所"}, {"icon": "ti-users", "text": "..."}, {"icon": "ti-users", "text": "..."} ] }
+      ] },
     { "type": "summary", "title": "まとめ", "items": [ {"icon": "ti-check", "text": "要点1"} ],
       "cta": "行動を促す1文" }
   ]
@@ -66,11 +68,14 @@ ${topic.points ? `切り口の候補: ${topic.points}` : ''}
 # ルール
 - slidesは「cover 1枚 → body 3〜4枚 → summary 1枚」の合計5〜6枚
 - coverのtitle_linesは1行8文字以内で2〜4行。**装飾記法(**/==)は使わない**、プレーンな文字列のみ。黄色マーカーは marker_line(行番号・0始まり)で指定する
-- bodyのblocksは**必ず各スライド2個(1個や3個は不可)**。組み合わせ例: lead+checklist、paragraph+checklist、lead+compare など毎回変化をつける
-- checklistのitemsは3〜4個。iconは項目の内容に合ったものを選ぶ
+- bodyのblocksは**必ず各スライド1個(2個は不可)**。type は "lead"(compareは必須。省略不可)か "checklist" のどちらか。同じtypeが2枚以上連続しないように交互に変化をつける
+- bodyスライドに sub・note は付けない(タイトルとblockだけのシンプル構成にする)
+- checklistのitemsは必ず3個(2個や4個は不可)。iconは項目の内容に合ったものを選ぶ
+- スライドのtitleとchecklist.headerは**必ず違う文言**にする(同じ言い回しを繰り返さない)
 - 強調記法: **文字** = 赤字強調 / ==文字== = 黄色マーカー。1要素につき1箇所まで
 - iconは必ず次のリストから選ぶ: ${iconListForPrompt()}
-- 文字数を守る(長すぎるとデザインが崩れます)。タイトルは18文字以内、checklist項目は28文字以内
+- 文字数を必ず守る(長すぎるとデザインが崩れます)。タイトルは18文字以内、leadのtextは20〜35文字、checklist項目は14文字以内
+- スライドは一瞬で読み流されるため、文章は短く言い切る。単語や短いフレーズで十分、文章にしない
 - 誇張・断定しすぎる表現、特定企業への言及、医療・法律・金融の断定的アドバイスは避ける
 - hashtagsは**必ず3個以内**(Instagramは2025年末以降、少数・高関連タグを推奨。汎用タグの大量付与は逆効果)`;
 }
