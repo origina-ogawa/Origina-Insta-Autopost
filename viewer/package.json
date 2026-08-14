@@ -4,10 +4,14 @@
   "private": true,
   "type": "module",
   "description": "logs/events.jsonl を読み取って AI社員のオフィスを3Dで可視化するローカル専用ビューア(和室ジオラマ調)",
+  "engines": {
+    "node": ">=22.6"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",

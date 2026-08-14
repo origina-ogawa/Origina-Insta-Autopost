@@ -13,7 +13,7 @@ const EVENT_LABEL: Record<string, string> = {
 
 export function StatusPanel({ actors }: { actors: Record<(typeof ACTORS)[number], ActorState> }) {
   return (
-    <section className="panel panel--status">
+    <section className="panel">
       <h2>社員ステータス</h2>
       <ul className="status-list">
         {ACTORS.map((actor) => {

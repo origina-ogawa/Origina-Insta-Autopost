@@ -3,17 +3,24 @@ import { useFrame } from "@react-three/fiber";
 import { Billboard, Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { Group, Mesh, MeshStandardMaterial } from "three";
-import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, type ActorId } from "../theme";
+import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, WALK_DIR, WALK_DISTANCE, type ActorId } from "../theme";
 import type { ActorState } from "../state/officeState";
+import { SpeechBubble } from "./SpeechBubble";
+import { FLAVOR_LINES } from "../data/flavorLines";
 
 const SHOE_COLOR = "#6B5638";
 const IDLE_GRAY = "#B9B0A4";
 const BLOCKED_DIM = 0.35; // blocked(待機姿勢)のとき、色を少し白側へ寄せて落ち着かせる
 const REJECT_RED = "#E14B3A";
-const DONE_OPACITY = 0.4; // done(退勤)でのフェードアウト先の不透明度
 const BUBBLE_MS = 4000;
+const FLAVOR_MIN_INTERVAL_MS = 6000;
+const FLAVOR_MAX_INTERVAL_MS = 9000;
+const FLAVOR_DURATION_MS = 3000;
+const FLAVOR_BG = "#fff6d9";
 const TWEEN_MS = 700; // 動きは控えめに。ease-in-out、0.5〜1秒の範囲
 const LEAN_DISTANCE = 0.4; // handoff/rejectで身を乗り出す距離(控えめ)
+const WALK_MS = 1200; // 出社/退社の所要時間
+const WALK_BOB_HEIGHT = 0.08; // 歩行中の上下バウンス幅
 
 function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -27,11 +34,21 @@ function pulse(t: number) {
 
 type ScaleAnim = { start: number; from: number; to: number };
 type LeanAnim = { start: number; dir: { x: number; z: number } };
-type OpacityAnim = { start: number; from: number; to: number };
+type WalkAnim = { start: number; from: number; to: number; dir: { x: number; z: number } };
 
 // ローポリのチビキャラをプリミティブだけで組み立てる(外部モデル不使用)。
 // logs/SCHEMA.md の7イベントに応じて、控えめな動き(ease-in-out, 0.5〜1秒)で反応する。
-export function Avatar({ actor, color, state }: { actor: ActorId; color: string; state: ActorState }) {
+export function Avatar({
+  actor,
+  color,
+  state,
+  batchCount,
+}: {
+  actor: ActorId;
+  color: string;
+  state: ActorState;
+  batchCount: number;
+}) {
   const bodyColor = useMemo(() => {
     const base = state.active ? color : IDLE_GRAY;
     if (state.event === "blocked") {
@@ -40,13 +57,10 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
     return base;
   }, [state.active, state.event, color]);
 
-  // 胴体・腕・脚・頭・手で素材を共有し、doneのフェードアウトを少ない参照で制御できるようにする
-  const bodyMaterial = useMemo(
-    () => new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0, transparent: true }),
-    [],
-  );
+  // 胴体・腕・脚・頭・手で素材を共有し、色の変更を1箇所で済ませられるようにする
+  const bodyMaterial = useMemo(() => new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0 }), []);
   const skinMaterial = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: PALETTE.skin, roughness: 0.75, metalness: 0, transparent: true }),
+    () => new THREE.MeshStandardMaterial({ color: PALETTE.skin, roughness: 0.75, metalness: 0 }),
     [],
   );
   useEffect(() => {
@@ -56,17 +70,85 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   const groupRef = useRef<Group>(null);
   const flashRef = useRef<Mesh>(null);
   const flashMatRef = useRef<MeshStandardMaterial>(null);
+  const presentRef = useRef(false); // 出社しているか(true=机にいる状態)
 
   const scaleAnim = useRef<ScaleAnim | null>(null);
   const leanAnim = useRef<LeanAnim | null>(null);
+  const walkAnim = useRef<WalkAnim | null>(null);
   const rejectFlashAnim = useRef<number | null>(null);
-  const opacityAnim = useRef<OpacityAnim | null>(null);
-  const opacityTarget = useRef(1);
 
   const [bubble, setBubble] = useState<string | null>(null);
+  const [flavor, setFlavor] = useState<string | null>(null);
+  const bubbleRef = useRef<string | null>(null);
+  const eventRef = useRef(state.event);
+  const lastFlavorRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    bubbleRef.current = bubble;
+  }, [bubble]);
+
+  useEffect(() => {
+    eventRef.current = state.event;
+  }, [state.event]);
+
+  useEffect(() => {
+    if (!state.active) {
+      setFlavor(null);
+      return;
+    }
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let hideTimeoutId: ReturnType<typeof setTimeout>;
+
+    function tick() {
+      const delay = FLAVOR_MIN_INTERVAL_MS + Math.random() * (FLAVOR_MAX_INTERVAL_MS - FLAVOR_MIN_INTERVAL_MS);
+      timeoutId = setTimeout(() => {
+        if (cancelled) return;
+        const canSpeak = !bubbleRef.current && eventRef.current !== "blocked" && eventRef.current !== "done";
+        if (canSpeak) {
+          const lines = FLAVOR_LINES[actor];
+          const candidates = lines.filter((line) => line !== lastFlavorRef.current);
+          const line = candidates[Math.floor(Math.random() * candidates.length)] ?? lines[0];
+          lastFlavorRef.current = line;
+          setFlavor(line);
+          hideTimeoutId = setTimeout(() => {
+            if (!cancelled) setFlavor(null);
+          }, FLAVOR_DURATION_MS);
+        }
+        tick();
+      }, delay);
+    }
+
+    tick();
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+      clearTimeout(hideTimeoutId);
+    };
+  }, [state.active, actor]);
 
   useEffect(() => {
     if (state.seq === 0) return;
+
+    const isInitialCatchUp = batchCount === 1;
+
+    const shouldBePresent = state.event !== "done";
+    if (shouldBePresent !== presentRef.current) {
+      const dir = WALK_DIR[actor];
+      if (isInitialCatchUp || !dir) {
+        presentRef.current = shouldBePresent;
+        if (groupRef.current) groupRef.current.visible = shouldBePresent;
+      } else if (shouldBePresent) {
+        presentRef.current = true;
+        if (groupRef.current) groupRef.current.visible = true;
+        leanAnim.current = null;
+        walkAnim.current = { start: performance.now(), from: WALK_DISTANCE[actor], to: 0, dir };
+      } else {
+        leanAnim.current = null;
+        walkAnim.current = { start: performance.now(), from: 0, to: WALK_DISTANCE[actor], dir };
+        presentRef.current = false;
+      }
+    }
 
     if (state.event === "start") {
       scaleAnim.current = { start: performance.now(), from: 0.85, to: 1 };
@@ -79,12 +161,6 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
       rejectFlashAnim.current = performance.now();
       const dir = LEAN_TO_PREV[actor];
       if (dir) leanAnim.current = { start: performance.now(), dir };
-    }
-
-    const nextOpacityTarget = state.event === "done" ? DONE_OPACITY : 1;
-    if (nextOpacityTarget !== opacityTarget.current) {
-      opacityAnim.current = { start: performance.now(), from: bodyMaterial.opacity, to: nextOpacityTarget };
-      opacityTarget.current = nextOpacityTarget;
     }
 
     if (state.message) {
@@ -105,7 +181,20 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
         groupRef.current.scale.setScalar(from + (to - from) * easeInOutCubic(t));
         if (t >= 1) scaleAnim.current = null;
       }
-      if (leanAnim.current) {
+      if (walkAnim.current) {
+        const { start, from, to, dir } = walkAnim.current;
+        const t = Math.min(1, (now - start) / WALK_MS);
+        const eased = easeInOutCubic(t);
+        const amount = from + (to - from) * eased;
+        groupRef.current.position.x = dir.x * amount;
+        groupRef.current.position.z = dir.z * amount;
+        groupRef.current.position.y = 0.32 + Math.sin(t * Math.PI) * WALK_BOB_HEIGHT;
+        if (t >= 1) {
+          walkAnim.current = null;
+          groupRef.current.position.y = 0.32;
+          if (!presentRef.current) groupRef.current.visible = false;
+        }
+      } else if (leanAnim.current) {
         const { start, dir } = leanAnim.current;
         const t = Math.min(1, (now - start) / TWEEN_MS);
         const amount = pulse(t) * LEAN_DISTANCE;
@@ -113,15 +202,6 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
         groupRef.current.position.z = dir.z * amount;
         if (t >= 1) leanAnim.current = null;
       }
-    }
-
-    if (opacityAnim.current) {
-      const { start, from, to } = opacityAnim.current;
-      const t = Math.min(1, (now - start) / TWEEN_MS);
-      const val = from + (to - from) * easeInOutCubic(t);
-      bodyMaterial.opacity = val;
-      skinMaterial.opacity = val;
-      if (t >= 1) opacityAnim.current = null;
     }
 
     if (flashRef.current && flashMatRef.current) {
@@ -137,7 +217,7 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   });
 
   return (
-    <group ref={groupRef} position={[0, 0.32, 0]}>
+    <group ref={groupRef} position={[0, 0.32, 0]} visible={false}>
       {/* 胴体 */}
       <mesh position={[0, 0.55, 0]} material={bodyMaterial} castShadow>
         <boxGeometry args={[0.62, 0.62, 0.4]} />
@@ -215,30 +295,16 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
         </group>
       ))}
 
-      {/* 状態バッジ(blocked/done)。吹き出しが無い間、頭の脇に小さく表示し続ける */}
+      {/* 状態バッジ(blocked)。吹き出しが無い間、頭の脇に小さく表示し続ける */}
       {!bubble && state.event === "blocked" && (
         <Billboard position={[0.5, 1.5, 0]}>
           <StatusBadge text="!" bg="#fff3c4" fg="#8a5a00" border="#e0b23f" />
         </Billboard>
       )}
-      {!bubble && state.event === "done" && (
-        <Billboard position={[0.5, 1.5, 0]}>
-          <StatusBadge text="✓" bg="#eaf7ea" fg="#2f6b2f" border="#7fc77e" />
-        </Billboard>
-      )}
 
-      {/* 吹き出し(message) */}
-      {bubble && (
-        <Billboard position={[0, 2.05, 0]}>
-          <mesh>
-            <planeGeometry args={[1.6, 0.5]} />
-            <meshStandardMaterial color="#ffffff" roughness={1} metalness={0} />
-          </mesh>
-          <Text position={[0, 0, 0.01]} fontSize={0.15} color={PALETTE.ink} anchorX="center" anchorY="middle" maxWidth={1.4}>
-            {bubble}
-          </Text>
-        </Billboard>
-      )}
+      {/* 吹き出し(実イベントのmessageを優先。無い間は面白いセリフを表示) */}
+      {bubble && <SpeechBubble text={bubble} />}
+      {!bubble && flavor && <SpeechBubble text={flavor} bg={FLAVOR_BG} />}
     </group>
   );
 }

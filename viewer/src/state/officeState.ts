@@ -20,6 +20,8 @@ export type ActorState = {
 export type OfficeState = {
   actors: Record<ActorId, ActorState>;
   recentEvents: LogEvent[];
+  /** reduce()の呼び出し回数(ポーリング1回分=1バッチ)。ページ読み込み直後の初回一括反映かどうかの判定に使う */
+  batchCount: number;
 };
 
 const INITIAL_ACTOR_STATE: ActorState = {
@@ -36,7 +38,7 @@ const INITIAL_ACTOR_STATE: ActorState = {
 function initialState(): OfficeState {
   const actors = {} as Record<ActorId, ActorState>;
   for (const actor of ACTORS) actors[actor] = INITIAL_ACTOR_STATE;
-  return { actors, recentEvents: [] };
+  return { actors, recentEvents: [], batchCount: 0 };
 }
 
 function isKnownActor(actor: string): actor is ActorId {
@@ -70,8 +72,10 @@ function reduce(state: OfficeState, events: LogEvent[]): OfficeState {
     recentEvents = [ev, ...recentEvents].slice(0, RECENT_EVENTS_LIMIT);
   }
 
-  if (actors === state.actors && recentEvents === state.recentEvents) return state;
-  return { actors, recentEvents };
+  if (actors === state.actors && recentEvents === state.recentEvents) {
+    return { ...state, batchCount: state.batchCount + 1 };
+  }
+  return { actors, recentEvents, batchCount: state.batchCount + 1 };
 }
 
 // logs/events.jsonl を購読し、actorごとの最新状態と直近イベント一覧を保持する。
