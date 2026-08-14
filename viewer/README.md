@@ -33,8 +33,12 @@ npm --prefix viewer run build   # 型チェック + 本番ビルド
 
 ## 画面構成
 
-- 3Dシーン: 半円状に並んだ6卓(第1〜5幕 researcher→director→producer→inspector→publisher
-  + 奥にPM)。名札は机の前面に置き、常にカメラの方を向く(Billboard)
+- 3Dシーン: 横3×縦2のグリッドに並んだ6卓(奥列 researcher→director→producer、手前列
+  inspector→publisher→pm。第1〜5幕+PMの順で並び、全員カメラの方を向く)+ グリッド奥に
+  「社長席」(ユーザーを表す固定の空席。アバターは表示されない)。名札は机の前面に置き、
+  常にカメラの方を向く(Billboard)。AI社員6人にはそれぞれひらがなの個人名
+  (例: researcherは「あかり」)があり、名札には「名前(大きめ)+役職(小さめ)」の2行が
+  表示される(社長席の名札のみ「社長」の1行)
 - HTMLオーバーレイ(`src/ui/`):
   - `TitlePanel`: タイトル(左上)
   - 画面右端の縦長サイドパネル(`.sidebar`)に以下2つを縦に並べる
@@ -45,6 +49,12 @@ npm --prefix viewer run build   # 型チェック + 本番ビルド
 ## `logs/events.jsonl` の反映内容(`logs/SCHEMA.md` の7イベント)
 
 動きはすべて控えめ(ease-in-out、0.5〜0.7秒。出社/退社の歩行のみ約1.2秒)。過剰な演出は入れていない。
+
+頭上の吹き出し(`SpeechBubble`)は単なる長方形ではなく、角丸+下向きの「しっぽ」を持つ
+コミック風の形状(`src/scene/SpeechBubble.tsx` で `THREE.Shape` から組み立てる)。
+サイズはメッセージの文字数から動的に計算する(`src/lib/bubbleSize.ts`)。全角文字(ひらがな・
+カタカナ・漢字など)と半角文字(英数字など)で幅の重みを分けて見積もるため、日本語中心の
+メッセージでも背景が文字からはみ出しにくい。
 
 各社員は「これまでに一度もイベントを受け取っていない」間はアバターを表示せず机だけを表示する。
 away状態で最初のイベントを受け取ると、机の左右どちらか(担当ごとに固定、`src/theme.ts` の
@@ -131,3 +141,6 @@ node ../scripts/emit-event.mjs --actor researcher --event start --phase research
 - `handoff`/`reject` は「身を乗り出す」動きのみで、机の間を実際に紙が飛んでいくような演出は無い
 - 実際の `researcher`/`director` 等の本番イベントはまだ本番の `logs/events.jsonl` に記録されていない
   (各エージェントが `scripts/emit-event.mjs` を呼ぶ運用に乗ってから確認できる)
+- グリッド配置(横3×縦2)の中央列(director/publisher)は、出社/退社で歩く際に右列(producer/pm)の
+  机・アバターを一直線に通り抜けるため、一瞬視覚的に重なって見える(半円配置ではz座標が
+  社員ごとに異なっていたため発生しなかった、グリッド化の副作用)
