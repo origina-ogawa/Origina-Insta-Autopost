@@ -81,10 +81,14 @@
 
 ⑤自己検収(inspector相当。2段階)
    (a) 機械チェック(コードで判定。Geminiに数えさせない):
-       - スライド枚数が8〜10枚か
-       - 各テキストが tokens.json の文字数上限以内か
-       - iconが src/lib/icons.js のホワイトリスト内か
+       - スライド枚数が8〜10枚か(tokens.json の `limits.slideCountMin/Max`)
+       - 各スライドの heading が20字以内・body が60字以内か(tokens.json の `font.heading/body.maxChars`)
+       - 1スライドの heading+body 合計が80字以内か(tokens.json の `limits.slideTotalChars`)
        - hashtagsが3個以内か
+       - producer.md と同じ `slides.json` スキーマ(`slug`/`caption`/`hashtags`/`sources`/
+         `slides[].{no,heading,body,source_ref}`)を満たしているか(iconフィールドは
+         このスキーマに存在しないため対象外。`scripts/slides-to-post.mjs` 変換後は
+         `src/lib/icons.js` の `safeIcon()` が自動的にフォールバックする)
    (b) Gemini判定: rubric/carousel.md の残りの定性項目(情報鮮度・トーン・スライドとソースの
        紐付けなど)をGeminiに判定させ、不合格なら理由を返させる
    (a)(b)いずれかで不合格 → ④へ差し戻し、不合格理由をプロンプトに含めて再生成。
@@ -94,15 +98,22 @@
 
 ⑥画像化・コミット(publisher相当)
    合格したら Playwright(src/render.js、既存の scripts/slides-to-post.mjs 経由)で画像化し、
-   `posts/YYYY-MM-DD-<slug>/`(slides.json・slide-*.png・inspection.md相当の自己検収結果)を
-   揃えて main へ直接コミット・push する
+   `posts/YYYY-MM-DD-<slug>/` に以下を揃えて main へ直接コミット・push する。
+   - `slides.json`(④で作った producer.md 互換スキーマそのまま)
+   - `slide-1.png` 〜(`src/render.js` の出力をそのまま配置)
+   - `inspection.md`(`scripts/detect-pending.mjs` の `PASS_PATTERN` が一致する
+     `# 検収結果: 合格` を先頭に含む固定フォーマットで、⑤の判定結果を書く。
+     この文字列がないと `publish.yml` が「未投稿」として検出できない)
 
 ⑦Instagram投稿(既存 publish.yml が担当。変更なし)
    push をきっかけに既存の publish.yml が起動し、detect-pending.mjs → publish-instagram.mjs の
    流れでInstagramへ投稿する。リトライ・Chatwork通知・published.json記録はすべて既存のまま
 
-⑧結果をIssueに記録してクローズ
-   投稿成功後、①のIssueに完了コメントを付けてクローズする
+⑧Issueをクローズ
+   ⑥のpushが成功した時点で、①のIssueに「検収合格。posts/<dir>へpushしました。実際の投稿結果は
+   Chatworkでお知らせします」とコメントしてクローズする。**実際のInstagram投稿成否はここでは
+   分からない**(⑦のpublish.ymlは別のワークフローとして後から起動するため)。投稿の成否は
+   既存の publish.yml → publish-instagram.mjs のChatwork通知(変更なし)で確認する
 ```
 
 ## 手動経路(Claude Codeエージェント)側の変更
