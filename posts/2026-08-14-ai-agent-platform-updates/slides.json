@@ -1,0 +1,60 @@
+{
+  "slug": "ai-agent-platform-updates",
+  "caption": "AIが「引き継ぎ・連携・品質チェック」を始めた2週間の動きをまとめました。\n\nこの2週間で、Anthropic・OpenAI・Googleが相次いでAIエージェント関連の新機能を発表しました。会話やキャッシュを引き継ぐ機能、AI同士が直接やり取りする仕組み、設定を使い回せる拡張機能、社内システムと連携しやすくする規格対応、そして仕事の質を測る評価機能まで。\n\nAIツールは「人が都度指示するもの」から「AI同士が引き継ぎ・連携・品質チェックし合うもの」へと進化している最中です。専門知識がなくても、今の動きを知っておくだけで自社のAI活用を見直すヒントになります。\n\n中小企業の経営やDXの現場でも、いずれ関わってくる変化です。保存して、あとで見返しながら読んでみてください。",
+  "hashtags": ["#AI活用", "#DX", "#中小企業"],
+  "sources": [
+    "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+    "https://learn.chatgpt.com/docs/changelog",
+    "https://developers.googleblog.com/agent-and-model-evaluations-in-gemini-enterprise-agent-platform-are-now-ga/"
+  ],
+  "slides": [
+    {
+      "no": 1,
+      "heading": "AIが「引き継ぐ」時代へ",
+      "body": "Anthropic・OpenAI・Googleが2週間で相次ぎ発表しました。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース1-ソース2-ソース3-ソース4"
+    },
+    {
+      "no": 2,
+      "heading": "AI同士がつながる動き",
+      "body": "各社のAIが会話履歴を引き継ぐ機能を搭載。ツールの乗り換えがしやすくなるということです。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース1-ソース4"
+    },
+    {
+      "no": 3,
+      "heading": "説明の「二度手間」が減る",
+      "body": "サブエージェントが会話とキャッシュを継承(Claude Code)。二度手間が減るということです。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース1"
+    },
+    {
+      "no": 4,
+      "heading": "AI同士が直接連携",
+      "body": "@メンションで別のAIに指示可能に(Claude Code)。人による仲介が減るということです。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース1"
+    },
+    {
+      "no": 5,
+      "heading": "設定を使い回せる仕組み",
+      "body": "Codex CLIが拡張機能の持ち運びに対応。仕組みを他業務にも流用しやすくなるということです。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース2"
+    },
+    {
+      "no": 6,
+      "heading": "社内システムと連携しやすく",
+      "body": "Codex CLIがMCP対応を強化。他ツールやデータとAIをつなぎやすくなるということです。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース2"
+    },
+    {
+      "no": 7,
+      "heading": "AIの「仕事の質」を測る",
+      "body": "Gemini Enterprise Agent Platformで評価機能がGAに。品質確認がしやすくなります。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース3"
+    },
+    {
+      "no": 8,
+      "heading": "自社のAI活用、今が好機",
+      "body": "引き継ぎ・連携・品質チェックの仕組みが揃い始めました。AI活用の見直しはオリジナへご相談ください。",
+      "source_ref": "sources/2026-08-14-ai-agent-platform-updates.md#ソース1-ソース2-ソース3-ソース4"
+    }
+  ]
+}
