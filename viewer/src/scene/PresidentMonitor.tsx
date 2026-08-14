@@ -54,7 +54,7 @@ export function PresidentMonitor({
           <boxGeometry args={[1.05, 0.85, 0.04]} />
           <meshStandardMaterial color="#3A3530" roughness={0.7} metalness={0} />
         </mesh>
-        <Html transform occlude={false} position={[0, 0, 0.03]} scale={0.0035} style={{ pointerEvents: "auto" }}>
+        <Html position={[0, 0, 0.03]} style={{ pointerEvents: "auto" }}>
           <div className="president-monitor">
             <div className="president-monitor__history">
               {recent.length === 0 ? (
