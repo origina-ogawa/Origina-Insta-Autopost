@@ -1,18 +1,48 @@
+import { useMemo } from "react";
 import { Billboard, Text } from "@react-three/drei";
+import * as THREE from "three";
 import { PALETTE } from "../theme";
 import { computeBubbleSize } from "../lib/bubbleSize";
 
 const DEFAULT_BG = "#ffffff";
+const CORNER_RADIUS = 0.08; // 角丸の半径(吹き出しが小さい場合は幅・高さに応じて縮める)
+const TAIL_WIDTH = 0.14; // しっぽの付け根の幅
+const TAIL_HEIGHT = 0.16; // しっぽの高さ(下辺からどれだけ突き出すか)
 
-// 社員アバターの頭上に表示する吹き出し。テキストの文字数に応じて板のサイズを変える。
+// 角丸長方形+下向きのしっぽを持つ吹き出し形状を組み立てる。
+// しっぽは下辺中央から下(アバターの頭側)に向けて突き出す。
+function buildBubbleShape(width: number, height: number): THREE.Shape {
+  const w = width / 2;
+  const h = height / 2;
+  const r = Math.min(CORNER_RADIUS, w * 0.3, h * 0.3);
+  const tailHalf = Math.min(TAIL_WIDTH / 2, w * 0.3);
+
+  const shape = new THREE.Shape();
+  shape.moveTo(-w + r, -h);
+  shape.lineTo(-tailHalf, -h);
+  shape.lineTo(0, -h - TAIL_HEIGHT);
+  shape.lineTo(tailHalf, -h);
+  shape.lineTo(w - r, -h);
+  shape.quadraticCurveTo(w, -h, w, -h + r);
+  shape.lineTo(w, h - r);
+  shape.quadraticCurveTo(w, h, w - r, h);
+  shape.lineTo(-w + r, h);
+  shape.quadraticCurveTo(-w, h, -w, h - r);
+  shape.lineTo(-w, -h + r);
+  shape.quadraticCurveTo(-w, -h, -w + r, -h);
+  return shape;
+}
+
+// 社員アバターの頭上に表示する吹き出し。テキストの文字幅に応じて板のサイズを変える。
 // bgを変えることで、実際のイベントメッセージと演出用の小ネタ(面白いセリフ)を視覚的に区別できる。
 export function SpeechBubble({ text, bg = DEFAULT_BG }: { text: string; bg?: string }) {
   const { width, height, maxTextWidth } = computeBubbleSize(text);
+  const geometry = useMemo(() => new THREE.ShapeGeometry(buildBubbleShape(width, height)), [width, height]);
+
   return (
     <Billboard position={[0, 2.05, 0]}>
-      <mesh>
-        <planeGeometry args={[width, height]} />
-        <meshStandardMaterial color={bg} roughness={1} metalness={0} />
+      <mesh geometry={geometry}>
+        <meshStandardMaterial color={bg} roughness={1} metalness={0} side={THREE.DoubleSide} />
       </mesh>
       <Text
         position={[0, 0, 0.01]}
