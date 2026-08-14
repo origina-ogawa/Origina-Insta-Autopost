@@ -24,7 +24,8 @@ async function main() {
 
   const htmlSlides = post.slides.map((slide, i) => renderSlide(brand, headerTitle, slide, characterUris[i]));
   if (brand.brandSlide?.enabled) {
-    htmlSlides.push(brandSlide(brand, headerTitle, loadImageDataUri(brand.brandSlide.logo)));
+    const brandCharacterUri = brand.brandSlide.characterImage ? loadImageDataUri(brand.brandSlide.characterImage) : undefined;
+    htmlSlides.push(brandSlide(brand, headerTitle, loadImageDataUri(brand.brandSlide.logo), brandCharacterUri));
   }
 
   for (let i = 0; i < htmlSlides.length; i++) {

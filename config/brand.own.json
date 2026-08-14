@@ -16,7 +16,8 @@
   "brandSlide": {
     "enabled": true,
     "tagline": "AI & DX支援なら==オリジナ==",
-    "logo": "assets/logo-origina.png"
+    "logo": "assets/logo-origina.png",
+    "characterImage": "assets/character/mirai-ad-touka.png"
   },
   "character": {
     "enabled": true,
