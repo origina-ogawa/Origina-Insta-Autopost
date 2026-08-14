@@ -1,4 +1,4 @@
-import { ACTORS, ACTOR_COLORS, ACTOR_LABELS } from "../theme";
+import { ACTORS, ACTOR_COLORS, ACTOR_LABELS, ACTOR_NAMES } from "../theme";
 import type { ActorState } from "../state/officeState";
 
 const EVENT_LABEL: Record<string, string> = {
@@ -8,7 +8,6 @@ const EVENT_LABEL: Record<string, string> = {
   handoff: "引き継ぎ",
   blocked: "承認待ち",
   reject: "差し戻し",
-  done: "完了",
 };
 
 export function StatusPanel({ actors }: { actors: Record<(typeof ACTORS)[number], ActorState> }) {
@@ -18,12 +17,13 @@ export function StatusPanel({ actors }: { actors: Record<(typeof ACTORS)[number]
       <ul className="status-list">
         {ACTORS.map((actor) => {
           const state = actors[actor];
-          const label = state.event ? (EVENT_LABEL[state.event] ?? state.event) : "-";
+          // active=false は「未出社(まだ着手していない)」「done で退社済み」のどちらも含む
+          const label = state.active && state.event ? (EVENT_LABEL[state.event] ?? state.event) : "未出社";
           return (
             <li key={actor}>
               <span>
                 <span className="status-dot" style={{ background: ACTOR_COLORS[actor] }} />
-                {ACTOR_LABELS[actor]}
+                {ACTOR_NAMES[actor]}({ACTOR_LABELS[actor]})
               </span>
               <span>{label}</span>
             </li>

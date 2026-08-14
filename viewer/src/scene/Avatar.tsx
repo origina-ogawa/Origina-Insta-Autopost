@@ -16,7 +16,7 @@ const BUBBLE_MS = 4000;
 const FLAVOR_MIN_INTERVAL_MS = 6000;
 const FLAVOR_MAX_INTERVAL_MS = 9000;
 const FLAVOR_DURATION_MS = 3000;
-const FLAVOR_BG = "#fff6d9";
+const FLAVOR_BORDER = "#D9B84A"; // 雑談(面白いセリフ)の吹き出しの縁色。実メッセージは本人のアクセントカラーを使う
 const TWEEN_MS = 700; // 動きは控えめに。ease-in-out、0.5〜1秒の範囲
 const LEAN_DISTANCE = 0.4; // handoff/rejectで身を乗り出す距離(控えめ)
 const WALK_MS = 1200; // 出社/退社の所要時間
@@ -302,9 +302,10 @@ export function Avatar({
         </Billboard>
       )}
 
-      {/* 吹き出し(実イベントのmessageを優先。無い間は面白いセリフを表示) */}
-      {bubble && <SpeechBubble text={bubble} />}
-      {!bubble && flavor && <SpeechBubble text={flavor} bg={FLAVOR_BG} />}
+      {/* 吹き出し(実イベントのmessageを優先。無い間は面白いセリフを表示)
+          塗りはどちらも白。縁の色で実メッセージ(本人のアクセントカラー)と雑談(共通のアンバー)を区別する */}
+      {bubble && <SpeechBubble text={bubble} borderColor={color} />}
+      {!bubble && flavor && <SpeechBubble text={flavor} borderColor={FLAVOR_BORDER} />}
     </group>
   );
 }

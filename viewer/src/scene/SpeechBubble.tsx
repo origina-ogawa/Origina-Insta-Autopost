@@ -4,7 +4,9 @@ import * as THREE from "three";
 import { PALETTE } from "../theme";
 import { computeBubbleSize, MIN_BUBBLE_HEIGHT } from "../lib/bubbleSize";
 
-const DEFAULT_BG = "#ffffff";
+const FILL_COLOR = "#ffffff";
+const DEFAULT_BORDER = "#cbb98f"; // 縁色未指定時のフォールバック(2DパネルのCSS変数--borderと同系色)
+const BORDER_WIDTH = 0.035; // 縁の太さ(塗りより一回り大きい形状を背後に敷いて表現する)
 const CORNER_RADIUS = 0.08; // 角丸の半径(吹き出しが小さい場合は幅・高さに応じて縮める)
 const TAIL_WIDTH = 0.14; // しっぽの付け根の幅
 const TAIL_HEIGHT = 0.16; // しっぽの高さ(下辺からどれだけ突き出すか)
@@ -34,10 +36,15 @@ function buildBubbleShape(width: number, height: number): THREE.Shape {
 }
 
 // 社員アバターの頭上に表示する吹き出し。テキストの文字幅に応じて板のサイズを変える。
-// bgを変えることで、実際のイベントメッセージと演出用の小ネタ(面白いセリフ)を視覚的に区別できる。
-export function SpeechBubble({ text, bg = DEFAULT_BG }: { text: string; bg?: string }) {
+// 塗りは常に白。実際のイベントメッセージと演出用の小ネタ(面白いセリフ)の区別は、
+// borderColorで指定する縁の色で行う(塗りより一回り大きい同形状を背後に敷いて縁取りにする)。
+export function SpeechBubble({ text, borderColor = DEFAULT_BORDER }: { text: string; borderColor?: string }) {
   const { width, height, maxTextWidth } = computeBubbleSize(text);
-  const geometry = useMemo(() => new THREE.ShapeGeometry(buildBubbleShape(width, height)), [width, height]);
+  const fillGeometry = useMemo(() => new THREE.ShapeGeometry(buildBubbleShape(width, height)), [width, height]);
+  const borderGeometry = useMemo(
+    () => new THREE.ShapeGeometry(buildBubbleShape(width + BORDER_WIDTH * 2, height + BORDER_WIDTH * 2)),
+    [width, height],
+  );
 
   // geometryをmeshのgeometry propへ命令的に渡しているため、R3Fは差し替え時・アンマウント時に
   // 自動でdisposeしない(宣言的なJSX子要素<shapeGeometry />ならR3Fが面倒を見るが、useMemoで
@@ -45,13 +52,19 @@ export function SpeechBubble({ text, bg = DEFAULT_BG }: { text: string; bg?: str
   // ・面白いセリフ(6〜9秒おき)のたびに頻繁にマウント/アンマウントされるため、放置するとGPU/CPU
   // バッファがリークし続ける。
   useEffect(() => {
-    return () => geometry.dispose();
-  }, [geometry]);
+    return () => {
+      fillGeometry.dispose();
+      borderGeometry.dispose();
+    };
+  }, [fillGeometry, borderGeometry]);
 
   return (
     <Billboard position={[0, 2.05 + (height - MIN_BUBBLE_HEIGHT) / 2, 0]}>
-      <mesh geometry={geometry}>
-        <meshStandardMaterial color={bg} roughness={1} metalness={0} side={THREE.DoubleSide} />
+      <mesh geometry={borderGeometry} position={[0, 0, -0.001]}>
+        <meshStandardMaterial color={borderColor} roughness={1} metalness={0} side={THREE.DoubleSide} />
+      </mesh>
+      <mesh geometry={fillGeometry}>
+        <meshStandardMaterial color={FILL_COLOR} roughness={1} metalness={0} side={THREE.DoubleSide} />
       </mesh>
       <Text
         position={[0, 0, 0.01]}

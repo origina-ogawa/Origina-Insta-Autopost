@@ -29,7 +29,7 @@ function NameSign({ name, role }: { name: string; role?: string }) {
       <Billboard position={[0, 1.05, -0.58]}>
         <mesh>
           <planeGeometry args={[0.9, 0.44]} />
-          <meshStandardMaterial color={PALETTE.wallShoji} roughness={1} metalness={0} />
+          <meshStandardMaterial color="#ffffff" roughness={1} metalness={0} />
         </mesh>
         <Text
           position={[0, 0.09, 0.01]}
@@ -60,7 +60,7 @@ function NameSign({ name, role }: { name: string; role?: string }) {
     <Billboard position={[0, 0.98, -0.58]}>
       <mesh>
         <planeGeometry args={[0.9, 0.32]} />
-        <meshStandardMaterial color={PALETTE.wallShoji} roughness={1} metalness={0} />
+        <meshStandardMaterial color="#ffffff" roughness={1} metalness={0} />
       </mesh>
       <Text position={[0, 0, 0.01]} fontSize={0.19} color={PALETTE.ink} anchorX="center" anchorY="middle">
         {name}
