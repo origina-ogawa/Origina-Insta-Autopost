@@ -12,7 +12,6 @@ const SHOE_COLOR = "#6B5638";
 const IDLE_GRAY = "#B9B0A4";
 const BLOCKED_DIM = 0.35; // blocked(待機姿勢)のとき、色を少し白側へ寄せて落ち着かせる
 const REJECT_RED = "#E14B3A";
-const DONE_OPACITY = 0.4; // done(退勤)でのフェードアウト先の不透明度
 const BUBBLE_MS = 4000;
 const FLAVOR_MIN_INTERVAL_MS = 6000;
 const FLAVOR_MAX_INTERVAL_MS = 9000;
@@ -33,7 +32,6 @@ function pulse(t: number) {
 
 type ScaleAnim = { start: number; from: number; to: number };
 type LeanAnim = { start: number; dir: { x: number; z: number } };
-type OpacityAnim = { start: number; from: number; to: number };
 
 // ローポリのチビキャラをプリミティブだけで組み立てる(外部モデル不使用)。
 // logs/SCHEMA.md の7イベントに応じて、控えめな動き(ease-in-out, 0.5〜1秒)で反応する。
@@ -62,12 +60,11 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   const groupRef = useRef<Group>(null);
   const flashRef = useRef<Mesh>(null);
   const flashMatRef = useRef<MeshStandardMaterial>(null);
+  const presentRef = useRef(false); // 出社しているか(true=机にいる状態)
 
   const scaleAnim = useRef<ScaleAnim | null>(null);
   const leanAnim = useRef<LeanAnim | null>(null);
   const rejectFlashAnim = useRef<number | null>(null);
-  const opacityAnim = useRef<OpacityAnim | null>(null);
-  const opacityTarget = useRef(1);
 
   const [bubble, setBubble] = useState<string | null>(null);
   const [flavor, setFlavor] = useState<string | null>(null);
@@ -122,6 +119,9 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   useEffect(() => {
     if (state.seq === 0) return;
 
+    presentRef.current = state.event !== "done";
+    if (groupRef.current) groupRef.current.visible = presentRef.current;
+
     if (state.event === "start") {
       scaleAnim.current = { start: performance.now(), from: 0.85, to: 1 };
     }
@@ -133,12 +133,6 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
       rejectFlashAnim.current = performance.now();
       const dir = LEAN_TO_PREV[actor];
       if (dir) leanAnim.current = { start: performance.now(), dir };
-    }
-
-    const nextOpacityTarget = state.event === "done" ? DONE_OPACITY : 1;
-    if (nextOpacityTarget !== opacityTarget.current) {
-      opacityAnim.current = { start: performance.now(), from: bodyMaterial.opacity, to: nextOpacityTarget };
-      opacityTarget.current = nextOpacityTarget;
     }
 
     if (state.message) {
@@ -169,15 +163,6 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
       }
     }
 
-    if (opacityAnim.current) {
-      const { start, from, to } = opacityAnim.current;
-      const t = Math.min(1, (now - start) / TWEEN_MS);
-      const val = from + (to - from) * easeInOutCubic(t);
-      bodyMaterial.opacity = val;
-      skinMaterial.opacity = val;
-      if (t >= 1) opacityAnim.current = null;
-    }
-
     if (flashRef.current && flashMatRef.current) {
       if (rejectFlashAnim.current !== null) {
         const t = Math.min(1, (now - rejectFlashAnim.current) / TWEEN_MS);
@@ -191,7 +176,7 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   });
 
   return (
-    <group ref={groupRef} position={[0, 0.32, 0]}>
+    <group ref={groupRef} position={[0, 0.32, 0]} visible={false}>
       {/* 胴体 */}
       <mesh position={[0, 0.55, 0]} material={bodyMaterial} castShadow>
         <boxGeometry args={[0.62, 0.62, 0.4]} />
