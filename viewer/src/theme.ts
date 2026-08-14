@@ -57,9 +57,13 @@ export const DESK_POSITIONS: Record<ActorId, { x: number; z: number; rotY: numbe
   pm: { x: 3.6, z: 1.0, rotY: Math.PI },
 };
 
-// 社長席(ユーザーを表す飾りの机)。PMの旧位置(半円配置時の奥中央)を踏襲し、
-// グリッド全体を見渡す位置に置く。イベントログとは連動しない固定オブジェクト。
-export const PRESIDENT_DESK_POSITION = { x: 0, z: -6.5, rotY: Math.PI };
+// 社長席(ユーザーを表す飾りの机)。PMの旧位置(半円配置時の奥中央)を踏襲しつつ、
+// x=1.8はディレクター席の吹き出し・producer列との視覚的な重なりを避けるための調整値
+// (カメラがx=+2寄りにあるため、ディレクター列とproducer列の間の隙間に収まる)。
+export const PRESIDENT_DESK_POSITION = { x: 1.8, z: -6.5, rotY: Math.PI };
+
+// 社長席の名札に表示するラベル(AI社員以外の唯一の固定ラベル)。
+export const PRESIDENT_LABEL = "社長";
 
 // logs/SCHEMA.md に明示的な宛先フィールドが無いため、固定の幕の流れから推測する。
 // handoff(次の社員へ)と reject(差し戻し先へ)の両方向で使う。
@@ -109,7 +113,8 @@ export const LEAN_TO_PREV: Record<ActorId, { x: number; z: number } | null> = Ob
 ) as Record<ActorId, { x: number; z: number } | null>;
 
 // 出社/退社アニメーションで歩いていくワールド空間の方向。机が中心より左の社員は左へ、
-// 右の社員は右へ歩く。中央寄り(pm, producer)は右に固定する。
+// それ以外(x=0の中央列を含む)は右へ歩く。机がx=0(中央列)の場合はelse分岐で右へ
+// 出社/退社する(中央より左の列だけが左へ出る)。
 const EXIT_WORLD_DIR: Record<ActorId, { x: number; z: number }> = Object.fromEntries(
   ACTORS.map((actor) => [actor, DESK_POSITIONS[actor].x < 0 ? { x: -1, z: 0 } : { x: 1, z: 0 }]),
 ) as Record<ActorId, { x: number; z: number }>;
