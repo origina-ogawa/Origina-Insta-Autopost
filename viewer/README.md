@@ -39,6 +39,12 @@ npm --prefix viewer run build   # 型チェック + 本番ビルド
   常にカメラの方を向く(Billboard)。AI社員6人にはそれぞれひらがなの個人名
   (例: researcherは「あかり」)があり、名札には「名前(大きめ)+役職(小さめ)」の2行が
   表示される(社長席の名札のみ「社長」の1行)
+- 社長席の上には、社長から今動いているClaude Codeセッションへ指示・一時停止依頼を
+  送るための「社長モニター」(`PresidentMonitor.tsx`)がある。テキスト入力欄・送信履歴・
+  一時停止ボタンを持ち、送信内容は`logs/instructions.jsonl`(git管理対象外)に追記される。
+  Claude Code側は`Monitor`ツールで同ファイルを`tail -f`することで内容を受け取る
+  (詳細は`.claude/skills/office-view/SKILL.md`参照)。一時停止は実行中の処理を強制的に
+  中断するものではなく、次の区切りで気づいて手を止める「ソフトストップ」。
 - HTMLオーバーレイ(`src/ui/`):
   - `TitlePanel`: タイトル(左上)
   - 画面右端の縦長サイドパネル(`.sidebar`)に以下2つを縦に並べる
@@ -118,6 +124,7 @@ viewer/
       SpeechBubble.tsx         頭上の吹き出し描画(実イベントのmessage/面白いセリフ共通)
       OutputStack.tsx          outputイベントで積み上がる紙
       Office.tsx               机のレイアウトと名札
+      PresidentMonitor.tsx      社長モニター(指示入力・一時停止ボタン、logs/instructions.jsonlへ送信)
     ui/
       Overlay.tsx              タイトル(左上)+ 右端サイドパネルの配置
       TitlePanel.tsx / StatusPanel.tsx / ActivityPanel.tsx
