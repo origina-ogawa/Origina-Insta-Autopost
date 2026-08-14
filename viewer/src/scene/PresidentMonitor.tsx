@@ -6,8 +6,10 @@ import type { InstructionEntry } from "../lib/instructionLog";
 const STOP_MESSAGE = "作業を一時停止してください";
 const HISTORY_LIMIT = 5;
 
-// 社長席の上に置く、モニター風の3Dオブジェクト。画面部分にHTMLパネル(Html transform)を重ね、
-// 指示入力欄・送信履歴・一時停止ボタンを表示する。カメラは固定のため、画面パネルは
+// 社長席の上に置く、モニター風の3Dオブジェクト。画面部分にHTMLパネルを重ね、
+// 指示入力欄・送信履歴・一時停止ボタンを表示する。Htmlは通常モード(スクリーン空間の
+// オーバーレイ)で使い、3Dワールド座標へ縮小されないようにする(transformモードだと
+// 固定カメラの表示倍率では文字がほぼ判読不能になるため)。モニターのベゼル(枠)部分は
 // Billboardで常にカメラへ正対させる(NameSign/SpeechBubbleと同じパターン)。
 export function PresidentMonitor({
   history,
