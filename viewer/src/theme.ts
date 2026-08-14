@@ -24,6 +24,17 @@ export const ACTOR_LABELS: Record<ActorId, string> = {
   publisher: "配信",
 };
 
+// 職業から連想した個人名(ひらがな表記)。3Dの名札は小さいため視認性を優先し、
+// 漢字ではなくひらがなで表示する(由来は下記コメント参照)。
+export const ACTOR_NAMES: Record<ActorId, string> = {
+  pm: "つかさ", // 司 - 全体を取り仕切る役
+  researcher: "あかり", // 灯 - 情報を照らして見つけ出す役
+  director: "ゆい", // 結 - ソースを構成として結びつける役
+  producer: "たくみ", // 匠 - 手を動かして作り上げる役
+  inspector: "さえ", // 冴 - 鋭く厳しい目でチェックする役
+  publisher: "つばさ", // 翼 - 世の中へ送り出す役
+};
+
 // キャラクターごとの差し色。全体のニュートラルな低彩度パレットに合わせて彩度を抑える。
 export const ACTOR_COLORS: Record<ActorId, string> = {
   pm: "#BFA46A",

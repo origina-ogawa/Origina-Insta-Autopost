@@ -3,6 +3,7 @@ import {
   ACTORS,
   ACTOR_COLORS,
   ACTOR_LABELS,
+  ACTOR_NAMES,
   DESK_POSITIONS,
   PALETTE,
   PRESIDENT_DESK_POSITION,
@@ -17,12 +18,15 @@ import type { ActorState } from "../state/officeState";
 // 机ごとに向きが異なるため、常にカメラの方を向くBillboardにして文字が裏返らないようにする
 function NameSign({ actor }: { actor: (typeof ACTORS)[number] }) {
   return (
-    <Billboard position={[0, 0.98, -0.58]}>
+    <Billboard position={[0, 1.0, -0.58]}>
       <mesh>
-        <planeGeometry args={[0.9, 0.32]} />
+        <planeGeometry args={[0.9, 0.44]} />
         <meshStandardMaterial color={PALETTE.wallShoji} roughness={1} metalness={0} />
       </mesh>
-      <Text position={[0, 0, 0.01]} fontSize={0.19} color={PALETTE.ink} anchorX="center" anchorY="middle">
+      <Text position={[0, 0.09, 0.01]} fontSize={0.19} color={PALETTE.ink} anchorX="center" anchorY="middle">
+        {ACTOR_NAMES[actor]}
+      </Text>
+      <Text position={[0, -0.1, 0.01]} fontSize={0.12} color={PALETTE.ink} anchorX="center" anchorY="middle">
         {ACTOR_LABELS[actor]}
       </Text>
     </Billboard>
