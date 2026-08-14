@@ -46,14 +46,14 @@ Instagram カルーセル投稿を AI社員が制作し、社長の承認を経�
 
 ### 第5幕 配信
 - 担当: publisher
-- Pull Request を作成して終了
-- ⚠️ **PRのマージは社長のみ。マージ = 投稿承認**
+- `posts/<日付>-<slug>/` を `main` へ直接コミット・push して終了(2026-08-14よりPR無し。詳細はAGENTS.md 6条・進捗.md参照)
+- `main` への push で GitHub Actions (`publish.yml`) が実際にInstagramへ投稿する
 
 ## ブランチ運用
 
-- 作業ブランチ: `post/YYYY-MM-DD-<slug>`
-- `main` への直接コミット禁止
-- `main` へのマージで GitHub Actions が投稿する
+- 第1〜4幕の作業(`sources/`・`work/`)はローカルの`main`ブランチ上で行ってよい
+- `posts/` への投稿確定コミットも、inspector検収合格後は`main`へ直接pushする(PR不要)
+- コード自体の変更(`src/`・`scripts/`・`templates/`等)は引き続きレビューを推奨する
 
 ## チケット
 
