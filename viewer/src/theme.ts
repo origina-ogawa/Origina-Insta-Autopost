@@ -34,15 +34,21 @@ export const ACTOR_COLORS: Record<ActorId, string> = {
   publisher: "#C98C93",
 };
 
-// 半円状のオフィスレイアウト。pm は最奥中央で全体を見渡す配置。
+// 横3×縦2のグリッド配置。全員カメラの方(rotY: Math.PI)を向く。
+// 奥列(z=-3.5): researcher→director→producer(幕1〜3の順)
+// 手前列(z=1.0): inspector→publisher→pm(幕4〜5+PM)
 export const DESK_POSITIONS: Record<ActorId, { x: number; z: number; rotY: number }> = {
-  pm: { x: 0, z: -6.5, rotY: Math.PI },
-  researcher: { x: -6.2, z: -1, rotY: Math.PI * 0.7 },
-  director: { x: -3.4, z: 1.8, rotY: Math.PI * 0.85 },
-  producer: { x: 0, z: 2.8, rotY: Math.PI },
-  inspector: { x: 3.4, z: 1.8, rotY: -Math.PI * 0.85 },
-  publisher: { x: 6.2, z: -1, rotY: -Math.PI * 0.7 },
+  researcher: { x: -3.6, z: -3.5, rotY: Math.PI },
+  director: { x: 0, z: -3.5, rotY: Math.PI },
+  producer: { x: 3.6, z: -3.5, rotY: Math.PI },
+  inspector: { x: -3.6, z: 1.0, rotY: Math.PI },
+  publisher: { x: 0, z: 1.0, rotY: Math.PI },
+  pm: { x: 3.6, z: 1.0, rotY: Math.PI },
 };
+
+// 社長席(ユーザーを表す飾りの机)。PMの旧位置(半円配置時の奥中央)を踏襲し、
+// グリッド全体を見渡す位置に置く。イベントログとは連動しない固定オブジェクト。
+export const PRESIDENT_DESK_POSITION = { x: 0, z: -6.5, rotY: Math.PI };
 
 // logs/SCHEMA.md に明示的な宛先フィールドが無いため、固定の幕の流れから推測する。
 // handoff(次の社員へ)と reject(差し戻し先へ)の両方向で使う。

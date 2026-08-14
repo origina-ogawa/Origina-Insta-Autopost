@@ -1,5 +1,13 @@
 import { Billboard, Text } from "@react-three/drei";
-import { ACTORS, ACTOR_COLORS, ACTOR_LABELS, DESK_POSITIONS, PALETTE, type ActorId } from "../theme";
+import {
+  ACTORS,
+  ACTOR_COLORS,
+  ACTOR_LABELS,
+  DESK_POSITIONS,
+  PALETTE,
+  PRESIDENT_DESK_POSITION,
+  type ActorId,
+} from "../theme";
 import { Desk } from "./Desk";
 import { Avatar } from "./Avatar";
 import { OutputStack } from "./OutputStack";
@@ -21,7 +29,22 @@ function NameSign({ actor }: { actor: (typeof ACTORS)[number] }) {
   );
 }
 
-// 半円状に並んだ6卓のオフィス。logs/events.jsonl の状態に応じて各社員が反応する。
+// 社長席の名札。AI社員の名札とは違い役職の2行目は無く、常に「社長」とだけ表示する。
+function PresidentNameSign() {
+  return (
+    <Billboard position={[0, 0.98, -0.58]}>
+      <mesh>
+        <planeGeometry args={[0.9, 0.32]} />
+        <meshStandardMaterial color={PALETTE.wallShoji} roughness={1} metalness={0} />
+      </mesh>
+      <Text position={[0, 0, 0.01]} fontSize={0.19} color={PALETTE.ink} anchorX="center" anchorY="middle">
+        社長
+      </Text>
+    </Billboard>
+  );
+}
+
+// 横3×縦2のグリッドに並んだ6卓+社長席のオフィス。logs/events.jsonl の状態に応じて各社員が反応する。
 export function Office({
   actors,
   batchCount,
@@ -44,6 +67,13 @@ export function Office({
           </group>
         );
       })}
+      <group
+        position={[PRESIDENT_DESK_POSITION.x, 0, PRESIDENT_DESK_POSITION.z]}
+        rotation={[0, PRESIDENT_DESK_POSITION.rotY, 0]}
+      >
+        <Desk />
+        <PresidentNameSign />
+      </group>
     </group>
   );
 }
