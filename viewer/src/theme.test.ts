@@ -11,6 +11,8 @@ test("WALK_DIRは全アクター分そろっており、単位ベクトルにな
   }
 });
 
+// dir はactorのローカル座標系の値(ワールド座標ではない)。researcherは机のrotYがMath.PIのため、
+// ローカルx=+1が実際にはワールド-x(画面左)への移動を意味する
 test("researcher(左列)は左へ退出する", () => {
   const dir = WALK_DIR.researcher;
   assert.ok(Math.abs(dir.x - 1) < 0.001);
@@ -19,6 +21,12 @@ test("researcher(左列)は左へ退出する", () => {
 
 test("pm(右列)は右へ退出する", () => {
   const dir = WALK_DIR.pm;
+  assert.ok(Math.abs(dir.x - -1) < 0.001);
+  assert.ok(Math.abs(dir.z - 0) < 0.001);
+});
+
+test("director(中央列)は右へ退出する", () => {
+  const dir = WALK_DIR.director;
   assert.ok(Math.abs(dir.x - -1) < 0.001);
   assert.ok(Math.abs(dir.z - 0) < 0.001);
 });
