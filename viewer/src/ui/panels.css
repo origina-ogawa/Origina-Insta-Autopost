@@ -154,3 +154,91 @@ body,
   color: var(--ink-soft);
   opacity: 0.8;
 }
+
+.president-monitor {
+  width: 280px;
+  padding: 10px 12px;
+  background: rgba(58, 53, 48, 0.94);
+  border-radius: 6px;
+  color: #f2ede4;
+  font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.president-monitor__history {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 90px;
+  overflow-y: auto;
+}
+
+.president-monitor__empty {
+  margin: 0;
+  font-size: 11px;
+  color: #b8ab94;
+}
+
+.president-monitor__entry,
+.president-monitor__entry--stop {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+.president-monitor__entry {
+  color: #f2ede4;
+}
+
+.president-monitor__entry--stop {
+  color: #e08a7d;
+  font-weight: bold;
+}
+
+.president-monitor__input {
+  width: 100%;
+  min-height: 44px;
+  resize: none;
+  border-radius: 4px;
+  border: 1px solid #6b6155;
+  background: #f2ede4;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.president-monitor__buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.president-monitor__send,
+.president-monitor__stop {
+  flex: 1;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  color: #fff;
+}
+
+.president-monitor__send {
+  background: var(--wood);
+}
+
+.president-monitor__stop {
+  background: #b23b2f;
+}
+
+.president-monitor__send:disabled,
+.president-monitor__stop:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

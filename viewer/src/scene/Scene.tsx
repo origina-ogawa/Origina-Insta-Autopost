@@ -2,13 +2,22 @@ import { Canvas } from "@react-three/fiber";
 import { Room } from "./Room";
 import { Office } from "./Office";
 import type { OfficeState } from "../state/officeState";
+import type { InstructionEntry } from "../lib/instructionLog";
 
 // アイソメトリック調のローポリ表現。俯瞰45度前後の固定カメラで、パースは弱め(FOVを絞って擬似アイソに寄せる)。
 // カメラは固定で、ユーザーが回転させる操作は付けない。
 const CAMERA_POSITION: [number, number, number] = [2, 15, 17.5];
 const CAMERA_FOV = 24;
 
-export function Scene({ office }: { office: OfficeState }) {
+export function Scene({
+  office,
+  instructionHistory,
+  sendInstruction,
+}: {
+  office: OfficeState;
+  instructionHistory: InstructionEntry[];
+  sendInstruction: (kind: "instruction" | "stop", message: string) => Promise<void>;
+}) {
   return (
     <Canvas
       shadows
@@ -26,7 +35,12 @@ export function Scene({ office }: { office: OfficeState }) {
       />
       <ambientLight intensity={0.35} />
       <Room />
-      <Office actors={office.actors} batchCount={office.batchCount} />
+      <Office
+        actors={office.actors}
+        batchCount={office.batchCount}
+        instructionHistory={instructionHistory}
+        sendInstruction={sendInstruction}
+      />
     </Canvas>
   );
 }

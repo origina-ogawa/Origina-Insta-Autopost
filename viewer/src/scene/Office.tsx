@@ -13,7 +13,9 @@ import {
 import { Desk } from "./Desk";
 import { Avatar } from "./Avatar";
 import { OutputStack } from "./OutputStack";
+import { PresidentMonitor } from "./PresidentMonitor";
 import type { ActorState } from "../state/officeState";
+import type { InstructionEntry } from "../lib/instructionLog";
 
 // 顔にかぶらないよう、頭上ではなく机の手前側(客側の縁)に立てる名札。
 // 全ての机は同じ向き(rotY: Math.PI)を共有しているが、Billboardにしておくことで
@@ -73,9 +75,13 @@ function NameSign({ name, role }: { name: string; role?: string }) {
 export function Office({
   actors,
   batchCount,
+  instructionHistory,
+  sendInstruction,
 }: {
   actors: Record<ActorId, ActorState>;
   batchCount: number;
+  instructionHistory: InstructionEntry[];
+  sendInstruction: (kind: "instruction" | "stop", message: string) => Promise<void>;
 }) {
   return (
     <group>
@@ -98,6 +104,7 @@ export function Office({
       >
         <Desk />
         <NameSign name={PRESIDENT_LABEL} />
+        <PresidentMonitor history={instructionHistory} send={sendInstruction} />
       </group>
     </group>
   );
