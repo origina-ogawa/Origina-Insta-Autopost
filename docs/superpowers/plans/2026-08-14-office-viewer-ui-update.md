@@ -345,9 +345,12 @@ test("幅は常に最小1.0〜最大2.6の範囲に収まる", () => {
 - [ ] **Step 2: `package.json` にテストスクリプトを追加する**
 
 `viewer/package.json` の `"scripts"` に以下を追加する(既存の `dev`/`build`/`preview` はそのまま残す)。
+パターンは必ずダブルクォートで囲み、シェルではなくNode自身にglobを展開させる
+(`src/**/*.test.ts` のように複数階層にマッチするパターンをシェルが展開しようとすると、
+一致するファイルが無い時点で `zsh: no matches found` 等のエラーになるため)。
 
 ```json
-    "test": "node --test src/lib/*.test.ts src/data/*.test.ts src/*.test.ts"
+    "test": "node --test \"src/**/*.test.ts\""
 ```
 
 - [ ] **Step 3: テストを実行して失敗を確認する**
@@ -355,10 +358,7 @@ test("幅は常に最小1.0〜最大2.6の範囲に収まる", () => {
 ```bash
 cd viewer && npm test
 ```
-Expected: `bubbleSize.ts` が存在せず `ERR_MODULE_NOT_FOUND` 等でFAILする
-(`src/data/*.test.ts` と `src/*.test.ts` は現時点では対象ファイルが無いため、
-Node標準テストランナーはそのパターンをスキップして進む。エラーが出る場合は
-`src/lib/*.test.ts` のみを対象に `node --test src/lib/*.test.ts` で確認してよい)。
+Expected: `bubbleSize.ts` が存在せず `ERR_MODULE_NOT_FOUND` 等でFAILする。
 
 - [ ] **Step 4: `computeBubbleSize` を実装する**
 
