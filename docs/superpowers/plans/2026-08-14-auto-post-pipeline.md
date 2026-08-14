@@ -1803,8 +1803,9 @@ jobs:
           CHATWORK_API_TOKEN: ${{ secrets.CHATWORK_API_TOKEN }}
           CHATWORK_ROOM_ID: ${{ secrets.CHATWORK_ROOM_ID }}
           GH_TOKEN: ${{ github.token }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
         run: |
-          if [ "${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}" = "true" ]; then
+          if [ "$DRY_RUN" = "true" ]; then
             node scripts/run-auto-pipeline.mjs --mock
           else
             node scripts/run-auto-pipeline.mjs
@@ -1814,9 +1815,10 @@ jobs:
         if: ${{ steps.pipeline.outputs.published == 'true' }}
         env:
           BRAND: ${{ vars.BRAND || 'own' }}
+          SLUG: ${{ steps.pipeline.outputs.slug }}
         run: |
           npx playwright install chromium --with-deps
-          node scripts/slides-to-post.mjs --slug "${{ steps.pipeline.outputs.slug }}"
+          node scripts/slides-to-post.mjs --slug "$SLUG"
           npm run render
 
       - name: posts/へ配置してmainへpush
