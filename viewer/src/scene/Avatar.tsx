@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { Billboard, Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { Group, Mesh, MeshStandardMaterial } from "three";
-import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, WALK_DIR, type ActorId } from "../theme";
+import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, WALK_DIR, WALK_DISTANCE, type ActorId } from "../theme";
 import type { ActorState } from "../state/officeState";
 import { SpeechBubble } from "./SpeechBubble";
 import { FLAVOR_LINES } from "../data/flavorLines";
@@ -20,7 +20,6 @@ const FLAVOR_BG = "#fff6d9";
 const TWEEN_MS = 700; // 動きは控えめに。ease-in-out、0.5〜1秒の範囲
 const LEAN_DISTANCE = 0.4; // handoff/rejectで身を乗り出す距離(控えめ)
 const WALK_MS = 1200; // 出社/退社の所要時間
-const WALK_DISTANCE = 5; // 出社前/退社後のローカルオフセット距離
 const WALK_BOB_HEIGHT = 0.08; // 歩行中の上下バウンス幅
 
 function easeInOutCubic(t: number) {
@@ -39,7 +38,17 @@ type WalkAnim = { start: number; from: number; to: number; dir: { x: number; z: 
 
 // ローポリのチビキャラをプリミティブだけで組み立てる(外部モデル不使用)。
 // logs/SCHEMA.md の7イベントに応じて、控えめな動き(ease-in-out, 0.5〜1秒)で反応する。
-export function Avatar({ actor, color, state }: { actor: ActorId; color: string; state: ActorState }) {
+export function Avatar({
+  actor,
+  color,
+  state,
+  batchCount,
+}: {
+  actor: ActorId;
+  color: string;
+  state: ActorState;
+  batchCount: number;
+}) {
   const bodyColor = useMemo(() => {
     const base = state.active ? color : IDLE_GRAY;
     if (state.event === "blocked") {
@@ -48,13 +57,10 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
     return base;
   }, [state.active, state.event, color]);
 
-  // 胴体・腕・脚・頭・手で素材を共有し、doneのフェードアウトを少ない参照で制御できるようにする
-  const bodyMaterial = useMemo(
-    () => new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0, transparent: true }),
-    [],
-  );
+  // 胴体・腕・脚・頭・手で素材を共有し、色の変更を1箇所で済ませられるようにする
+  const bodyMaterial = useMemo(() => new THREE.MeshStandardMaterial({ roughness: 0.8, metalness: 0 }), []);
   const skinMaterial = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: PALETTE.skin, roughness: 0.75, metalness: 0, transparent: true }),
+    () => new THREE.MeshStandardMaterial({ color: PALETTE.skin, roughness: 0.75, metalness: 0 }),
     [],
   );
   useEffect(() => {
@@ -65,7 +71,6 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   const flashRef = useRef<Mesh>(null);
   const flashMatRef = useRef<MeshStandardMaterial>(null);
   const presentRef = useRef(false); // 出社しているか(true=机にいる状態)
-  const initializedRef = useRef(false); // 初回のイベント一括反映(ページ読み込み直後)かどうか
 
   const scaleAnim = useRef<ScaleAnim | null>(null);
   const leanAnim = useRef<LeanAnim | null>(null);
@@ -125,8 +130,7 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   useEffect(() => {
     if (state.seq === 0) return;
 
-    const isInitialCatchUp = !initializedRef.current;
-    initializedRef.current = true;
+    const isInitialCatchUp = batchCount === 1;
 
     const shouldBePresent = state.event !== "done";
     if (shouldBePresent !== presentRef.current) {
@@ -137,9 +141,11 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
       } else if (shouldBePresent) {
         presentRef.current = true;
         if (groupRef.current) groupRef.current.visible = true;
-        walkAnim.current = { start: performance.now(), from: WALK_DISTANCE, to: 0, dir };
+        leanAnim.current = null;
+        walkAnim.current = { start: performance.now(), from: WALK_DISTANCE[actor], to: 0, dir };
       } else {
-        walkAnim.current = { start: performance.now(), from: 0, to: WALK_DISTANCE, dir };
+        leanAnim.current = null;
+        walkAnim.current = { start: performance.now(), from: 0, to: WALK_DISTANCE[actor], dir };
         presentRef.current = false;
       }
     }
@@ -289,15 +295,10 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
         </group>
       ))}
 
-      {/* 状態バッジ(blocked/done)。吹き出しが無い間、頭の脇に小さく表示し続ける */}
+      {/* 状態バッジ(blocked)。吹き出しが無い間、頭の脇に小さく表示し続ける */}
       {!bubble && state.event === "blocked" && (
         <Billboard position={[0.5, 1.5, 0]}>
           <StatusBadge text="!" bg="#fff3c4" fg="#8a5a00" border="#e0b23f" />
-        </Billboard>
-      )}
-      {!bubble && state.event === "done" && (
-        <Billboard position={[0.5, 1.5, 0]}>
-          <StatusBadge text="✓" bg="#eaf7ea" fg="#2f6b2f" border="#7fc77e" />
         </Billboard>
       )}
 

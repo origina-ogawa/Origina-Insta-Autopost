@@ -22,7 +22,13 @@ function NameSign({ actor }: { actor: (typeof ACTORS)[number] }) {
 }
 
 // 半円状に並んだ6卓のオフィス。logs/events.jsonl の状態に応じて各社員が反応する。
-export function Office({ actors }: { actors: Record<ActorId, ActorState> }) {
+export function Office({
+  actors,
+  batchCount,
+}: {
+  actors: Record<ActorId, ActorState>;
+  batchCount: number;
+}) {
   return (
     <group>
       {ACTORS.map((actor) => {
@@ -33,7 +39,7 @@ export function Office({ actors }: { actors: Record<ActorId, ActorState> }) {
             <NameSign actor={actor} />
             <OutputStack count={actors[actor].outputCount} />
             <group position={[0, 0, 0.55]}>
-              <Avatar actor={actor} color={ACTOR_COLORS[actor]} state={actors[actor]} />
+              <Avatar actor={actor} color={ACTOR_COLORS[actor]} state={actors[actor]} batchCount={batchCount} />
             </group>
           </group>
         );

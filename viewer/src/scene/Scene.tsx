@@ -26,7 +26,7 @@ export function Scene({ office }: { office: OfficeState }) {
       />
       <ambientLight intensity={0.35} />
       <Room />
-      <Office actors={office.actors} />
+      <Office actors={office.actors} batchCount={office.batchCount} />
     </Canvas>
   );
 }

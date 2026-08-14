@@ -112,3 +112,8 @@ export const WALK_DIR: Record<ActorId, { x: number; z: number }> = Object.fromEn
     ];
   }),
 ) as Record<ActorId, { x: number; z: number }>;
+
+// 出社/退社の歩行距離。壁(x=±9)を確実に越えるよう、全社員が同じワールドX(±11)へ到達する距離にする。
+export const WALK_DISTANCE: Record<ActorId, number> = Object.fromEntries(
+  ACTORS.map((actor) => [actor, 11 - Math.abs(DESK_POSITIONS[actor].x)]),
+) as Record<ActorId, number>;
