@@ -65,11 +65,14 @@ export function useInstructionLog(): {
   }, []);
 
   const send = useCallback(async (kind: "instruction" | "stop", message: string) => {
-    await fetch("/api/instructions", {
+    const res = await fetch("/api/instructions", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ kind, message }),
     });
+    if (!res.ok) {
+      throw new Error(`送信に失敗しました(status: ${res.status})`);
+    }
   }, []);
 
   return { history, send };

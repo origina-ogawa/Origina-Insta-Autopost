@@ -20,14 +20,18 @@ export function PresidentMonitor({
 }) {
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSend() {
     const message = draft.trim();
     if (!message || sending) return;
     setSending(true);
+    setError(null);
     try {
       await send("instruction", message);
       setDraft("");
+    } catch {
+      setError("送信に失敗しました");
     } finally {
       setSending(false);
     }
@@ -36,8 +40,11 @@ export function PresidentMonitor({
   async function handleStop() {
     if (sending) return;
     setSending(true);
+    setError(null);
     try {
       await send("stop", STOP_MESSAGE);
+    } catch {
+      setError("送信に失敗しました");
     } finally {
       setSending(false);
     }
@@ -72,6 +79,7 @@ export function PresidentMonitor({
                 ))
               )}
             </div>
+            {error && <p className="president-monitor__entry--stop">{error}</p>}
             <textarea
               className="president-monitor__input"
               value={draft}

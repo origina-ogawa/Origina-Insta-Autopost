@@ -48,8 +48,11 @@ description: 3Dオフィス表示層(viewer/)を起動して、AI社員の作業
    (`persistent: true`で、このセッションが続く間ずっと監視する):
 
    ```bash
-   tail -f logs/instructions.jsonl
+   tail -n 0 -F logs/instructions.jsonl
    ```
+
+   (`-F`はファイルがまだ存在しなくてもエラーにせず作成を待ち受け、`-n 0`は起動前に
+   書き込まれていた古い行を読み飛ばす)
 
    新しい行が通知として届いたら内容を読み、`kind: "stop"`なら現在の作業を次の区切りで
    一旦止めて内容を確認する。`kind: "instruction"`なら内容を踏まえて対応する

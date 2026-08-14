@@ -38,11 +38,26 @@ function instructionsApiPlugin(): Plugin {
     configureServer(server) {
       server.middlewares.use("/api/instructions", (req, res) => {
         if (req.method === "POST") {
+          const site = req.headers["sec-fetch-site"];
+          if (site && site !== "same-origin") {
+            res.statusCode = 403;
+            res.end();
+            return;
+          }
           let raw = "";
+          let tooLarge = false;
+          const MAX_BODY_BYTES = 8192; // 社長の指示文としては十分な上限
           req.on("data", (chunk) => {
+            if (tooLarge) return;
             raw += chunk;
+            if (raw.length > MAX_BODY_BYTES) tooLarge = true;
           });
           req.on("end", () => {
+            if (tooLarge) {
+              res.statusCode = 413;
+              res.end();
+              return;
+            }
             try {
               const parsed = JSON.parse(raw) as { kind?: unknown; message?: unknown };
               if (
@@ -56,7 +71,13 @@ function instructionsApiPlugin(): Plugin {
               }
               const line =
                 JSON.stringify({ ts: new Date().toISOString(), kind: parsed.kind, message: parsed.message }) + "\n";
-              appendFileSync(instructionsPath, line, "utf8");
+              try {
+                appendFileSync(instructionsPath, line, "utf8");
+              } catch {
+                res.statusCode = 500;
+                res.end();
+                return;
+              }
               res.statusCode = 200;
               res.end();
             } catch {
