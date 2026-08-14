@@ -73,3 +73,22 @@ test('mechanicalCheckは合計文字数が上限を超えるとNG', () => {
   assert.equal(result.ok, false);
   assert.match(result.violations.join(''), /合計文字数/);
 });
+
+test('mechanicalCheckはtokens.limits.slideCountMaxが10でも実質上限9枚を超えるとNG', () => {
+  const result = mechanicalCheck(slidesFixture(10), tokensFixture());
+  assert.equal(result.ok, false);
+  assert.match(result.violations.join(''), /9枚/);
+});
+
+test('mechanicalCheckはcaption・heading・bodyが空だとNG', () => {
+  const input = slidesFixture(8);
+  input.caption = '';
+  input.slides[0].heading = '';
+  input.slides[1].body = '';
+  const result = mechanicalCheck(input, tokensFixture());
+  assert.equal(result.ok, false);
+  const joined = result.violations.join('');
+  assert.match(joined, /captionが空です/);
+  assert.match(joined, /1枚目の見出しが空です/);
+  assert.match(joined, /2枚目の本文が空です/);
+});

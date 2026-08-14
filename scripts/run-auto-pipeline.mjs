@@ -20,7 +20,7 @@ import { writeSlides } from './auto/copywrite.mjs';
 import { mechanicalCheck } from './auto/mechanical-check.mjs';
 import { judgeContent } from './auto/gemini-judge.mjs';
 import { runCopywriteInspectLoop } from './auto/inspect-loop.mjs';
-import { createIssue, commentIssue, closeIssue } from './auto/github-issue.mjs';
+import { createIssue, commentIssue } from './auto/github-issue.mjs';
 import { notifyChatwork } from './auto/notify.mjs';
 import { buildInspectionMd } from './auto/inspection-md.mjs';
 import { mockDeps } from './auto/mock-deps.mjs';
@@ -48,7 +48,6 @@ async function main() {
         judgeContentFn: (s, src, r) => judgeContent(s, src, r, { callGeminiJson: mockDeps.callGeminiJsonForJudge }),
         createIssue: mockDeps.createIssue,
         commentIssue: mockDeps.commentIssue,
-        closeIssue: mockDeps.closeIssue,
         notify: async () => {},
       }
     : {
@@ -58,7 +57,6 @@ async function main() {
         judgeContentFn: (s, src, r) => judgeContent(s, src, r, { callGeminiJson }),
         createIssue,
         commentIssue,
-        closeIssue,
         notify: notifyChatwork,
       };
 
@@ -106,7 +104,7 @@ async function main() {
   fs.writeFileSync(path.join(workDir, 'inspection.md'), buildInspectionMd(result.attempts));
   console.log(`合格(第${result.attempts}回): work/${slug}/slides.json を書き出しました`);
 
-  deps.closeIssue(issueNumber, `検収合格(第${result.attempts}回)。posts/${dir}/ へpushします。実際のInstagram投稿結果はChatworkでお知らせします。`);
+  deps.commentIssue(issueNumber, `検収合格(第${result.attempts}回)。posts/${dir}/ へのpushを試みます。`);
 
   appendGithubOutput('published=true');
   appendGithubOutput(`slug=${slug}`);

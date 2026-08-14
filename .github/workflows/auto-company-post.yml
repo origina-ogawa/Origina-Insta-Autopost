@@ -17,6 +17,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: write
 
 concurrency:
   group: auto-company-post
@@ -26,6 +27,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
     steps:
       - uses: actions/checkout@v4
 
@@ -45,7 +48,6 @@ jobs:
           CHATWORK_API_TOKEN: ${{ secrets.CHATWORK_API_TOKEN }}
           CHATWORK_ROOM_ID: ${{ secrets.CHATWORK_ROOM_ID }}
           GH_TOKEN: ${{ github.token }}
-          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
         run: |
           if [ "$DRY_RUN" = "true" ]; then
             node scripts/run-auto-pipeline.mjs --mock
@@ -54,7 +56,7 @@ jobs:
           fi
 
       - name: 画像化(Playwright)
-        if: ${{ steps.pipeline.outputs.published == 'true' }}
+        if: ${{ steps.pipeline.outputs.published == 'true' && env.DRY_RUN != 'true' }}
         env:
           BRAND: ${{ vars.BRAND || 'own' }}
           SLUG: ${{ steps.pipeline.outputs.slug }}
@@ -64,7 +66,7 @@ jobs:
           npm run render
 
       - name: posts/へ配置してmainへpush
-        if: ${{ steps.pipeline.outputs.published == 'true' }}
+        if: ${{ steps.pipeline.outputs.published == 'true' && env.DRY_RUN != 'true' }}
         env:
           DIR: ${{ steps.pipeline.outputs.dir }}
           SLUG: ${{ steps.pipeline.outputs.slug }}
@@ -90,6 +92,21 @@ jobs:
             echo "::error::posts/$DIR のpushに失敗しました"
             exit 1
           fi
+
+      - name: publish.ymlを起動してInstagramへ投稿
+        if: ${{ steps.pipeline.outputs.published == 'true' && env.DRY_RUN != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DIR: ${{ steps.pipeline.outputs.dir }}
+        run: gh workflow run publish.yml -f dir="$DIR" -f dry_run=false
+
+      - name: Issueをクローズ
+        if: ${{ steps.pipeline.outputs.published == 'true' && env.DRY_RUN != 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.pipeline.outputs.issue_number }}
+        run: |
+          gh issue close "$ISSUE_NUMBER" --comment "検収合格。posts/へのpushとpublish.ymlの起動が完了しました。実際の投稿結果はChatworkでお知らせします。"
 
       - name: 失敗をChatworkに通知
         if: ${{ failure() }}
