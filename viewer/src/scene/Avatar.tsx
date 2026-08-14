@@ -5,6 +5,7 @@ import * as THREE from "three";
 import type { Group, Mesh, MeshStandardMaterial } from "three";
 import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, type ActorId } from "../theme";
 import type { ActorState } from "../state/officeState";
+import { SpeechBubble } from "./SpeechBubble";
 
 const SHOE_COLOR = "#6B5638";
 const IDLE_GRAY = "#B9B0A4";
@@ -228,17 +229,7 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
       )}
 
       {/* 吹き出し(message) */}
-      {bubble && (
-        <Billboard position={[0, 2.05, 0]}>
-          <mesh>
-            <planeGeometry args={[1.6, 0.5]} />
-            <meshStandardMaterial color="#ffffff" roughness={1} metalness={0} />
-          </mesh>
-          <Text position={[0, 0, 0.01]} fontSize={0.15} color={PALETTE.ink} anchorX="center" anchorY="middle" maxWidth={1.4}>
-            {bubble}
-          </Text>
-        </Billboard>
-      )}
+      {bubble && <SpeechBubble text={bubble} />}
     </group>
   );
 }
