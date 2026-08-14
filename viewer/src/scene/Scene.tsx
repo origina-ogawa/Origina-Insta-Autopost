@@ -5,7 +5,7 @@ import type { OfficeState } from "../state/officeState";
 
 // アイソメトリック調のローポリ表現。俯瞰45度前後の固定カメラで、パースは弱め(FOVを絞って擬似アイソに寄せる)。
 // カメラは固定で、ユーザーが回転させる操作は付けない。
-const CAMERA_POSITION: [number, number, number] = [0, 15, 17.5];
+const CAMERA_POSITION: [number, number, number] = [2, 15, 17.5];
 const CAMERA_FOV = 24;
 
 export function Scene({ office }: { office: OfficeState }) {
@@ -13,7 +13,7 @@ export function Scene({ office }: { office: OfficeState }) {
     <Canvas
       shadows
       camera={{ position: CAMERA_POSITION, fov: CAMERA_FOV }}
-      onCreated={({ camera }) => camera.lookAt(0, 1, -1.5)}
+      onCreated={({ camera }) => camera.lookAt(2, 1, -1.5)}
     >
       <color attach="background" args={["#F2EDE4"]} />
       <hemisphereLight args={["#FFF3E0", "#9C8A6A", 0.9]} />
