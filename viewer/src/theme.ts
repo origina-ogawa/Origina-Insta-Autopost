@@ -90,3 +90,25 @@ export const LEAN_TO_NEXT: Record<ActorId, { x: number; z: number } | null> = Ob
 export const LEAN_TO_PREV: Record<ActorId, { x: number; z: number } | null> = Object.fromEntries(
   ACTORS.map((actor) => [actor, localDirectionTo(actor, PIPELINE_PREV[actor])]),
 ) as Record<ActorId, { x: number; z: number } | null>;
+
+// 出社/退社アニメーションで歩いていくワールド空間の方向。机が中心より左の社員は左へ、
+// 右の社員は右へ歩く。中央寄り(pm, producer)は右に固定する。
+const EXIT_WORLD_DIR: Record<ActorId, { x: number; z: number }> = Object.fromEntries(
+  ACTORS.map((actor) => [actor, DESK_POSITIONS[actor].x < 0 ? { x: -1, z: 0 } : { x: 1, z: 0 }]),
+) as Record<ActorId, { x: number; z: number }>;
+
+// 出社/退社の方向を、社員自身のローカル座標系(机の正面=-z)に変換した単位ベクトル。
+// LEAN_TO_NEXT/LEAN_TO_PREVと同じ変換(localDirectionTo)を、固定のワールド方向に対して適用する。
+export const WALK_DIR: Record<ActorId, { x: number; z: number }> = Object.fromEntries(
+  ACTORS.map((actor) => {
+    const theta = DESK_POSITIONS[actor].rotY;
+    const world = EXIT_WORLD_DIR[actor];
+    return [
+      actor,
+      {
+        x: world.x * Math.cos(theta) - world.z * Math.sin(theta),
+        z: world.x * Math.sin(theta) + world.z * Math.cos(theta),
+      },
+    ];
+  }),
+) as Record<ActorId, { x: number; z: number }>;

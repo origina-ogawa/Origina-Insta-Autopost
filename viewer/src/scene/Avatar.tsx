@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { Billboard, Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { Group, Mesh, MeshStandardMaterial } from "three";
-import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, type ActorId } from "../theme";
+import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, WALK_DIR, type ActorId } from "../theme";
 import type { ActorState } from "../state/officeState";
 import { SpeechBubble } from "./SpeechBubble";
 import { FLAVOR_LINES } from "../data/flavorLines";
@@ -19,6 +19,9 @@ const FLAVOR_DURATION_MS = 3000;
 const FLAVOR_BG = "#fff6d9";
 const TWEEN_MS = 700; // 動きは控えめに。ease-in-out、0.5〜1秒の範囲
 const LEAN_DISTANCE = 0.4; // handoff/rejectで身を乗り出す距離(控えめ)
+const WALK_MS = 1200; // 出社/退社の所要時間
+const WALK_DISTANCE = 5; // 出社前/退社後のローカルオフセット距離
+const WALK_BOB_HEIGHT = 0.08; // 歩行中の上下バウンス幅
 
 function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -32,6 +35,7 @@ function pulse(t: number) {
 
 type ScaleAnim = { start: number; from: number; to: number };
 type LeanAnim = { start: number; dir: { x: number; z: number } };
+type WalkAnim = { start: number; from: number; to: number; dir: { x: number; z: number } };
 
 // ローポリのチビキャラをプリミティブだけで組み立てる(外部モデル不使用)。
 // logs/SCHEMA.md の7イベントに応じて、控えめな動き(ease-in-out, 0.5〜1秒)で反応する。
@@ -64,6 +68,7 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
 
   const scaleAnim = useRef<ScaleAnim | null>(null);
   const leanAnim = useRef<LeanAnim | null>(null);
+  const walkAnim = useRef<WalkAnim | null>(null);
   const rejectFlashAnim = useRef<number | null>(null);
 
   const [bubble, setBubble] = useState<string | null>(null);
@@ -119,8 +124,23 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   useEffect(() => {
     if (state.seq === 0) return;
 
-    presentRef.current = state.event !== "done";
-    if (groupRef.current) groupRef.current.visible = presentRef.current;
+    const shouldBePresent = state.event !== "done";
+    if (shouldBePresent !== presentRef.current) {
+      const dir = WALK_DIR[actor];
+      if (dir) {
+        if (shouldBePresent) {
+          presentRef.current = true;
+          if (groupRef.current) groupRef.current.visible = true;
+          walkAnim.current = { start: performance.now(), from: WALK_DISTANCE, to: 0, dir };
+        } else {
+          walkAnim.current = { start: performance.now(), from: 0, to: WALK_DISTANCE, dir };
+          presentRef.current = false;
+        }
+      } else {
+        presentRef.current = shouldBePresent;
+        if (groupRef.current) groupRef.current.visible = shouldBePresent;
+      }
+    }
 
     if (state.event === "start") {
       scaleAnim.current = { start: performance.now(), from: 0.85, to: 1 };
@@ -153,7 +173,20 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
         groupRef.current.scale.setScalar(from + (to - from) * easeInOutCubic(t));
         if (t >= 1) scaleAnim.current = null;
       }
-      if (leanAnim.current) {
+      if (walkAnim.current) {
+        const { start, from, to, dir } = walkAnim.current;
+        const t = Math.min(1, (now - start) / WALK_MS);
+        const eased = easeInOutCubic(t);
+        const amount = from + (to - from) * eased;
+        groupRef.current.position.x = dir.x * amount;
+        groupRef.current.position.z = dir.z * amount;
+        groupRef.current.position.y = 0.32 + Math.sin(t * Math.PI) * WALK_BOB_HEIGHT;
+        if (t >= 1) {
+          walkAnim.current = null;
+          groupRef.current.position.y = 0.32;
+          if (!presentRef.current) groupRef.current.visible = false;
+        }
+      } else if (leanAnim.current) {
         const { start, dir } = leanAnim.current;
         const t = Math.min(1, (now - start) / TWEEN_MS);
         const amount = pulse(t) * LEAN_DISTANCE;
