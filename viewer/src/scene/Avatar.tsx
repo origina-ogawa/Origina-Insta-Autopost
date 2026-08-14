@@ -65,6 +65,7 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   const flashRef = useRef<Mesh>(null);
   const flashMatRef = useRef<MeshStandardMaterial>(null);
   const presentRef = useRef(false); // 出社しているか(true=机にいる状態)
+  const initializedRef = useRef(false); // 初回のイベント一括反映(ページ読み込み直後)かどうか
 
   const scaleAnim = useRef<ScaleAnim | null>(null);
   const leanAnim = useRef<LeanAnim | null>(null);
@@ -124,21 +125,22 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   useEffect(() => {
     if (state.seq === 0) return;
 
+    const isInitialCatchUp = !initializedRef.current;
+    initializedRef.current = true;
+
     const shouldBePresent = state.event !== "done";
     if (shouldBePresent !== presentRef.current) {
       const dir = WALK_DIR[actor];
-      if (dir) {
-        if (shouldBePresent) {
-          presentRef.current = true;
-          if (groupRef.current) groupRef.current.visible = true;
-          walkAnim.current = { start: performance.now(), from: WALK_DISTANCE, to: 0, dir };
-        } else {
-          walkAnim.current = { start: performance.now(), from: 0, to: WALK_DISTANCE, dir };
-          presentRef.current = false;
-        }
-      } else {
+      if (isInitialCatchUp || !dir) {
         presentRef.current = shouldBePresent;
         if (groupRef.current) groupRef.current.visible = shouldBePresent;
+      } else if (shouldBePresent) {
+        presentRef.current = true;
+        if (groupRef.current) groupRef.current.visible = true;
+        walkAnim.current = { start: performance.now(), from: WALK_DISTANCE, to: 0, dir };
+      } else {
+        walkAnim.current = { start: performance.now(), from: 0, to: WALK_DISTANCE, dir };
+        presentRef.current = false;
       }
     }
 
