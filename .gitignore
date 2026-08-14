@@ -3,6 +3,7 @@ node_modules/
 output/
 .playwright-mcp/
 *.log
+logs/instructions.jsonl
 .DS_Store
 .superpowers/
 viewer/dist/
