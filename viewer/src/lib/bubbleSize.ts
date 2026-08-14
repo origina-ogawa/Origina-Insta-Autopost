@@ -14,6 +14,10 @@ const MAX_WIDTH = 2.6;
 
 export type BubbleSize = { width: number; height: number; maxTextWidth: number };
 
+// 1行分の最小高さ(0.42)。SpeechBubble側で「吹き出しの下端(しっぽ側)を固定し、
+// 行数が増えた分だけ上方向に伸ばす」ための基準値として使う。
+export const MIN_BUBBLE_HEIGHT = LINE_HEIGHT + V_PADDING;
+
 // 全角判定: ひらがな・カタカナ・全角記号(0x3000-0x30FF)、漢字(0x4E00-0x9FFF)、
 // 全角英数・記号(0xFF00-0xFF60)、全角記号の一部(0xFFE0-0xFFE6)を全角とみなす。
 // それ以外(半角英数・半角記号など)は半角として扱う。

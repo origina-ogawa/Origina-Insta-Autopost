@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Billboard, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { PALETTE } from "../theme";
-import { computeBubbleSize } from "../lib/bubbleSize";
+import { computeBubbleSize, MIN_BUBBLE_HEIGHT } from "../lib/bubbleSize";
 
 const DEFAULT_BG = "#ffffff";
 const CORNER_RADIUS = 0.08; // 角丸の半径(吹き出しが小さい場合は幅・高さに応じて縮める)
@@ -39,8 +39,17 @@ export function SpeechBubble({ text, bg = DEFAULT_BG }: { text: string; bg?: str
   const { width, height, maxTextWidth } = computeBubbleSize(text);
   const geometry = useMemo(() => new THREE.ShapeGeometry(buildBubbleShape(width, height)), [width, height]);
 
+  // geometryをmeshのgeometry propへ命令的に渡しているため、R3Fは差し替え時・アンマウント時に
+  // 自動でdisposeしない(宣言的なJSX子要素<shapeGeometry />ならR3Fが面倒を見るが、useMemoで
+  // 生成したインスタンスを渡す今の書き方では自前でdisposeする必要がある)。吹き出しは実メッセージ
+  // ・面白いセリフ(6〜9秒おき)のたびに頻繁にマウント/アンマウントされるため、放置するとGPU/CPU
+  // バッファがリークし続ける。
+  useEffect(() => {
+    return () => geometry.dispose();
+  }, [geometry]);
+
   return (
-    <Billboard position={[0, 2.05, 0]}>
+    <Billboard position={[0, 2.05 + (height - MIN_BUBBLE_HEIGHT) / 2, 0]}>
       <mesh geometry={geometry}>
         <meshStandardMaterial color={bg} roughness={1} metalness={0} side={THREE.DoubleSide} />
       </mesh>
