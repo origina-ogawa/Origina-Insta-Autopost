@@ -12,9 +12,10 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "allowImportingTsExtensions": true,
     "noEmit": true
   },
   "include": ["src"],
+  // テストファイルは node:test/node:assert の型を使うが、このプロジェクトは @types/node を
+  // 依存に追加しない方針のため tsc の対象から除外する(テストは node --test で直接実行する)
   "exclude": ["src/**/*.test.ts"]
 }
