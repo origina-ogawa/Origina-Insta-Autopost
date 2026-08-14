@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Billboard, Html } from "@react-three/drei";
-import { PALETTE } from "../theme";
 import type { InstructionEntry } from "../lib/instructionLog";
 
 const STOP_MESSAGE = "作業を一時停止してください";
 const HISTORY_LIMIT = 5;
 
-// 社長席の上に置く、モニター風の3Dオブジェクト。画面部分にHTMLパネルを重ね、
+// 社長席の奥の壁に掛けた、モニター風の3Dオブジェクト。画面部分にHTMLパネルを重ね、
 // 指示入力欄・送信履歴・一時停止ボタンを表示する。Htmlは通常モード(スクリーン空間の
 // オーバーレイ)で使い、3Dワールド座標へ縮小されないようにする(transformモードだと
 // 固定カメラの表示倍率では文字がほぼ判読不能になるため)。モニターのベゼル(枠)部分は
-// Billboardで常にカメラへ正対させる(NameSign/SpeechBubbleと同じパターン)。
+// Billboardで常にカメラへ正対させる(NameSign/SpeechBubbleと同じパターン)。壁掛けのため
+// 机に接続するスタンドは持たない。
 export function PresidentMonitor({
   history,
   send,
@@ -53,11 +53,7 @@ export function PresidentMonitor({
   const recent = history.slice(-HISTORY_LIMIT);
 
   return (
-    <group position={[0, 1.35, -0.1]}>
-      <mesh position={[0, -0.55, 0]} castShadow>
-        <boxGeometry args={[0.06, 0.5, 0.06]} />
-        <meshStandardMaterial color={PALETTE.woodDark} roughness={0.85} metalness={0} />
-      </mesh>
+    <group position={[0, 2, 2.1]}>
       <Billboard>
         <mesh castShadow>
           <boxGeometry args={[1.05, 0.85, 0.04]} />
