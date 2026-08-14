@@ -98,7 +98,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           DIR: ${{ steps.pipeline.outputs.dir }}
-        run: gh workflow run publish.yml -f dir="$DIR" -f dry_run=false
+        run: gh workflow run publish.yml -f dir="$DIR" -F dry_run=false
 
       - name: Issueをクローズ
         if: ${{ steps.pipeline.outputs.published == 'true' && env.DRY_RUN != 'true' }}

@@ -36,7 +36,7 @@ test('mechanicalCheckはスライド枚数が8枚未満だとNG', () => {
   assert.match(result.violations[0], /枚数/);
 });
 
-test('mechanicalCheckはスライド枚数が10枚超だとNG', () => {
+test('mechanicalCheckはスライド枚数が9枚超だとNG', () => {
   const result = mechanicalCheck(slidesFixture(11), tokensFixture());
   assert.equal(result.ok, false);
 });

@@ -1,8 +1,8 @@
-// 構成案作成(director.md相当)。一次ソースだけを根拠に8〜10枚のスライド構成を作らせる。
+// 構成案作成(director.md相当)。一次ソースだけを根拠に8〜9枚のスライド構成を作らせる(末尾に固定のブランドスライドが1枚追加されるため、Instagramカルーセル上限10枚に収まるよう9枚までに制限。mechanical-check.mjsのCONTENT_SLIDE_MAXと合わせる)。
 export function buildStructurePrompt(topic, sources) {
   const sourceList = sources.map((s, i) => `${i + 1}. ${s.title} — ${s.url}`).join('\n');
   return `あなたはInstagramカルーセル投稿の構成作家です。次の一次ソースだけを根拠に、
-8〜10枚のスライド構成案を考えてください。ここに無い情報を足してはいけません。
+8〜9枚のスライド構成案を考えてください。ここに無い情報を足してはいけません。
 
 # テーマ
 ${topic.theme}
@@ -31,8 +31,8 @@ export async function buildStructure(topic, sources, { callGeminiJson }) {
   const prompt = buildStructurePrompt(topic, sources);
   const result = await callGeminiJson(prompt);
   const slides = result.slides;
-  if (!Array.isArray(slides) || slides.length < 8 || slides.length > 10) {
-    throw new Error(`構成案のスライド数が不正です(8〜10枚が必要、実際は${slides?.length ?? 0}枚)`);
+  if (!Array.isArray(slides) || slides.length < 8 || slides.length > 9) {
+    throw new Error(`構成案のスライド数が不正です(8〜9枚が必要、実際は${slides?.length ?? 0}枚)`);
   }
   return slides;
 }

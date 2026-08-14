@@ -25,11 +25,11 @@ test('buildStructureは8〜10枚の構成案を返す', async () => {
 
 test('buildStructureはスライド数が8枚未満だとエラーを投げる', async () => {
   const callGeminiJson = async () => ({ slides: [{ role: 'hook', point: 'x', sourceIndex: 1 }] });
-  await assert.rejects(() => buildStructure({ theme: 'テスト' }, sourcesFixture(), { callGeminiJson }), /8〜10枚/);
+  await assert.rejects(() => buildStructure({ theme: 'テスト' }, sourcesFixture(), { callGeminiJson }), /8〜9枚/);
 });
 
 test('buildStructureはスライド数が10枚超だとエラーを投げる', async () => {
   const slides = Array.from({ length: 11 }, () => ({ role: 'body', point: 'x', sourceIndex: 1 }));
   const callGeminiJson = async () => ({ slides });
-  await assert.rejects(() => buildStructure({ theme: 'テスト' }, sourcesFixture(), { callGeminiJson }), /8〜10枚/);
+  await assert.rejects(() => buildStructure({ theme: 'テスト' }, sourcesFixture(), { callGeminiJson }), /8〜9枚/);
 });
