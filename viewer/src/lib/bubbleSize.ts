@@ -16,7 +16,8 @@ export function computeBubbleSize(text: string): BubbleSize {
   const rawWidth = text.length * CHAR_WIDTH + H_PADDING;
   const width = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, rawWidth));
   const maxTextWidth = width - H_PADDING;
-  const lineCount = Math.max(1, Math.round((text.length * CHAR_WIDTH) / maxTextWidth));
+  const charsPerLine = Math.max(1, Math.floor(maxTextWidth / CHAR_WIDTH));
+  const lineCount = Math.max(1, Math.ceil(text.length / charsPerLine));
   const height = lineCount * LINE_HEIGHT + V_PADDING;
   return { width, height, maxTextWidth };
 }
