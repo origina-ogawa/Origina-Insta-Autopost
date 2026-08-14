@@ -21,8 +21,11 @@ import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 
-/** 見出し文字列を、表紙スライド用に短い行へ機械的に分割する(装飾的な改行の作り込みはしない) */
-export function wrapHeadingToLines(heading, { maxLineLen = 8, maxLines = 4 } = {}) {
+/** 見出し文字列を、表紙スライド用に短い行へ機械的に分割する(装飾的な改行の作り込みはしない)。
+ * maxLineLenのデフォルトは6文字: cover-titleはfont-size 96pxで、キャラクター表示時は
+ * max-width 640pxに制限されるため、全角8文字(約770px超)だとブラウザ側で二重に折り返され
+ * marker-lineのハイライトがずれる。6文字(約570px)ならその制約内に収まる。 */
+export function wrapHeadingToLines(heading, { maxLineLen = 6, maxLines = 4 } = {}) {
   const chars = Array.from(String(heading ?? ''));
   if (chars.length === 0) return [''];
 

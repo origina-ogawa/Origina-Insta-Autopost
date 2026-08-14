@@ -2,11 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { wrapHeadingToLines, convertSlidesToPost } from './slides-to-post.mjs';
 
-test('wrapHeadingToLinesは8文字ごとに改行する', () => {
+test('wrapHeadingToLinesは6文字ごとに改行する', () => {
   assert.deepEqual(wrapHeadingToLines('発注してはいけないWeb制作会社4選'), [
-    '発注してはいけな',
-    'いWeb制作会社',
-    '4選',
+    '発注してはい',
+    'けないWeb',
+    '制作会社4選',
   ]);
 });
 

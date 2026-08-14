@@ -26,8 +26,10 @@ function baseCss(c) {
     position: relative; overflow: hidden; }
   .card.has-character .panel { padding-right: 280px; }
   /* キャラクター表示時はパネル横幅が狭くなる分だけ、文字をわずかに小さくする(6枚目=まとめスライドに近いサイズ) */
-  /* paraは本文の先頭側(キャラクターの頭より上)にしか出ないため、パネルの右余白を一部取り戻して1行に収まりやすくする */
-  .card.has-character .para { font-size: 50px; line-height: 1.42; margin-right: -200px; }
+  .card.has-character .para { font-size: 50px; line-height: 1.42; }
+  /* lead内のparaは1行程度でキャラクターの頭より上にしか出ないため、右余白を一部取り戻して1行に収まりやすくする。
+     paragraphブロック単体のparaは最大4行までキャラクターの胴体まで伸びうるため、padding-right: 280pxを削らない */
+  .card.has-character .lead .para { margin-right: -200px; }
   .card.has-character .lead { margin-bottom: 40px; }
   .card.has-character .lead b { font-size: 44px; }
   .card.has-character .compare { margin-top: 44px; padding: 40px 22px; }
