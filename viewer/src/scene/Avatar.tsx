@@ -6,6 +6,7 @@ import type { Group, Mesh, MeshStandardMaterial } from "three";
 import { PALETTE, LEAN_TO_NEXT, LEAN_TO_PREV, type ActorId } from "../theme";
 import type { ActorState } from "../state/officeState";
 import { SpeechBubble } from "./SpeechBubble";
+import { FLAVOR_LINES } from "../data/flavorLines";
 
 const SHOE_COLOR = "#6B5638";
 const IDLE_GRAY = "#B9B0A4";
@@ -13,6 +14,10 @@ const BLOCKED_DIM = 0.35; // blocked(待機姿勢)のとき、色を少し白側
 const REJECT_RED = "#E14B3A";
 const DONE_OPACITY = 0.4; // done(退勤)でのフェードアウト先の不透明度
 const BUBBLE_MS = 4000;
+const FLAVOR_MIN_INTERVAL_MS = 6000;
+const FLAVOR_MAX_INTERVAL_MS = 9000;
+const FLAVOR_DURATION_MS = 3000;
+const FLAVOR_BG = "#fff6d9";
 const TWEEN_MS = 700; // 動きは控えめに。ease-in-out、0.5〜1秒の範囲
 const LEAN_DISTANCE = 0.4; // handoff/rejectで身を乗り出す距離(控えめ)
 
@@ -65,6 +70,54 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
   const opacityTarget = useRef(1);
 
   const [bubble, setBubble] = useState<string | null>(null);
+  const [flavor, setFlavor] = useState<string | null>(null);
+  const bubbleRef = useRef<string | null>(null);
+  const eventRef = useRef(state.event);
+  const lastFlavorRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    bubbleRef.current = bubble;
+  }, [bubble]);
+
+  useEffect(() => {
+    eventRef.current = state.event;
+  }, [state.event]);
+
+  useEffect(() => {
+    if (!state.active) {
+      setFlavor(null);
+      return;
+    }
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let hideTimeoutId: ReturnType<typeof setTimeout>;
+
+    function tick() {
+      const delay = FLAVOR_MIN_INTERVAL_MS + Math.random() * (FLAVOR_MAX_INTERVAL_MS - FLAVOR_MIN_INTERVAL_MS);
+      timeoutId = setTimeout(() => {
+        if (cancelled) return;
+        const canSpeak = !bubbleRef.current && eventRef.current !== "blocked" && eventRef.current !== "done";
+        if (canSpeak) {
+          const lines = FLAVOR_LINES[actor];
+          const candidates = lines.filter((line) => line !== lastFlavorRef.current);
+          const line = candidates[Math.floor(Math.random() * candidates.length)] ?? lines[0];
+          lastFlavorRef.current = line;
+          setFlavor(line);
+          hideTimeoutId = setTimeout(() => {
+            if (!cancelled) setFlavor(null);
+          }, FLAVOR_DURATION_MS);
+        }
+        tick();
+      }, delay);
+    }
+
+    tick();
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+      clearTimeout(hideTimeoutId);
+    };
+  }, [state.active, actor]);
 
   useEffect(() => {
     if (state.seq === 0) return;
@@ -228,8 +281,9 @@ export function Avatar({ actor, color, state }: { actor: ActorId; color: string;
         </Billboard>
       )}
 
-      {/* 吹き出し(message) */}
+      {/* 吹き出し(実イベントのmessageを優先。無い間は面白いセリフを表示) */}
       {bubble && <SpeechBubble text={bubble} />}
+      {!bubble && flavor && <SpeechBubble text={flavor} bg={FLAVOR_BG} />}
     </group>
   );
 }
