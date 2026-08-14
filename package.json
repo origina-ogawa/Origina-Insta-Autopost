@@ -12,7 +12,7 @@
     "detect-pending": "node scripts/detect-pending.mjs",
     "publish:instagram": "node scripts/publish-instagram.mjs",
     "slides-to-post": "node scripts/slides-to-post.mjs",
-    "test": "node --test scripts/*.test.mjs src/lib/*.test.mjs"
+    "test": "node --test scripts/*.test.mjs scripts/auto/*.test.mjs src/lib/*.test.mjs"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
