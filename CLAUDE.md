@@ -22,7 +22,7 @@ Instagramカルーセル投稿を自動生成・自動投稿するシステム�
 ## 技術的な約束事
 
 - 実行環境: Node.js 20以上、ESM(`"type": "module"`)
-- スライド画像は 1080x1080px、`output/` に生成する(`output/` はgit管理外)
+- スライド画像は 1080x1350px(4:5)、`output/` に生成する(`output/` はgit管理外)。Instagramのフィードで許される最も縦長の比率。プロフィールの一覧は3:4表示なので、1:1だと左右が大きく切られて文字が欠ける
 - 投稿済み画像は `posts/YYYY-MM-DD/` にコミットし、raw.githubusercontent.com のURLをInstagram APIに渡す(このリポジトリはpublic前提)
 - **投稿テーマ**: `topics.yml` に曜日別カテゴリを登録し、週替わりローテーションで内容重複を最小化
 - **ハッシュタグ**: Instagramの2025年末以降の公式推奨に準拠して最大3個に制限

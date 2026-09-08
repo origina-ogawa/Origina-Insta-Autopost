@@ -25,7 +25,10 @@ const ROOT = path.resolve(import.meta.dirname, '..');
  * maxLineLenのデフォルトは6文字: cover-titleはfont-size 96pxで、キャラクター表示時は
  * max-width 640pxに制限されるため、全角8文字(約770px超)だとブラウザ側で二重に折り返され
  * marker-lineのハイライトがずれる。6文字(約570px)ならその制約内に収まる。 */
-export function wrapHeadingToLines(heading, { maxLineLen = 6, maxLines = 4 } = {}) {
+// 表紙見出しの機械的な改行。1行5文字なのは、src/lib/components.jsの .cover-title が
+// 120px・最大幅640px(キャラクター表示時)のため。5文字 x 120px = 600px で収まる。
+// 見出しは20字以内(tokens.jsonのfont.heading.maxChars)なので、5文字 x 4行にちょうど収まる。
+export function wrapHeadingToLines(heading, { maxLineLen = 5, maxLines = 4 } = {}) {
   const chars = Array.from(String(heading ?? ''));
   if (chars.length === 0) return [''];
 

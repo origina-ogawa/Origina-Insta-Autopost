@@ -6,130 +6,151 @@ import { safeIcon } from './icons.js';
 function baseCss(c) {
   return `
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* 1080x1350(4:5)。Instagramのフィードで許される最も縦長の比率にしている。
+     プロフィールの一覧(グリッド)は3:4で表示され、4:5の画像は左右が約34pxずつ切られるため、
+     bodyの左右paddingを44px確保して、切られるのが外側の枠だけになるようにしている。 */
   body {
-    width: 1080px; height: 1080px;
+    width: 1080px; height: 1350px;
     font-family: 'Noto Sans JP', sans-serif;
     background: ${c.primary}; color: ${c.primary};
     display: flex; flex-direction: column;
-    padding: 22px 36px; overflow: hidden;
+    padding: 26px 44px; overflow: hidden;
   }
   .accent { color: ${c.red}; font-weight: 700; }
   .marker { background: linear-gradient(transparent 62%, ${c.yellow} 62%); font-weight: 900; }
 
-  .header { display: flex; align-items: center; gap: 14px; padding: 6px 4px 16px; }
-  .header .warn { width: 44px; height: 44px; border-radius: 10px; background: ${c.yellow};
-    display: flex; align-items: center; justify-content: center; font-size: 28px; color: ${c.primary}; }
-  .header h1 { color: #fff; font-size: 26px; font-weight: 900; letter-spacing: 1px; }
+  .header { display: flex; align-items: center; gap: 18px; padding: 8px 4px 20px; }
+  .header .warn { width: 54px; height: 54px; border-radius: 12px; background: ${c.yellow};
+    display: flex; align-items: center; justify-content: center; font-size: 34px; color: ${c.primary}; }
+  .header h1 { color: #fff; font-size: 34px; font-weight: 900; letter-spacing: 1px; }
 
-  .card { background: #fff; border-radius: 14px; flex: 1;
-    padding: 26px 34px 22px; display: flex; flex-direction: column; gap: 16px; min-height: 0;
+  .card { background: #fff; border-radius: 18px; flex: 1;
+    padding: 34px 40px 30px; display: flex; flex-direction: column; gap: 20px; min-height: 0;
     position: relative; overflow: hidden; }
-  .card.has-character .panel { padding-right: 280px; }
+  .card.has-character .panel { padding-right: 300px; }
   /* キャラクター表示時はパネル横幅が狭くなる分だけ、文字をわずかに小さくする(6枚目=まとめスライドに近いサイズ) */
-  .card.has-character .para { font-size: 50px; line-height: 1.42; }
+  .card.has-character .para { font-size: 58px; line-height: 1.42; }
   /* lead内のparaは1行程度でキャラクターの頭より上にしか出ないため、右余白を一部取り戻して1行に収まりやすくする。
-     paragraphブロック単体のparaは最大4行までキャラクターの胴体まで伸びうるため、padding-right: 280pxを削らない */
-  .card.has-character .lead .para { margin-right: -200px; }
-  .card.has-character .lead { margin-bottom: 40px; }
-  .card.has-character .lead b { font-size: 44px; }
-  .card.has-character .compare { margin-top: 44px; padding: 40px 22px; }
-  .card.has-character .compare .item { font-size: 30px; }
-  .card.has-character .compare .item i { font-size: 76px; margin-bottom: 10px; }
-  .card.has-character .pill { font-size: 32px; margin-bottom: 28px; }
-  .card.has-character .check-item { font-size: 40px; padding: 22px 26px; }
-  .card.has-character .check-item .cbox { width: 60px; height: 60px; font-size: 32px; }
+     paragraphブロック単体のparaは最大4行までキャラクターの胴体まで伸びうるため、padding-right: 300pxを削らない */
+  .card.has-character .lead .para { margin-right: -210px; }
+  .card.has-character .lead { margin-bottom: 56px; }
+  /* キャラクター表示時の見出し行の幅は「パネル内容560px - アイコン92px - 余白26px = 442px」。
+     9文字程度のラベルが1行に収まるよう46pxを上限にする(大きくすると2行に折り返す) */
+  .card.has-character .lead .ic { width: 92px; height: 92px; font-size: 50px; }
+  .card.has-character .lead b { font-size: 46px; }
+  /* 比較ボックスは3分割されるため1項目あたり約200px。6文字が1行に収まる32pxが上限 */
+  .card.has-character .compare { margin-top: 64px; padding: 46px 20px; }
+  .card.has-character .compare .item { font-size: 32px; }
+  .card.has-character .compare .item i { font-size: 84px; margin-bottom: 14px; }
+  .card.has-character .pill { font-size: 38px; margin-bottom: 32px; }
+  .card.has-character .check-item { font-size: 48px; padding: 26px 30px; }
+  .card.has-character .check-item .cbox { width: 68px; height: 68px; font-size: 38px; }
 
-  .title-row { display: flex; gap: 24px; align-items: center; }
-  .no { position: relative; flex-shrink: 0; width: 76px; height: 76px; background: ${c.primary};
-    color: #fff; font-size: 40px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+  .title-row { display: flex; gap: 28px; align-items: center; }
+  .no { position: relative; flex-shrink: 0; width: 92px; height: 92px; background: ${c.primary};
+    color: #fff; font-size: 48px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
   .no::after { content: ''; position: absolute; right: -12px; bottom: -12px;
-    width: 76px; height: 76px; background: ${c.yellow}; z-index: -1; }
+    width: 92px; height: 92px; background: ${c.yellow}; z-index: -1; }
   .title-main { min-width: 0; }
-  .title-main h2 { font-size: 44px; font-weight: 900; line-height: 1.3; }
+  .title-main h2 { font-size: 56px; font-weight: 900; line-height: 1.3; }
   .title-visual { margin-left: auto; flex-shrink: 0; }
-  .big-ic { width: 120px; height: 120px; border: 5px solid ${c.primary}; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 64px; color: ${c.primary};
+  .big-ic { width: 140px; height: 140px; border: 5px solid ${c.primary}; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 74px; color: ${c.primary};
     position: relative; background: #fff; }
-  .big-ic .badge { position: absolute; right: -10px; bottom: -4px; width: 46px; height: 46px;
-    border-radius: 50%; background: ${c.primary}; color: #fff; font-size: 26px;
+  .big-ic .badge { position: absolute; right: -10px; bottom: -4px; width: 54px; height: 54px;
+    border-radius: 50%; background: ${c.primary}; color: #fff; font-size: 30px;
     display: flex; align-items: center; justify-content: center; }
 
   .body-character { position: absolute; right: 16px; bottom: 0;
-    max-width: 330px; max-height: 540px; width: auto; height: auto;
+    max-width: 380px; max-height: 700px; width: auto; height: auto;
     object-fit: contain; object-position: bottom; z-index: 2; }
   .cover-character { position: absolute; right: -24px; bottom: 0;
-    max-width: 420px; max-height: 760px; width: auto; height: auto;
+    max-width: 470px; max-height: 950px; width: auto; height: auto;
     object-fit: contain; object-position: bottom; }
 
   .body-grid { display: flex; flex-direction: column; flex: 1; min-height: 0; }
   .col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-  .panel { background: ${c.panel}; border-radius: 18px; padding: 40px 44px;
+  .panel { background: ${c.panel}; border-radius: 22px; padding: 48px 52px;
     flex: 1; display: flex; flex-direction: column; justify-content: center; }
   .panel.light { background: ${c.panelLight}; }
 
-  .lead { display: flex; align-items: center; gap: 22px; margin-bottom: 44px; }
-  .lead .ic { width: 92px; height: 92px; border-radius: 50%; background: ${c.primary}; color: #fff;
-    display: flex; align-items: center; justify-content: center; font-size: 50px; flex-shrink: 0; }
-  .lead b { font-size: 46px; font-weight: 900; }
-  .para { font-size: 54px; line-height: 1.45; font-weight: 700; }
+  .lead { display: flex; align-items: center; gap: 26px; margin-bottom: 60px; }
+  .lead .ic { width: 108px; height: 108px; border-radius: 50%; background: ${c.primary}; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 58px; flex-shrink: 0; }
+  .lead b { font-size: 56px; font-weight: 900; }
+  .para { font-size: 62px; line-height: 1.45; font-weight: 700; }
 
-  .compare { margin-top: 56px; background: #fff; border: 2px dashed #b9c2d4; border-radius: 18px;
-    padding: 48px 24px; display: flex; align-items: center; justify-content: space-around; gap: 8px; }
-  .compare .item { text-align: center; font-size: 32px; font-weight: 700; line-height: 1.35; }
-  .compare .item i { font-size: 84px; display: block; margin-bottom: 14px; }
-  .compare .ne { font-size: 52px; font-weight: 900; }
+  .compare { margin-top: 80px; background: #fff; border: 2px dashed #b9c2d4; border-radius: 22px;
+    padding: 56px 28px; display: flex; align-items: center; justify-content: space-around; gap: 8px; }
+  /* 3分割されるため1項目あたり約250px。6文字が1行に収まる38pxを上限にする */
+  .compare .item { text-align: center; font-size: 38px; font-weight: 700; line-height: 1.35; }
+  .compare .item i { font-size: 96px; display: block; margin-bottom: 18px; }
+  .compare .ne { font-size: 66px; font-weight: 900; }
 
-  .pill { background: ${c.primary}; color: #fff; border-radius: 999px; font-size: 28px;
-    font-weight: 700; text-align: center; padding: 14px 20px; margin-bottom: 36px; }
+  .pill { background: ${c.primary}; color: #fff; border-radius: 999px; font-size: 36px;
+    font-weight: 700; text-align: center; padding: 18px 26px; margin-bottom: 40px; }
   .pill .marker { background: none; color: ${c.yellow}; font-weight: 900; }
   .pill .accent { color: ${c.yellow}; }
-  .checklist-items { display: flex; flex-direction: column; justify-content: center; gap: 22px; }
-  .check-item { display: flex; align-items: center; gap: 22px; font-size: 42px;
-    font-weight: 700; line-height: 1.35; background: #fff; border-radius: 14px;
-    padding: 24px 28px; box-shadow: 0 2px 8px rgba(22, 41, 77, 0.08); }
-  .check-item .cbox { width: 64px; height: 64px; border-radius: 12px; background: ${c.primary};
-    color: #fff; display: flex; align-items: center; justify-content: center; font-size: 34px; flex-shrink: 0; }
+  .checklist-items { display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+  .check-item { display: flex; align-items: center; gap: 26px; font-size: 52px;
+    font-weight: 700; line-height: 1.35; background: #fff; border-radius: 16px;
+    padding: 30px 34px; box-shadow: 0 2px 8px rgba(22, 41, 77, 0.08); }
+  .check-item .cbox { width: 76px; height: 76px; border-radius: 14px; background: ${c.primary};
+    color: #fff; display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0; }
 
-  .summary { background: ${c.cream}; border-radius: 14px; padding: 22px 28px;
-    display: flex; align-items: center; gap: 18px; }
-  .summary .ok { width: 54px; height: 54px; border-radius: 50%; border: 5px solid ${c.primary};
-    display: flex; align-items: center; justify-content: center; font-size: 30px; color: ${c.yellow};
+  .summary { background: ${c.cream}; border-radius: 16px; padding: 30px 34px;
+    display: flex; align-items: center; gap: 22px; }
+  .summary .ok { width: 66px; height: 66px; border-radius: 50%; border: 5px solid ${c.primary};
+    display: flex; align-items: center; justify-content: center; font-size: 36px; color: ${c.yellow};
     flex-shrink: 0; background: #fff; }
-  .summary p { font-size: 27px; font-weight: 700; line-height: 1.5; }
-  .summary .side-ic { margin-left: auto; font-size: 52px; color: ${c.primary}; flex-shrink: 0; }
+  .summary p { font-size: 36px; font-weight: 700; line-height: 1.5; }
+  .summary .side-ic { margin-left: auto; font-size: 62px; color: ${c.primary}; flex-shrink: 0; }
 
-  .footer { display: flex; align-items: center; gap: 18px; padding: 12px 8px 0; }
-  .footer .bulb { width: 52px; height: 52px; border-radius: 50%; border: 3px solid #fff;
+  .footer { display: flex; align-items: center; gap: 22px; padding: 16px 8px 0; }
+  .footer .bulb { width: 62px; height: 62px; border-radius: 50%; border: 3px solid #fff;
     color: ${c.yellow}; display: flex; align-items: center; justify-content: center;
-    font-size: 30px; flex-shrink: 0; }
-  .footer p { color: #fff; font-size: 20px; font-weight: 700; line-height: 1.5; }
+    font-size: 36px; flex-shrink: 0; }
+  .footer p { color: #fff; font-size: 26px; font-weight: 700; line-height: 1.5; }
   .footer .marker { background: none; color: ${c.yellow}; }
   .footer .accent { color: ${c.yellow}; }
-  .footer .swipe { margin-left: auto; color: #fff; font-family: 'Caveat', cursive; font-size: 38px; }
+  .footer .swipe { margin-left: auto; color: #fff; font-family: 'Caveat', cursive; font-size: 48px; }
 
   .cover-body { flex: 1; display: flex; flex-direction: column; justify-content: flex-start;
-    padding: 40px 30px 20px; position: relative; }
-  .cover-title { font-size: 96px; font-weight: 900; line-height: 1.3; }
+    padding: 48px 36px 24px; position: relative; }
+  /* cover-titleは scripts/slides-to-post.mjs が5文字ごとに改行する前提。
+     5文字 x 120px = 600px なので、max-width 640px に収まりブラウザ側の再折返しが起きない */
+  .cover-title { font-size: 120px; font-weight: 900; line-height: 1.28; }
   .cover-body.has-character .cover-title { max-width: 640px; }
   .cover-title .marker-line { background: linear-gradient(transparent 68%, ${c.yellow} 68%); }
-  .cover-visual { position: absolute; right: 40px; bottom: 30px; font-size: 200px;
+  .cover-visual { position: absolute; right: 40px; bottom: 30px; font-size: 240px;
     color: ${c.primary}; opacity: 0.92; display: flex; align-items: flex-end; gap: 4px; }
-  .cover-visual .x-badge { width: 90px; height: 90px; border-radius: 50%; background: ${c.primary};
-    color: #fff; font-size: 52px; display: flex; align-items: center; justify-content: center; }
+  .cover-visual .x-badge { width: 104px; height: 104px; border-radius: 50%; background: ${c.primary};
+    color: #fff; font-size: 60px; display: flex; align-items: center; justify-content: center; }
 
-  .sum-title { font-size: 60px; font-weight: 900; text-align: center; padding: 10px 0 4px; }
-  .sum-list { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 22px;
-    background: ${c.panel}; border-radius: 18px; padding: 44px 48px; }
+  .sum-title { font-size: 64px; font-weight: 900; text-align: center; padding: 14px 0 8px; }
+  /* まとめスライドは「見出し + 最大3項目 + CTA」を1枚に収める必要があるため、
+     本文スライドのcheck-item(52px)より一段小さくする。min-height/overflowは、
+     項目が想定より長くなってもCTAがカードの外へ押し出されないための保険 */
+  .sum-list { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column;
+    justify-content: center; gap: 26px;
+    background: ${c.panel}; border-radius: 22px; padding: 40px 44px; }
+  .sum-list .check-item { font-size: 46px; padding: 24px 30px; }
+  .summary { flex-shrink: 0; }
 
   .brand-body { flex: 1; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 56px; padding: 20px 40px; text-align: center; position: relative; }
+    justify-content: center; gap: 64px; padding: 28px 44px; text-align: center; position: relative; }
   .brand-body.has-character { padding-right: 320px; }
-  .brand-body.has-character .brand-tagline { font-size: 54px; white-space: nowrap; }
-  .brand-body.has-character .brand-logo { max-width: 580px; }
-  .brand-tagline { font-size: 68px; font-weight: 900; line-height: 1.4; }
-  .brand-logo { max-width: 720px; max-height: 400px; object-fit: contain; }
+  /* キャラクター表示時のタグラインの幅は「カード内容912px - 左余白44px - 右余白320px = 548px」。
+     1行に収めようとする(white-space: nowrap)と幅を超えて左右が見切れるため、
+     4:5になって縦に余裕ができた分、折り返しを許して文字サイズを優先する */
+  .brand-body.has-character .brand-tagline { font-size: 58px; line-height: 1.35; }
+  .brand-body.has-character .brand-logo { max-width: 548px; }
+  .brand-tagline { font-size: 78px; font-weight: 900; line-height: 1.4; }
+  /* 折り返しが起きても、マーカーを引いた語(社名など)だけは途中で改行させない */
+  .brand-tagline .marker { white-space: nowrap; }
+  .brand-logo { max-width: 760px; max-height: 460px; object-fit: contain; }
   .brand-character { position: absolute; right: -50px; bottom: 0;
-    max-width: 380px; max-height: 720px; width: auto; height: auto;
+    max-width: 420px; max-height: 880px; width: auto; height: auto;
     object-fit: contain; object-position: bottom; }
   `;
 }

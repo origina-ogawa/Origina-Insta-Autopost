@@ -2,12 +2,19 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { wrapHeadingToLines, convertSlidesToPost } from './slides-to-post.mjs';
 
-test('wrapHeadingToLinesは6文字ごとに改行する', () => {
+test('wrapHeadingToLinesは5文字ごとに改行する', () => {
   assert.deepEqual(wrapHeadingToLines('発注してはいけないWeb制作会社4選'), [
-    '発注してはい',
-    'けないWeb',
-    '制作会社4選',
+    '発注しては',
+    'いけないW',
+    'eb制作会',
+    '社4選',
   ]);
+});
+
+test('wrapHeadingToLinesは見出し20字(上限)を4行に収める', () => {
+  const lines = wrapHeadingToLines('あ'.repeat(20));
+  assert.equal(lines.length, 4);
+  assert.ok(lines.every((l) => l.length === 5));
 });
 
 test('wrapHeadingToLinesは行数上限を超えたら最後の行にまとめる', () => {

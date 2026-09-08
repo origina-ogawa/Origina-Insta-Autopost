@@ -1,5 +1,7 @@
 // output/post.json を読み、スライドごとにHTMLを組み立てて
-// Playwright(Chromium)で1080x1080のPNGにする。
+// Playwright(Chromium)で1080x1350(4:5)のPNGにする。
+// Instagramのフィードで許される最も縦長の比率。プロフィールの一覧は3:4で表示されるため、
+// 1:1だと左右が大きく切られて文字が欠ける(src/lib/components.jsのbody側paddingで対策済み)。
 import 'dotenv/config';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,7 +22,7 @@ async function main() {
   const characterUris = assignCharacterPoses(post.slides, poseUris);
 
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1080, height: 1080 } });
+  const page = await browser.newPage({ viewport: { width: 1080, height: 1350 } });
 
   const htmlSlides = post.slides.map((slide, i) => renderSlide(brand, headerTitle, slide, characterUris[i]));
   if (brand.brandSlide?.enabled) {
