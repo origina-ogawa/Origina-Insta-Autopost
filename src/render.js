@@ -7,10 +7,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { renderSlide, brandSlide } from './lib/components.js';
-import { assignCharacterPoses } from './lib/characterPoses.js';
+import { assignCharacterPoses, nextCoverStartIndex } from './lib/characterPoses.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const OUT_DIR = path.join(ROOT, 'output');
+const POSTS_DIR = path.join(ROOT, 'posts');
+// 初期は "YYYY-MM-DD" のみ(スラッグなし)で運用しており、後から "YYYY-MM-DD-slug" に変わった。
+// 両方の投稿フォルダを数えられるよう、日付部分だけにマッチさせる。
+const POST_DIR_PATTERN = /^\d{4}-\d{2}-\d{2}(-|$)/;
 const BRAND = process.env.BRAND || 'own';
 
 async function main() {
@@ -19,7 +23,9 @@ async function main() {
   const headerTitle = post.header_title || post.slides.find((s) => s.type === 'cover')?.title_lines?.join('') || 'お役立ち情報';
 
   const poseUris = loadCharacterPoseUris(brand.character);
-  const characterUris = assignCharacterPoses(post.slides, poseUris);
+  // 表紙のポーズが毎回同じにならないよう、これまでの投稿数だけ開始位置をずらす
+  const startIndex = nextCoverStartIndex(countExistingPosts(), poseUris.length);
+  const characterUris = assignCharacterPoses(post.slides, poseUris, { startIndex });
 
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 1080, height: 1350 } });
@@ -41,6 +47,13 @@ async function main() {
   }
   await browser.close();
   console.log(`完了: ${htmlSlides.length}枚のスライドを生成しました`);
+}
+
+function countExistingPosts() {
+  if (!fs.existsSync(POSTS_DIR)) return 0;
+  return fs
+    .readdirSync(POSTS_DIR, { withFileTypes: true })
+    .filter((e) => e.isDirectory() && POST_DIR_PATTERN.test(e.name)).length;
 }
 
 // character.enabled が true なのに列挙されたファイルが無ければ、壊れたスライドを作る前に止める。
