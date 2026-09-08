@@ -21,6 +21,9 @@ export const mockDeps = {
   async callGeminiGrounded() {
     return { text: 'モック要約', sources: mockSources() };
   },
+  async fetchPublishedDate() {
+    return new Date().toISOString();
+  },
   async callGeminiJsonForStructure() {
     return {
       slides: Array.from({ length: 8 }, (_, i) => ({ role: i === 0 ? 'hook' : 'body', point: `要点${i + 1}`, sourceIndex: 1 })),

@@ -42,7 +42,8 @@ async function main() {
 
   const deps = mock
     ? {
-        gatherSourcesFn: (t) => gatherSources(t, { callGeminiGrounded: mockDeps.callGeminiGrounded }),
+        gatherSourcesFn: (t) =>
+          gatherSources(t, { callGeminiGrounded: mockDeps.callGeminiGrounded, fetchPublishedDate: mockDeps.fetchPublishedDate }),
         buildStructureFn: (t, s) => buildStructure(t, s, { callGeminiJson: mockDeps.callGeminiJsonForStructure }),
         writeSlidesFn: (t, st, s, tk, r) => writeSlides(t, st, s, tk, { callGeminiJson: mockDeps.callGeminiJsonForCopy }, r),
         judgeContentFn: (s, src, r) => judgeContent(s, src, r, { callGeminiJson: mockDeps.callGeminiJsonForJudge }),
